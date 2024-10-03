@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 4000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(cookieParser());
+app.use(cookieParser());
 app.use(cors());
 
 app.use("/youtube/api/v1/user", userRoutes);

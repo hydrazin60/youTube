@@ -19,6 +19,7 @@ const userSchema = new mongoose.Schema(
       //   "Password must contain at least one number, one uppercase, and one lowercase letter",
       // ],
     },
+
     profilePic: {
       type: String,
       default: "",
@@ -40,48 +41,33 @@ const userSchema = new mongoose.Schema(
         ref: "ShortVideo",
       },
     ],
-    likedLongVideos: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "LongVideo",
-      },
-    ],
-    likedShortVideos: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ShortVideo",
-      },
-    ],
-    createdLongVideos: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "LongVideo",
-      },
-    ],
-    createdShortVideos: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ShortVideo",
-      },
-    ],
-    subscribedUsers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
-    subscribers: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-      },
-    ],
     playlist: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Playlist",
       },
     ],
+    likesVideo :[
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LongVideo",
+      },
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ShortVideo",
+      },
+    ],
+    subscribedChannels: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+    channelId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Channel",
+      default: null,
+    },
   },
   {
     timestamps: true,

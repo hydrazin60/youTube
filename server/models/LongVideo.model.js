@@ -13,7 +13,7 @@ const longVideoSchema = new mongoose.Schema(
       type: String,
       maxlength: [5000, "description should be less than  5000 characters"],
     },
-    video: {
+    LongVideo: {
       type: String,
       required: true,
     },

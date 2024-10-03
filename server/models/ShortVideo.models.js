@@ -9,7 +9,7 @@ const ShortVideoSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    video: {
+    ShortVideo: {
       type: String,
       required: true,
     },
