@@ -10,9 +10,13 @@ const commentSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
-    video: {
+    LongVideoId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "LongVideo",
+    },
+    ShortVideoId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "ShortVideo",
     },
     likes: [
       {

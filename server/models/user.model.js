@@ -14,10 +14,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       minlength: [6, "password should be greater than 6 characters"],
-      match: [
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
-        "Password must contain at least one number, one uppercase, and one lowercase letter",
-      ],
+      // match: [
+      //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
+      //   "Password must contain at least one number, one uppercase, and one lowercase letter",
+      // ],
     },
     profilePic: {
       type: String,
