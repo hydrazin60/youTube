@@ -13,7 +13,11 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minlength: [6, "password should be  greater than 6 characters"],
+      minlength: [6, "password should be greater than 6 characters"],
+      match: [
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/,
+        "Password must contain at least one number, one uppercase, and one lowercase letter",
+      ],
     },
     profilePic: {
       type: String,
@@ -21,19 +25,43 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["user", "containCreate", "admin"],
+      enum: ["user", "contentCreator", "admin"],
       default: "user",
     },
-    LikedVideos: [
+    LongVideoHistory: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Video",
+        ref: "LongVideo",
       },
     ],
-    history: [
+    ShortVideoHistory: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Video",
+        ref: "ShortVideo",
+      },
+    ],
+    likedLongVideos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LongVideo",
+      },
+    ],
+    likedShortVideos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ShortVideo",
+      },
+    ],
+    createdLongVideos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "LongVideo",
+      },
+    ],
+    createdShortVideos: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "ShortVideo",
       },
     ],
     subscribedUsers: [
@@ -48,25 +76,7 @@ const userSchema = new mongoose.Schema(
         ref: "User",
       },
     ],
-    LongVideos: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "LongVideo",
-      },
-    ],
-    Comments: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Comment",
-      },
-    ],
-    ShortVideos: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "ShortVideo",
-      },
-    ],
-    Playlist: [
+    playlist: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Playlist",
