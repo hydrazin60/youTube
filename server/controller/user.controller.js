@@ -119,3 +119,27 @@ export const loginUser = async (req, res) => {
     });
   }
 };
+
+export const logoutUser = async (req, res) => {
+  try {
+    return res
+      .clearCookie("Token", "", {
+        httpOnly: true,
+        samesite: "none",
+        secure: true,
+      })
+      .json({
+        success: true,
+        message: "you have successfully logged out",
+      });
+  } catch (error) {
+    console.log(`Something went wrong on logout User! err : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      message: `Something went wrong on logout User! err : ${error.message}`,
+    });
+  }
+};
+
+
+ 
