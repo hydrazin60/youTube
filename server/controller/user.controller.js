@@ -2,6 +2,8 @@ import User from "../models/user.model.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import Channel from "../models/channel.models.js";
+import { getDataUri } from "../utils/datauri.js";
+import cloudinary from "../utils/cloudinary.js";
 export const RegisterUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -142,111 +144,12 @@ export const logoutUser = async (req, res) => {
   }
 };
 
-// export const createYoutubeChannel = async (req, res) => {
-//   try {
-//     const userId = req.id;
-//     const { channelName, AboutChannel } = req.body;
-//     const profilePicFile = req.files ? req.files.profilePic : null;
-
-//     const user = await User.findById(userId);
-//     if (!user) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "User not found. Please register first.",
-//       });
-//     }
-
-//     if (!channelName) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Channel name is required.",
-//       });
-//     }
-
-//     let profilePic;
-//     if (profilePicFile) {
-//       profilePic = profilePicFile.path;
-//     } else {
-//       profilePic = user.profilePic;
-//     }
-//     const newChannel = await Channel.create({
-//       channelName,
-//       AboutChannel,
-//       profilePic,
-//       authorId: userId,
-//     });
-
-//     return res.status(201).json({
-//       success: true,
-//       message: "Channel created successfully.",
-//       newChannel,
-//     });
-//   } catch (error) {
-//     console.log(`Error during channel creation: ${error.message}`);
-//     return res.status(500).json({
-//       success: false,
-//       message: `Something went wrong during channel creation: ${error.message}`,
-//     });
-//   }
-// };
-
-// export const createYoutubeChannel = async (req, res) => {
-//   try {
-//     const userId = req.id;
-//     const { channelName, AboutChannel } = req.body;
-//     const profilePicFile = req.files ? req.files.profilePic : null;
-
-//     const user = await User.findById(userId);
-//     if (!user) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "User not found. Please register first.",
-//       });
-//     }
-
-//     if (!channelName) {
-//       return res.status(400).json({
-//         success: false,
-//         message: "Channel name is required.",
-//       });
-//     }
-//     let profilePic;
-//     if (profilePicFile) {
-//       profilePic = profilePicFile.path;
-//     } else {
-//       profilePic = user.profilePic;
-//     }
-
-//     const newChannel = await Channel.create({
-//       channelName,
-//       AboutChannel,
-//       profilePic,
-//       authorId: userId,
-//     });
-
-//     user.role = "contentCreator";
-//     user.channelId = newChannel._id;
-//     await user.save();
-
-//     return res.status(201).json({
-//       success: true,
-//       message: "Channel created successfully.",
-//       newChannel,
-//     });
-//   } catch (error) {
-//     console.log(`Error during channel creation: ${error.message}`);
-//     return res.status(500).json({
-//       success: false,
-//       message: `Something went wrong during channel creation: ${error.message}`,
-//     });
-//   }
-// };
-
 export const createYoutubeChannel = async (req, res) => {
   try {
     const userId = req.id;
     const { channelName, AboutChannel } = req.body;
-    const profilePicFile = req.files ? req.files.profilePic : null;
+    const { profilePicFile } = req.files || {};
+    let cloudResponse;
 
     const user = await User.findById(userId);
     if (!user) {
@@ -271,17 +174,18 @@ export const createYoutubeChannel = async (req, res) => {
       });
     }
 
-    let profilePic;
     if (profilePicFile) {
-      profilePic = profilePicFile.path;
-    } else {
-      profilePic = user.profilePic;
+      const fileUri = getDataUri(profilePicFile[0]);
+      console.log(fileUri);
+      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     }
+
+    console.log("cloudResponse", cloudResponse);
 
     const newChannel = await Channel.create({
       channelName,
       AboutChannel,
-      profilePic,
+      profilePic: cloudResponse?.secure_url,
       authorId: userId,
     });
 

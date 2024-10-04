@@ -8,12 +8,14 @@ import {
   ViewOwnChannel,
 } from "../controller/user.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
+import upload from "../middlewares/multer.js";
 const userRoutes = express.Router();
 userRoutes.post("/register", RegisterUser);
 userRoutes.post("/login", loginUser);
 userRoutes.get("/logout", logoutUser);
 userRoutes.post(
   "/create/YoutubeChannel",
+  upload.fields([{ name: "profilePicFile" }]),
   isAuthenticated,
   createYoutubeChannel
 );
