@@ -5,6 +5,7 @@ import {
   logoutUser,
   otherProfileView,
   RegisterUser,
+  SubscribeORUnsubscribe,
   ViewOwnChannel,
 } from "../controller/user.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
@@ -21,4 +22,9 @@ userRoutes.post(
 );
 userRoutes.get("/view/channel/:id", isAuthenticated, otherProfileView);
 userRoutes.get("/view/Yourchannel", isAuthenticated, ViewOwnChannel);
+userRoutes.get(
+  "/subscribe/&/unsubscribe/:id",
+  isAuthenticated,
+  SubscribeORUnsubscribe
+);
 export default userRoutes;

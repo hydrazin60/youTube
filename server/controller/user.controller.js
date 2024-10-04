@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 import Channel from "../models/channel.models.js";
 import { getDataUri } from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
+import e from "express";
 export const RegisterUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
@@ -269,6 +270,77 @@ export const ViewOwnChannel = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: `Error during View Channel is : ${error.message}`,
+    });
+  }
+};
+
+export const SubscribeORUnsubscribe = async (req, res) => {
+  try {
+    const userId = req.id;
+    const channelId = req.params.id;
+
+    if (
+      !userId ||
+      !channelId ||
+      channelId.length !== 24 ||
+      userId === channelId
+    ) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid credentials",
+      });
+    }
+
+    const user = await User.findById(userId);
+    const channel = await Channel.findById(channelId);
+
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    if (!channel) {
+      return res.status(400).json({
+        success: false,
+        message: "Channel not found",
+      });
+    }
+    if (channel.authorId.toString() === userId) {
+      return res.status(400).json({
+        success: false,
+        message: "You can't subscribe your own channel",
+      });
+    }
+    const isSubscribed = user.subscribedChannels.includes(channelId);
+    if (isSubscribed) {
+      user.subscribedChannels = user.subscribedChannels.filter(
+        (id) => id.toString() !== channelId
+      );
+      channel.subscribers = channel.subscribers.filter(
+        (id) => id.toString() !== userId
+      );
+
+      await Promise.all([user.save(), channel.save()]);
+
+      return res.status(200).json({
+        success: true,
+        message: `${channel.channelName} unsubscribed`,
+      });
+    } else {
+      user.subscribedChannels.push(channelId);
+      channel.subscribers.push(userId);
+      await Promise.all([user.save(), channel.save()]);
+      return res.status(200).json({
+        success: true,
+        message: `${channel.channelName} subscribed successfully`,
+      });
+    }
+  } catch (error) {
+    console.log(`Error during subscribe channel: ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      message: `Error during subscribe channel: ${error.message}`,
     });
   }
 };
