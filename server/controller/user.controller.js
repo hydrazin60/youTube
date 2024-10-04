@@ -255,7 +255,7 @@ export const UpdateChannelDetails = async (req, res) => {
   }
 };
 
-export const otherProfileView = async (req, res) => {
+export const otherChannelView = async (req, res) => {
   try {
     const channelId = req.params.id;
     if (channelId.length !== 24) {

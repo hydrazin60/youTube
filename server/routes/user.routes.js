@@ -4,7 +4,7 @@ import {
   createYoutubeChannel,
   loginUser,
   logoutUser,
-  otherProfileView,
+  otherChannelView,
   RegisterUser,
   SubscribeORUnsubscribe,
   ViewOwnChannel,
@@ -27,7 +27,7 @@ userRoutes.post(
   isAuthenticated,
   UpdateChannelDetails
 );
-userRoutes.get("/view/channel/:id", isAuthenticated, otherProfileView);
+userRoutes.get("/view/channel/:id", isAuthenticated, otherChannelView);
 userRoutes.get("/view/Yourchannel", isAuthenticated, ViewOwnChannel);
 userRoutes.get(
   "/subscribe/&/unsubscribe/:id",
