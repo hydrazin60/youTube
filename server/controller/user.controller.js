@@ -302,3 +302,32 @@ export const createYoutubeChannel = async (req, res) => {
     });
   }
 };
+
+export const otherProfileView = async (req, res) => {
+  try {
+    const channelId = req.params.id;
+    if (channelId.length !== 24) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalide credentials",
+      });
+    }
+    const channel = await Channel.findById(channelId);
+    if (!channel) {
+      return res.status(400).json({
+        success: false,
+        message: "Channel not found",
+      });
+    }
+    return res.status(200).json({
+      success: true,
+      channel,
+    });
+  } catch (error) {
+    console.log(`Error during View Channel is : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      message: `Error during View Channel is : ${error.message}`,
+    });
+  }
+};
