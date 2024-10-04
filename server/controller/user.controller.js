@@ -177,11 +177,8 @@ export const createYoutubeChannel = async (req, res) => {
 
     if (profilePicFile) {
       const fileUri = getDataUri(profilePicFile[0]);
-      console.log(fileUri);
       cloudResponse = await cloudinary.uploader.upload(fileUri.content);
     }
-
-    console.log("cloudResponse", cloudResponse);
 
     const newChannel = await Channel.create({
       channelName,
@@ -204,6 +201,56 @@ export const createYoutubeChannel = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: `Something went wrong during channel creation: ${error.message}`,
+    });
+  }
+};
+
+export const UpdateChannelDetails = async (req, res) => {
+  try {
+    const userId = req.id;
+    const { channelName, AboutChannel } = req.body;
+    const { profilePic } = req.files || {};
+    let cloudResponse;
+    console.log("Request body:", req.body);
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found. Please register first.",
+      });
+    }
+    const channel = await Channel.findById(user.channelId);
+    if (!channel) {
+      return res.status(400).json({
+        success: false,
+        message: "Channel not found. Please create a channel first.",
+      });
+    }
+
+    if (profilePic) {
+      const fileUri = getDataUri(profilePic[0]);
+      cloudResponse = await cloudinary.uploader.upload(fileUri.content);
+      channel.profilePic = cloudResponse?.secure_url;
+    }
+
+    if (channelName) {
+      channel.channelName = channelName;
+    }
+    if (AboutChannel) {
+      channel.AboutChannel = AboutChannel;
+    }
+    await channel.save();
+    return res.status(200).json({
+      success: true,
+      message: "Channel details updated successfully.",
+      channel,
+    });
+  } catch (error) {
+    console.log(`Error during  update Channel is : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      message: `Error during  update Channel is : ${error.message}`,
     });
   }
 };

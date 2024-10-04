@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  UpdateChannelDetails,
   createYoutubeChannel,
   loginUser,
   logoutUser,
@@ -19,6 +20,12 @@ userRoutes.post(
   upload.fields([{ name: "profilePicFile" }]),
   isAuthenticated,
   createYoutubeChannel
+);
+userRoutes.post(
+  "/channelDetails/update",
+  upload.fields([{ name: "profilePic" }]),
+  isAuthenticated,
+  UpdateChannelDetails
 );
 userRoutes.get("/view/channel/:id", isAuthenticated, otherProfileView);
 userRoutes.get("/view/Yourchannel", isAuthenticated, ViewOwnChannel);
