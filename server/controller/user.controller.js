@@ -331,3 +331,40 @@ export const otherProfileView = async (req, res) => {
     });
   }
 };
+
+export const ViewOwnChannel = async (req, res) => {
+  try {
+    const userId = req.id;
+    if (!userId || userId.length !== 24) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalide credentials",
+      });
+    }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found with this email!! please register first",
+      });
+    }
+    const channelId = user.channelId;
+    if (!channelId) {
+      return res.status(400).json({
+        success: false,
+        message: "you not created any channel yet",
+      });
+    }
+    const channel = await Channel.findById(channelId);
+    return res.status(200).json({
+      success: true,
+      channel,
+    });
+  } catch (error) {
+    console.log(`Error during View Channel is : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      message: `Error during View Channel is : ${error.message}`,
+    });
+  }
+};
