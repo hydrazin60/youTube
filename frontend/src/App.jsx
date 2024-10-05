@@ -5,7 +5,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 export default function App() {
   return (
-    <div className="bg-zinc-900 text-white  w-screen h-screen">
+    <div className="bg-zinc-900 text-white  w-screen h-screen  fixed ">
       <BrowserRouter>
         <Navbar />
         <Routes>
