@@ -47,7 +47,7 @@ const userSchema = new mongoose.Schema(
         ref: "Playlist",
       },
     ],
-    likesVideo :[
+    likesVideo: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "LongVideo",
