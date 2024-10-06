@@ -22,40 +22,40 @@ import { Button } from "./ui/button";
 
 export default function LeftSidebar() {
   const leftSidebariconsFirst = [
-    { icon: <IoMdHome className="text-lg" />, title: "Home", id: 1 },
+    { icon: <IoMdHome className="text-xl" />, title: "Home", id: 1 },
     { icon: <SiYoutubeshorts className="text-lg" />, title: "Shorts", id: 2 },
     {
-      icon: <MdSubscriptions className="text-base" />,
+      icon: <MdSubscriptions className="text-lg" />,
       title: "Subscriptions",
       id: 3,
     },
   ];
 
   const leftSidebariconsSecond = [
-    { icon: <MdOndemandVideo className="text-base" />, title: "You", id: 4 },
-    { icon: <LuHistory className="text-base" />, title: "History", id: 5 },
+    { icon: <MdOndemandVideo className="text-lg" />, title: "You", id: 4 },
+    { icon: <LuHistory className="text-lg" />, title: "History", id: 5 },
   ];
 
   const leftSidebariconsThird = [
-    { icon: <FaFireAlt className="text-base" />, title: "Trending", id: 6 },
-    { icon: <MdMusicNote className="text-base" />, title: "Music", id: 7 },
-    { icon: <SiYoutubegaming className="text-base" />, title: "Gaming", id: 8 },
-    { icon: <CiTrophy className="text-base" />, title: "Sports", id: 9 },
+    { icon: <FaFireAlt className="text-lg" />, title: "Trending", id: 6 },
+    { icon: <MdMusicNote className="text-lg" />, title: "Music", id: 7 },
+    { icon: <SiYoutubegaming className="text-xl" />, title: "Gaming", id: 8 },
+    { icon: <CiTrophy className="text-lg" />, title: "Sports", id: 9 },
   ];
 
   const leftSidebariconsFourth = [
     {
-      icon: <FaYoutube className="text-base text-red-600" />,
+      icon: <FaYoutube className="text-xl text-red-600" />,
       title: "YouTube Premium",
       id: 10,
     },
     {
-      icon: <SiYoutubemusic className="text-base text-red-600" />,
+      icon: <SiYoutubemusic className="text-xl text-red-600" />,
       title: "YouTube Music",
       id: 11,
     },
     {
-      icon: <SiYoutubekids className="text-base text-red-600" />,
+      icon: <SiYoutubekids className="text-xl text-red-600" />,
       title: "YouTube Kids",
       id: 12,
     },
@@ -85,7 +85,7 @@ export default function LeftSidebar() {
   ];
 
   return (
-    <div className="left-sidebar h-screen overflow-y-auto pb-10 bg-zinc-950">
+    <div className="left-sidebar h-screen overflow-y-auto pb-10 ">
       <div className="pl-2 border-b border-gray-600 py-3">
         <ul>
           {leftSidebariconsFirst.map((item) => (
@@ -129,7 +129,7 @@ export default function LeftSidebar() {
       </div>
 
       <div className="px-4 border-b border-gray-600 py-3">
-        <p className="pl-3 text-sm text-gray-200">Explore</p>
+        <p className="pl-3 text-lg text-gray-200">Explore</p>
         <ul>
           {leftSidebariconsThird.map((item) => (
             <li
@@ -143,7 +143,7 @@ export default function LeftSidebar() {
       </div>
 
       <div className="px-4 border-b border-gray-600 py-3">
-        <p className="pl-3 text-sm text-gray-200">More from YouTube</p>
+        <p className="pl-3 text-lg text-gray-200">More from YouTube</p>
         <ul>
           {leftSidebariconsFourth.map((item) => (
             <li

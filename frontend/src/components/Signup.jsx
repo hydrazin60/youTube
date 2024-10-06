@@ -8,8 +8,18 @@ export default function Signup() {
         <div className="w-1/6  h-full">
           <LeftSidbar />
         </div>
-        <div className="flex bg-blue-600 w-5/6 h-full">
-          right side home page
+        <div className="flex w-5/6 h-full  justify-center">
+          <div className="flex bg-zinc-900 h-20 w-1/2 flex-col items-center justify-center rounded-3xl ">
+            <span>
+              <p className="text-xl font-semibold">Try searching to get started</p>
+            </span>
+            <span>
+              <p className="text-zinc-400 text-sm">
+                Start watching videos to help us build a feed of videos you'll
+                love.
+              </p>
+            </span>
+          </div>
         </div>
       </div>
     </div>
