@@ -83,7 +83,7 @@ export default function LeftSidebar() {
       id: 16,
     },
   ];
-
+  const [openSignupDialog, setOpenSignupDialog] = React.useState(false);
   return (
     <div className="left-sidebar h-screen overflow-y-auto pb-10 ">
       <div className="pl-2 border-b border-gray-600 py-3">
@@ -121,7 +121,10 @@ export default function LeftSidebar() {
         </span>
 
         <span className="rounded-full">
-          <Button className="h-6 py-3 rounded-full flex items-center justify-between gap-1 border border-zinc-500 px-3 hover:bg-slate-700">
+          <Button
+            className="h-6 py-3 rounded-full flex items-center justify-between gap-1 border border-zinc-500 px-3 hover:bg-slate-700"
+            onclick={() => setOpenSignupDialog(true)}
+          >
             <CgProfile className="text-lg  text-blue-600" />
             <p className="text-xs text-blue-600">Sign in</p>
           </Button>
