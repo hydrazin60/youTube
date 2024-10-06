@@ -3,6 +3,7 @@ import { Input } from "../components/ui/input";
 import { Button } from "@/components/ui/button";
 
 export default function SignIn() {
+  const [isSigninorSignup, setIsSignInOrSignUp] = React.useState(true);
   return (
     <div className="bg-zinc-900 h-screen w-screen flex flex-col gap-1 items-center justify-center">
       <main className="h-[60vh] w-3/4 bg-gray-900 rounded-lg shadow-lg flex ">
@@ -13,21 +14,38 @@ export default function SignIn() {
               alt="logo"
               className="h-16 mb-6"
             />
-            <form className="flex flex-col gap-5 w-full">
-              <Input type="text" placeholder="Enter your Name" />
-              <Input type="email" placeholder="Enter your Email" />
-              <Input
-                type="password"
-                placeholder="Enter your Password"
-                className="placeholder:text-white"
-              />
-              <button
-                type="submit"
-                className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md mt-4"
-              >
-                Sign In
-              </button>
-            </form>
+            {isSigninorSignup ? (
+              <form className="flex flex-col gap-5 w-full">
+                <Input type="text" placeholder="Enter your Name" />
+                <Input type="email" placeholder="Enter your Email" />
+                <Input
+                  type="password"
+                  placeholder="Enter your Password"
+                  className="placeholder:text-white"
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md mt-4"
+                >
+                  Sign Up
+                </button>
+              </form>
+            ) : (
+              <form className="flex flex-col gap-5 w-full">
+                <Input type="email" placeholder="Enter your Email" />
+                <Input
+                  type="password"
+                  placeholder="Enter your Password"
+                  className="placeholder:text-white"
+                />
+                <button
+                  type="submit"
+                  className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md mt-4"
+                >
+                  Sign In
+                </button>
+              </form>
+            )}
           </div>
         </div>
         <div className="w-[60%] text-white flex flex-col justify-evenly   items-start  bg-black rounded-r-lg p-2 ">
@@ -56,8 +74,15 @@ export default function SignIn() {
               <p> continusly with google</p>
             </button>
             <p className="text-sm text-gray-400">
-              Already have an account?{" "}
-              <span className="text-blue-600 cursor-pointer">Sign in</span>
+              {isSigninorSignup
+                ? "Already have an account?"
+                : "Don't have an account?"} {"  "}
+              <span
+                className="text-blue-600 cursor-pointer"
+                onClick={() => setIsSignInOrSignUp(!isSigninorSignup)}
+              >
+                {isSigninorSignup ? "Sign In" : "Sign Up"}
+              </span>
             </p>
           </div>
         </div>
