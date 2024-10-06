@@ -1,9 +1,141 @@
-import React from "react";
+
+import React, { useState, useEffect } from "react";
 import { Input } from "../components/ui/input";
 import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { toast } from "sonner";
+import { useNavigate } from "react-router-dom"; // Assuming you're using react-router-dom
 
 export default function SignIn() {
-  const [isSigninorSignup, setIsSignInOrSignUp] = React.useState(true);
+  const [isSigninorSignup, setIsSignInOrSignUp] = useState(true); // Toggle for SignIn or SignUp
+  const [SignUpformData, setSignUpFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
+  const [signInFormData, setSignInFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [isLogin, setIsLogin] = useState(false);
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    setSignUpFormData({ ...SignUpformData, [e.target.name]: e.target.value });
+  };
+
+  const handleChangeSignIn = (e) => {
+    setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/youtube/api/v1/user/register",
+        SignUpformData, // Use SignUpformData
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        toast.success(res.data.message || "User created successfully!", {
+          position: "top-right",
+          autoClose: 3000,
+          style: {
+            border: "1px solid #f44336",
+            background: "#0000ff",
+            color: "#ffffff",
+          },
+        });
+        // After successful signup, switch to sign-in form
+        setIsSignInOrSignUp(false);
+      } else {
+        toast.error(res.data.message || "Registration failed!", {
+          position: "top-right",
+          autoClose: 3000,
+          style: {
+            border: "1px solid #f44336",
+            background: "#ffebee",
+            color: "#f44336",
+          },
+        });
+      }
+    } catch (error) {
+      toast.error(
+        error?.response?.data?.message || "Something went wrong on login User!",
+        {
+          position: "top-right",
+          autoClose: 3000,
+          style: {
+            border: "1px solid #f44336",
+            background: "#ffebee",
+            color: "#f44336",
+          },
+        }
+      );
+    }
+  };
+
+  const handleSubmitSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post(
+        "http://localhost:4000/youtube/api/v1/user/login",
+        signInFormData, // Use signInFormData
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        // On successful login, navigate to homepage
+        setIsLogin(true);
+        toast.success(res.data.message || "Login successful!", {
+          position: "top-right",
+          autoClose: 3000,
+          style: {
+            border: "1px solid #f44336",
+            background: "#0000ff",
+            color: "#ffffff",
+          },
+        });
+        navigate("/"); // Redirect to homepage
+      } else {
+        toast.error(res.data.message || "Login failed!", {
+          position: "top-right",
+          autoClose: 3000,
+          style: {
+            border: "1px solid #f44336",
+            background: "#ffebee",
+            color: "#f44336",
+          },
+        });
+      }
+    } catch (error) {
+      toast.error(error?.response?.data?.message || "Login failed!", {
+        position: "top-right",
+        autoClose: 3000,
+        style: {
+          border: "1px solid #f44336",
+          background: "#ffebee",
+          color: "#f44336",
+        },
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (isLogin) {
+      navigate("/"); // Navigate if logged in successfully
+    }
+  }, [isLogin, navigate]);
+
   return (
     <div className="bg-zinc-900 h-screen w-screen flex flex-col gap-1 items-center justify-center">
       <main className="h-[60vh] w-3/4 bg-gray-900 rounded-lg shadow-lg flex ">
@@ -15,13 +147,34 @@ export default function SignIn() {
               className="h-16 mb-6"
             />
             {isSigninorSignup ? (
-              <form className="flex flex-col gap-5 w-full">
-                <Input type="text" placeholder="Enter your Name" />
-                <Input type="email" placeholder="Enter your Email" />
+              <form
+                className="flex flex-col gap-5 w-full"
+                onSubmit={handleSubmit}
+              >
+                <Input
+                  type="text"
+                  placeholder="Enter your Name"
+                  name="name"
+                  required
+                  value={SignUpformData.name}
+                  onChange={handleChange}
+                />
+                <Input
+                  type="email"
+                  placeholder="Enter your Email"
+                  name="email"
+                  required
+                  value={SignUpformData.email}
+                  onChange={handleChange}
+                />
                 <Input
                   type="password"
                   placeholder="Enter your Password"
                   className="placeholder:text-white"
+                  name="password"
+                  required
+                  value={SignUpformData.password}
+                  onChange={handleChange}
                 />
                 <button
                   type="submit"
@@ -31,12 +184,26 @@ export default function SignIn() {
                 </button>
               </form>
             ) : (
-              <form className="flex flex-col gap-5 w-full">
-                <Input type="email" placeholder="Enter your Email" />
+              <form
+                className="flex flex-col gap-5 w-full"
+                onSubmit={handleSubmitSignIn}
+              >
+                <Input
+                  type="email"
+                  placeholder="Enter your Email"
+                  name="email"
+                  required
+                  value={signInFormData.email}
+                  onChange={handleChangeSignIn}
+                />
                 <Input
                   type="password"
                   placeholder="Enter your Password"
                   className="placeholder:text-white"
+                  name="password"
+                  required
+                  value={signInFormData.password}
+                  onChange={handleChangeSignIn}
                 />
                 <button
                   type="submit"
@@ -44,17 +211,15 @@ export default function SignIn() {
                 >
                   Sign In
                 </button>
+                <p className="text-sm text-red-600 cursor-pointer"> forget password </p>
               </form>
             )}
           </div>
         </div>
+        {/* Right Section */}
         <div className="w-[60%] text-white flex flex-col justify-evenly   items-start  bg-black rounded-r-lg p-2 ">
           <div>
-            <img
-              src="https://th.bing.com/th/id/R.0fa3fe04edf6c0202970f2088edea9e7?rik=joOK76LOMJlBPw&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fgoogle-logo-png-open-2000.png&ehk=0PJJlqaIxYmJ9eOIp9mYVPA4KwkGo5Zob552JPltDMw%3d&risl=&pid=ImgRaw&r=0"
-              alt="logo"
-              className="h-12 mb-1"
-            />
+            <img src="googlelogo.png" alt="logo" className="h-12 mb-1" />
             <h1 className="text-3xl font-semibold">Verify it’s you</h1>
           </div>
           <div className="flex flex-col items-end gap-4">
@@ -63,20 +228,16 @@ export default function SignIn() {
               agree to our Terms, Data Policy and Cookies Policy.
             </p>
             <button
-              type="submit"
-              className="bg-blue-600 hover:bg-blue-700 text-white py-1   w-1/2 rounded-3xl flex items-center justify-center gap-2"
+              type="button"
+              className="bg-blue-600 hover:bg-blue-700 text-white py-1 w-1/2 rounded-3xl flex items-center justify-center gap-2"
             >
-              <img
-                src="https://th.bing.com/th/id/R.0fa3fe04edf6c0202970f2088edea9e7?rik=joOK76LOMJlBPw&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fgoogle-logo-png-open-2000.png&ehk=0PJJlqaIxYmJ9eOIp9mYVPA4KwkGo5Zob552JPltDMw%3d&risl=&pid=ImgRaw&r=0"
-                alt="logo"
-                className="h-9"
-              />
-              <p> continusly with google</p>
+              <img src="googlelogo.png" alt="logo" className="h-9" />
+              <p>Continue with Google</p>
             </button>
             <p className="text-sm text-gray-400">
               {isSigninorSignup
                 ? "Already have an account?"
-                : "Don't have an account?"} {"  "}
+                : "Don't have an account?"}{" "}
               <span
                 className="text-blue-600 cursor-pointer"
                 onClick={() => setIsSignInOrSignUp(!isSigninorSignup)}
@@ -102,3 +263,452 @@ export default function SignIn() {
     </div>
   );
 }
+
+
+
+
+// import React from "react";
+// import { Input } from "../components/ui/input";
+// import { Button } from "@/components/ui/button";
+// import axios from "axios";
+// import { toast } from "sonner";
+
+// export default function SignIn() {
+//   const [isSigninorSignup, setIsSignInOrSignUp] = React.useState(true);
+//   const [formData, setFormData] = React.useState({
+//     name: "",
+//     email: "",
+//     password: "",
+//   });
+//   const [isLogin, setIsLogin] = React.useState(false);
+//   const handleChange = (e) => {
+//     setFormData({ ...formData, [e.target.name]: e.target.value });
+//   };
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     if (isSigninorSignup) {
+//       try {
+//         const res = await axios.post(
+//           "http://localhost:4000/youtube/api/v1/user/register",
+//           formData,
+//           {
+//             headers: {
+//               "Content-Type": "application/json",
+//             },
+//             withCredentials: true,
+//           }
+//         );
+//         if (res.data.success) {
+//           setIsLogin(true);
+//           toast.success(res.data.message || "User created successfully!", {
+//             position: "top-right",
+//             autoClose: 3000,
+//             style: {
+//               border: "1px solid #f44336",
+//               background: "#ffebee",
+//               color: "#f44336",
+//             },
+//           });
+//         } else {
+//           toast.error(res.data.message || "Registration failed!", {
+//             position: "top-right",
+//             autoClose: 3000,
+//             style: {
+//               border: "1px solid #f44336",
+//               background: "#ffebee",
+//               color: "#f44336",
+//             },
+//           });
+//         }
+//       } catch (error) {
+//         console.log(
+//           `Something went wrong on login User! err : ${error.message}`
+//         );
+//         toast.error(
+//           error?.response?.data?.message ||
+//             "Something went wrong on login User!",
+//           {
+//             position: "top-right",
+//             autoClose: 3000,
+//             style: {
+//               border: "1px solid #f44336",
+//               background: "#ffebee",
+//               color: "#f44336",
+//             },
+//           }
+//         );
+//       }
+//     } else {
+//     }
+//   };
+//   return (
+//     <div className="bg-zinc-900 h-screen w-screen flex flex-col gap-1 items-center justify-center">
+//       <main className="h-[60vh] w-3/4 bg-gray-900 rounded-lg shadow-lg flex ">
+//         <div className="w-[40%] flex flex-col justify-center items-center bg-black rounded-l-lg p-8">
+//           <div className="flex flex-col items-center">
+//             <img
+//               src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/2560px-YouTube_Logo_2017.svg.png"
+//               alt="logo"
+//               className="h-16 mb-6"
+//             />
+//             {isSigninorSignup ? (
+//               <form
+//                 className="flex flex-col gap-5 w-full"
+//                 onSubmit={handleSubmit}
+//               >
+//                 <Input
+//                   type="text"
+//                   placeholder="Enter your Name"
+//                   name="name"
+//                   required
+//                   value={formData.name}
+//                   onChange={handleChange}
+//                 />
+//                 <Input
+//                   type="email"
+//                   placeholder="Enter your Email"
+//                   name="email"
+//                   required
+//                   value={formData.email}
+//                   onChange={handleChange}
+//                 />
+//                 <Input
+//                   type="password"
+//                   placeholder="Enter your Password"
+//                   className="placeholder:text-white"
+//                   name="password"
+//                   required
+//                   value={formData.password}
+//                   onChange={handleChange}
+//                 />
+//                 <button
+//                   type="submit"
+//                   className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md mt-4"
+//                 >
+//                   Sign Up
+//                 </button>
+//               </form>
+//             ) : (
+//               <form className="flex flex-col gap-5 w-full">
+//                 <Input type="email" placeholder="Enter your Email" />
+//                 <Input
+//                   type="password"
+//                   placeholder="Enter your Password"
+//                   className="placeholder:text-white"
+//                 />
+//                 <button
+//                   type="submit"
+//                   className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md mt-4"
+//                 >
+//                   Sign In
+//                 </button>
+//               </form>
+//             )}
+//           </div>
+//         </div>
+//         <div className="w-[60%] text-white flex flex-col justify-evenly   items-start  bg-black rounded-r-lg p-2 ">
+//           <div>
+//             <img src="googlelogo.png" alt="logo" className="h-12 mb-1" />
+//             <h1 className="text-3xl font-semibold">Verify it’s you</h1>
+//           </div>
+//           <div className="flex flex-col items-end gap-4">
+//             <p className="text-sm text-gray-400">
+//               We won't post anything without your permission. By signing up, you
+//               agree to our Terms, Data Policy and Cookies Policy.
+//             </p>
+//             <button
+//               type="submit"
+//               className="bg-blue-600 hover:bg-blue-700 text-white py-1   w-1/2 rounded-3xl flex items-center justify-center gap-2"
+//             >
+//               <img src="googlelogo.png" alt="logo" className="h-9" />
+//               <p> continusly with google</p>
+//             </button>
+//             <p className="text-sm text-gray-400">
+//               {isSigninorSignup
+//                 ? "Already have an account?"
+//                 : "Don't have an account?"}{" "}
+//               {"  "}
+//               <span
+//                 className="text-blue-600 cursor-pointer"
+//                 onClick={() => setIsSignInOrSignUp(!isSigninorSignup)}
+//               >
+//                 {isSigninorSignup ? "Sign In" : "Sign Up"}
+//               </span>
+//             </p>
+//           </div>
+//         </div>
+//       </main>
+//       <main className="h-12 w-3/4 flex justify-between ">
+//         <div>
+//           <p className=" text-sm text-zinc-400  font-semibold">
+//             English (United States)
+//           </p>
+//         </div>
+//         <div className="flex gap-4">
+//           <span className=" text-sm text-zinc-400  font-semibold">Help</span>
+//           <span className=" text-sm text-zinc-400  font-semibold">Privacy</span>
+//           <span className=" text-sm text-zinc-400  font-semibold">Terms</span>
+//         </div>
+//       </main>
+//     </div>
+//   );
+// }
+
+// import React, { useState, useEffect } from "react";
+// import { Input } from "../components/ui/input";
+// import { Button } from "@/components/ui/button";
+// import axios from "axios";
+// import { toast } from "sonner";
+// import { useNavigate } from "react-router-dom"; // Assuming you're using react-router-dom
+
+// export default function SignIn() {
+//   const [isSigninorSignup, setIsSignInOrSignUp] = useState(true);
+//   const [SignUpformData, setSignUpFormData] = useState({
+//     name: "",
+//     email: "",
+//     password: "",
+//   });
+//   const [signInFormData, setSignInFormData] = useState({
+//     email: "",
+//     password: "",
+//   });
+//   const [isLogin, setIsLogin] = useState(false);
+//   const navigate = useNavigate();
+
+//   const handleChange = (e) => {
+//     setSignUpFormData({ ...SignUpformData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleChangeSignIn = (e) => {
+//     setSignInFormData({ ...signInFormData, [e.target.name]: e.target.value });
+//   };
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//       const res = await axios.post(
+//         "http://localhost:4000/youtube/api/v1/user/register",
+//         formData,
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           withCredentials: true,
+//         }
+//       );
+//       if (res.data.success) {
+//         toast.success(res.data.message || "User created successfully!", {
+//           position: "top-right",
+//           autoClose: 3000,
+//           style: {
+//             border: "1px solid #f44336",
+//             background: "#0000ff",
+//             color: "#ffffff",
+//           },
+//         });
+//       } else {
+//         toast.error(res.data.message || "Registration failed!", {
+//           position: "top-right",
+//           autoClose: 3000,
+//           style: {
+//             border: "1px solid #f44336",
+//             background: "#ffebee",
+//             color: "#f44336",
+//           },
+//         });
+//       }
+//     } catch (error) {
+//       toast.error(
+//         error?.response?.data?.message || "Something went wrong on login User!",
+//         {
+//           position: "top-right",
+//           autoClose: 3000,
+//           style: {
+//             border: "1px solid #f44336",
+//             background: "#ffebee",
+//             color: "#f44336",
+//           },
+//         }
+//       );
+//     }
+//   };
+//   const handleSubmitSignIn = async (e) => {
+//     e.preventDefault();
+//     try {
+//       const res = await axios.post(
+//         "http://localhost:4000/youtube/api/v1/user/login",
+//         signInFormData,
+//         {
+//           headers: {
+//             "Content-Type": "application/json",
+//           },
+//           withCredentials: true,
+//         }
+//       );
+//       if (res.data.success) {
+//         navigate("/");
+//         toast.success(res.data.message || "Login successful!", {
+//           position: "top-right",
+//           autoClose: 3000,
+//           style: {
+//             border: "1px solid #f44336",
+//             background: "#0000ff",
+//             color: "#ffffff",
+//           },
+//         });
+//       } else {
+//         toast.error(res.data.message || "Login failed!", {
+//           position: "top-right",
+//           autoClose: 3000,
+//           style: {
+//             border: "1px solid #f44336",
+//             background: "#ffebee",
+//             color: "#f44336",
+//           },
+//         });
+//       }
+//     } catch (error) {
+//       toast.error(error?.response?.data?.message || "Login failed!", {
+//         position: "top-right",
+//         autoClose: 3000,
+//         style: {
+//           border: "1px solid #f44336",
+//           background: "#ffebee",
+//           color: "#f44336",
+//         },
+//       });
+//     }
+//   };
+//   useEffect(() => {
+//     if (isLogin) {
+//       navigate("/");
+//     }
+//   }, [isLogin, navigate]);
+
+//   return (
+//     <div className="bg-zinc-900 h-screen w-screen flex flex-col gap-1 items-center justify-center">
+//       <main className="h-[60vh] w-3/4 bg-gray-900 rounded-lg shadow-lg flex ">
+//         <div className="w-[40%] flex flex-col justify-center items-center bg-black rounded-l-lg p-8">
+//           <div className="flex flex-col items-center">
+//             <img
+//               src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b8/YouTube_Logo_2017.svg/2560px-YouTube_Logo_2017.svg.png"
+//               alt="logo"
+//               className="h-16 mb-6"
+//             />
+//             {isSigninorSignup ? (
+//               <form
+//                 className="flex flex-col gap-5 w-full"
+//                 onSubmit={handleSubmit}
+//               >
+//                 <Input
+//                   type="text"
+//                   placeholder="Enter your Name"
+//                   name="name"
+//                   required
+//                   value={SignUpformData.name}
+//                   onChange={handleChange}
+//                 />
+//                 <Input
+//                   type="email"
+//                   placeholder="Enter your Email"
+//                   name="email"
+//                   required
+//                   value={SignUpformData.email}
+//                   onChange={handleChange}
+//                 />
+//                 <Input
+//                   type="password"
+//                   placeholder="Enter your Password"
+//                   className="placeholder:text-white"
+//                   name="password"
+//                   required
+//                   value={SignUpformData.password}
+//                   onChange={handleChange}
+//                 />
+//                 <button
+//                   type="submit"
+//                   className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md mt-4"
+//                 >
+//                   Sign Up
+//                 </button>
+//               </form>
+//             ) : (
+//               <form
+//                 className="flex flex-col gap-5 w-full"
+//                 onSubmit={handleSubmitSignIn}
+//               >
+//                 <Input
+//                   type="email"
+//                   placeholder="Enter your Email"
+//                   name="email"
+//                   required
+//                   value={signInFormData.email}
+//                   onChange={handleChangeSignIn}
+//                 />
+//                 <Input
+//                   type="password"
+//                   placeholder="Enter your Password"
+//                   className="placeholder:text-white"
+//                   name="password"
+//                   required
+//                   value={signInFormData.password}
+//                   onChange={handleChangeSignIn}
+//                 />
+//                 <button
+//                   type="submit"
+//                   className="bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-md mt-4"
+//                 >
+//                   Sign In
+//                 </button>
+//               </form>
+//             )}
+//           </div>
+//         </div>
+//         {/* Right Section */}
+//         <div className="w-[60%] text-white flex flex-col justify-evenly   items-start  bg-black rounded-r-lg p-2 ">
+//           <div>
+//             <img src="googlelogo.png" alt="logo" className="h-12 mb-1" />
+//             <h1 className="text-3xl font-semibold">Verify it’s you</h1>
+//           </div>
+//           <div className="flex flex-col items-end gap-4">
+//             <p className="text-sm text-gray-400">
+//               We won't post anything without your permission. By signing up, you
+//               agree to our Terms, Data Policy and Cookies Policy.
+//             </p>
+//             <button
+//               type="button"
+//               className="bg-blue-600 hover:bg-blue-700 text-white py-1 w-1/2 rounded-3xl flex items-center justify-center gap-2"
+//             >
+//               <img src="googlelogo.png" alt="logo" className="h-9" />
+//               <p>Continue with Google</p>
+//             </button>
+//             <p className="text-sm text-gray-400">
+//               {isSigninorSignup
+//                 ? "Already have an account?"
+//                 : "Don't have an account?"}{" "}
+//               <span
+//                 className="text-blue-600 cursor-pointer"
+//                 onClick={() => setIsSignInOrSignUp(!isSigninorSignup)}
+//               >
+//                 {isSigninorSignup ? "Sign In" : "Sign Up"}
+//               </span>
+//             </p>
+//           </div>
+//         </div>
+//       </main>
+//       <main className="h-12 w-3/4 flex justify-between ">
+//         <div>
+//           <p className=" text-sm text-zinc-400  font-semibold">
+//             English (United States)
+//           </p>
+//         </div>
+//         <div className="flex gap-4">
+//           <span className=" text-sm text-zinc-400  font-semibold">Help</span>
+//           <span className=" text-sm text-zinc-400  font-semibold">Privacy</span>
+//           <span className=" text-sm text-zinc-400  font-semibold">Terms</span>
+//         </div>
+//       </main>
+//     </div>
+//   );
+// }

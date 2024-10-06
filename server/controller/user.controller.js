@@ -5,21 +5,84 @@ import Channel from "../models/channel.models.js";
 import { getDataUri } from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 import e from "express";
+// export const RegisterUser = async (req, res) => {
+//   try {
+//     const { name, email, password } = req.body;
+//     if (!name) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "username is required",
+//       });
+//     }
+//     if (!email) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Email is required",
+//       });
+//     }
+//     if (!password) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Password is required",
+//       });
+//     }
+
+//     const existingUser = await User.findOne({ email });
+//     if (existingUser) {
+//       return res.status(400).json({
+//         success: false,
+//         message: `Account already exists with ${email}  please login!!`,
+//       });
+//     }
+//     const hashedPassword = await bcrypt.hash(password, 10);
+//     // const user = new User({
+//     //   name,
+//     //   email,
+//     //   password: hashedPassword,
+//     // });
+//     // await user.save();
+//     const user = User.create({
+//       name,
+//       email,
+//       password: hashedPassword,
+//     });
+
+//     const userData = (await user).toObject();
+//     delete userData.password;
+//     return res.status(201).json({
+//       success: true,
+//       message: `Welcome ${user.name} in our youTube clone! you have successfully created an account.`,
+//       userData,
+//     });
+//   } catch (error) {
+//     console.log(
+//       `Something went wrong on Register User ! err : ${error.message}`
+//     );
+//     return res.status(500).json({
+//       success: false,
+//       message: `Something went wrong on Register User ! err : ${error.message}`,
+//     });
+//   }
+// };
+
 export const RegisterUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+
     if (!name) {
       return res.status(400).json({
         success: false,
-        message: "username is required",
+        message: "Username is required",
       });
     }
+
     if (!email) {
       return res.status(400).json({
         success: false,
         message: "Email is required",
       });
     }
+
     if (!password) {
       return res.status(400).json({
         success: false,
@@ -31,36 +94,32 @@ export const RegisterUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: `Account already exists with ${email}  please login!!`,
+        message: `Account already exists with ${email}, please login!`,
       });
     }
+
     const hashedPassword = await bcrypt.hash(password, 10);
-    // const user = new User({
-    //   name,
-    //   email,
-    //   password: hashedPassword,
-    // });
-    // await user.save();
-    const user = User.create({
+
+    // Await the creation of the user
+    const user = await User.create({
       name,
       email,
       password: hashedPassword,
     });
 
-    const userData = (await user).toObject();
-    delete userData.password;
+    const userData = user.toObject();
+    delete userData.password; // Remove password from userData
+
     return res.status(201).json({
       success: true,
-      message: `Welcome ${user.name} in our youTube clone! you have successfully created an account.`,
+      message: `Welcome ${user.name}  Please login first to continue`,
       userData,
     });
   } catch (error) {
-    console.log(
-      `Something went wrong on Register User ! err : ${error.message}`
-    );
+    console.log(`Something went wrong while registering the user: ${error.message}`);
     return res.status(500).json({
       success: false,
-      message: `Something went wrong on Register User ! err : ${error.message}`,
+      message: `Something went wrong on Register User! Error: ${error.message}`,
     });
   }
 };

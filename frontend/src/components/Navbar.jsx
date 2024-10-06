@@ -5,8 +5,10 @@ import { Input } from "./ui/input"; // Custom Input component
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { Button } from "./ui/button";
 import { CgProfile } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
   return (
     <div className=" bg-zinc-950 w-screen h-12 fixed top-0 flex items-center">
       <div className="px-4 flex flex-row w-full justify-between">
@@ -14,7 +16,10 @@ export default function Navbar() {
           <span className="text-2xl h-8 w-8 rounded-full hover:bg-zinc-800 cursor-pointer flex items-center justify-center">
             <IoMenuOutline />
           </span>
-          <span className="flex flex-row items-center gap-1">
+          <span
+            className="flex flex-row items-center gap-1"
+            onClick={() => navigate("/")}
+          >
             <BsYoutube className="text-2xl text-red-600" />
             <p className="text-xl" style={{ fontWeight: 400 }}>
               YouTube
@@ -38,7 +43,10 @@ export default function Navbar() {
             <BsThreeDotsVertical />
           </span>
           <span className="rounded-full">
-            <Button className="h-7 rounded-full flex items-center justify-between gap-1 border border-zinc-500 px-3 hover:bg-slate-700">
+            <Button
+              className="h-7 rounded-full flex items-center justify-between gap-1 border border-zinc-500 px-3 hover:bg-slate-700"
+              onClick={() => navigate("/sign-in")}
+            >
               <CgProfile className="text-xl" /> <p>Sign in</p>
             </Button>
           </span>

@@ -1,9 +1,8 @@
 import SignupDialog from "@/components/dialogBox/SignupDialog";
 import LeftSidebar from "@/components/LeftSidbar";
 import React from "react";
- 
-export default function  Home() {
- 
+
+export default function Home() {
   return (
     <div className="h-screen mt-12 ">
       <div className="flex flex-row h-full">
@@ -23,9 +22,6 @@ export default function  Home() {
                 love.
               </p>
             </span>
-          </div>
-          <div>
-             <SignupDialog />
           </div>
         </div>
       </div>
