@@ -23,40 +23,40 @@ import { useNavigate } from "react-router-dom";
 
 export default function LeftSidebar() {
   const leftSidebariconsFirst = [
-    { icon: <IoMdHome className="text-xl" />, title: "Home", id: 1 },
-    { icon: <SiYoutubeshorts className="text-lg" />, title: "Shorts", id: 2 },
+    { icon: <IoMdHome className="text-2xl" />, title: "Home", id: 1 },
+    { icon: <SiYoutubeshorts className="text-2xl" />, title: "Shorts", id: 2 },
     {
-      icon: <MdSubscriptions className="text-lg" />,
+      icon: <MdSubscriptions className="text-2xl" />,
       title: "Subscriptions",
       id: 3,
     },
   ];
 
   const leftSidebariconsSecond = [
-    { icon: <MdOndemandVideo className="text-lg" />, title: "You", id: 4 },
-    { icon: <LuHistory className="text-lg" />, title: "History", id: 5 },
+    { icon: <MdOndemandVideo className="text-2xl" />, title: "You", id: 4 },
+    { icon: <LuHistory className="text-2xl" />, title: "History", id: 5 },
   ];
 
   const leftSidebariconsThird = [
-    { icon: <FaFireAlt className="text-lg" />, title: "Trending", id: 6 },
-    { icon: <MdMusicNote className="text-lg" />, title: "Music", id: 7 },
-    { icon: <SiYoutubegaming className="text-xl" />, title: "Gaming", id: 8 },
-    { icon: <CiTrophy className="text-lg" />, title: "Sports", id: 9 },
+    { icon: <FaFireAlt className="text-2xl" />, title: "Trending", id: 6 },
+    { icon: <MdMusicNote className="text-2xl" />, title: "Music", id: 7 },
+    { icon: <SiYoutubegaming className="text-2xl" />, title: "Gaming", id: 8 },
+    { icon: <CiTrophy className="text-2xl" />, title: "Sports", id: 9 },
   ];
 
   const leftSidebariconsFourth = [
     {
-      icon: <FaYoutube className="text-xl text-red-600" />,
+      icon: <FaYoutube className="text-2xl text-red-600" />,
       title: "YouTube Premium",
       id: 10,
     },
     {
-      icon: <SiYoutubemusic className="text-xl text-red-600" />,
+      icon: <SiYoutubemusic className="text-2xl text-red-600" />,
       title: "YouTube Music",
       id: 11,
     },
     {
-      icon: <SiYoutubekids className="text-xl text-red-600" />,
+      icon: <SiYoutubekids className="text-2xl text-red-600" />,
       title: "YouTube Kids",
       id: 12,
     },
@@ -64,22 +64,22 @@ export default function LeftSidebar() {
 
   const LeftSidbarIconsFive = [
     {
-      icon: <IoSettingsOutline className="text-sm" />,
+      icon: <IoSettingsOutline className="text-2xl" />,
       title: "Settings",
       id: 13,
     },
     {
-      icon: <FaRegFlag className="text-sm" />,
+      icon: <FaRegFlag className="text-2xl" />,
       title: "Report history",
       id: 14,
     },
     {
-      icon: <FaRegQuestionCircle className="text-sm" />,
+      icon: <FaRegQuestionCircle className="text-2xl" />,
       title: "Help",
       id: 15,
     },
     {
-      icon: <MdFeedback className="text-sm" />,
+      icon: <MdFeedback className="text-2xl" />,
       title: "Send feedback",
       id: 16,
     },

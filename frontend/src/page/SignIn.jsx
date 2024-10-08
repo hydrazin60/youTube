@@ -1,13 +1,12 @@
-
 import React, { useState, useEffect } from "react";
 import { Input } from "../components/ui/input";
-import { Button } from "@/components/ui/button";
 import axios from "axios";
 import { toast } from "sonner";
-import { useNavigate } from "react-router-dom"; // Assuming you're using react-router-dom
+import { useNavigate } from "react-router-dom";
 
 export default function SignIn() {
-  const [isSigninorSignup, setIsSignInOrSignUp] = useState(true); // Toggle for SignIn or SignUp
+  const [isPasswordWrong, setIsPasswordWrong] = useState(false); // State to track wrong password
+  const [isSigninorSignup, setIsSignInOrSignUp] = useState(true);
   const [SignUpformData, setSignUpFormData] = useState({
     name: "",
     email: "",
@@ -33,7 +32,7 @@ export default function SignIn() {
     try {
       const res = await axios.post(
         "http://localhost:4000/youtube/api/v1/user/register",
-        SignUpformData, // Use SignUpformData
+        SignUpformData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -51,7 +50,6 @@ export default function SignIn() {
             color: "#ffffff",
           },
         });
-        // After successful signup, switch to sign-in form
         setIsSignInOrSignUp(false);
       } else {
         toast.error(res.data.message || "Registration failed!", {
@@ -85,7 +83,7 @@ export default function SignIn() {
     try {
       const res = await axios.post(
         "http://localhost:4000/youtube/api/v1/user/login",
-        signInFormData, // Use signInFormData
+        signInFormData,
         {
           headers: {
             "Content-Type": "application/json",
@@ -94,8 +92,8 @@ export default function SignIn() {
         }
       );
       if (res.data.success) {
-        // On successful login, navigate to homepage
         setIsLogin(true);
+        setIsPasswordWrong(res.data.message === "incorrect password!! please try again");
         toast.success(res.data.message || "Login successful!", {
           position: "top-right",
           autoClose: 3000,
@@ -118,6 +116,14 @@ export default function SignIn() {
         });
       }
     } catch (error) {
+      if (
+        error.response?.data?.message ===
+        "incorrect password!! please try again"
+      ) {
+        setIsPasswordWrong(true); // Set password error to true
+      } else {
+        setIsPasswordWrong(false); // Reset if it's not a password issue
+      }
       toast.error(error?.response?.data?.message || "Login failed!", {
         position: "top-right",
         autoClose: 3000,
@@ -138,7 +144,7 @@ export default function SignIn() {
 
   return (
     <div className="bg-zinc-900 h-screen w-screen flex flex-col gap-1 items-center justify-center">
-      <main className="h-[60vh] w-3/4 bg-gray-900 rounded-lg shadow-lg flex ">
+      <main className="h-[60vh] w-3/4 bg-gray-900 rounded-lg shadow-lg flex">
         <div className="w-[40%] flex flex-col justify-center items-center bg-black rounded-l-lg p-8">
           <div className="flex flex-col items-center">
             <img
@@ -211,13 +217,16 @@ export default function SignIn() {
                 >
                   Sign In
                 </button>
-                <p className="text-sm text-red-600 cursor-pointer"> forget password </p>
+                {/* Show forgot password only if the password is wrong */}
+                <p className="text-sm text-red-600 cursor-pointer">
+                  {isPasswordWrong ? "Forgot password?" : ""}
+                </p>
               </form>
             )}
           </div>
         </div>
         {/* Right Section */}
-        <div className="w-[60%] text-white flex flex-col justify-evenly   items-start  bg-black rounded-r-lg p-2 ">
+        <div className="w-[60%] text-white flex flex-col justify-evenly items-start bg-black rounded-r-lg p-2">
           <div>
             <img src="googlelogo.png" alt="logo" className="h-12 mb-1" />
             <h1 className="text-3xl font-semibold">Verify it’s you</h1>
@@ -263,9 +272,6 @@ export default function SignIn() {
     </div>
   );
 }
-
-
-
 
 // import React from "react";
 // import { Input } from "../components/ui/input";
@@ -453,7 +459,6 @@ export default function SignIn() {
 //     </div>
 //   );
 // }
-
 // import React, { useState, useEffect } from "react";
 // import { Input } from "../components/ui/input";
 // import { Button } from "@/components/ui/button";
