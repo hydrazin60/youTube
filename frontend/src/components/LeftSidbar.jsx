@@ -23,40 +23,40 @@ import { useNavigate } from "react-router-dom";
 
 export default function LeftSidebar() {
   const leftSidebariconsFirst = [
-    { icon: <IoMdHome className="text-2xl" />, title: "Home", id: 1 },
-    { icon: <SiYoutubeshorts className="text-2xl" />, title: "Shorts", id: 2 },
+    { icon: <IoMdHome className="text-iconSize" />, title: "Home", id: 1 },
+    { icon: <SiYoutubeshorts className="text-iconSize" />, title: "Shorts", id: 2 },
     {
-      icon: <MdSubscriptions className="text-2xl" />,
+      icon: <MdSubscriptions className="text-iconSize" />,
       title: "Subscriptions",
       id: 3,
     },
   ];
 
   const leftSidebariconsSecond = [
-    { icon: <MdOndemandVideo className="text-2xl" />, title: "You", id: 4 },
-    { icon: <LuHistory className="text-2xl" />, title: "History", id: 5 },
+    { icon: <MdOndemandVideo className="text-iconSize" />, title: "You", id: 4 },
+    { icon: <LuHistory className="text-iconSize" />, title: "History", id: 5 },
   ];
 
   const leftSidebariconsThird = [
-    { icon: <FaFireAlt className="text-2xl" />, title: "Trending", id: 6 },
-    { icon: <MdMusicNote className="text-2xl" />, title: "Music", id: 7 },
-    { icon: <SiYoutubegaming className="text-2xl" />, title: "Gaming", id: 8 },
-    { icon: <CiTrophy className="text-2xl" />, title: "Sports", id: 9 },
+    { icon: <FaFireAlt className="text-iconSize" />, title: "Trending", id: 6 },
+    { icon: <MdMusicNote className="text-iconSize" />, title: "Music", id: 7 },
+    { icon: <SiYoutubegaming className="text-iconSize" />, title: "Gaming", id: 8 },
+    { icon: <CiTrophy className="text-iconSize" />, title: "Sports", id: 9 },
   ];
 
   const leftSidebariconsFourth = [
     {
-      icon: <FaYoutube className="text-2xl text-red-600" />,
+      icon: <FaYoutube className="text-iconSize text-red-600" />,
       title: "YouTube Premium",
       id: 10,
     },
     {
-      icon: <SiYoutubemusic className="text-2xl text-red-600" />,
+      icon: <SiYoutubemusic className="text-iconSize text-red-600" />,
       title: "YouTube Music",
       id: 11,
     },
     {
-      icon: <SiYoutubekids className="text-2xl text-red-600" />,
+      icon: <SiYoutubekids className="text-iconSize text-red-600" />,
       title: "YouTube Kids",
       id: 12,
     },
@@ -64,22 +64,22 @@ export default function LeftSidebar() {
 
   const LeftSidbarIconsFive = [
     {
-      icon: <IoSettingsOutline className="text-2xl" />,
+      icon: <IoSettingsOutline className="text-iconSize" />,
       title: "Settings",
       id: 13,
     },
     {
-      icon: <FaRegFlag className="text-2xl" />,
+      icon: <FaRegFlag className="text-iconSize" />,
       title: "Report history",
       id: 14,
     },
     {
-      icon: <FaRegQuestionCircle className="text-2xl" />,
+      icon: <FaRegQuestionCircle className="text-iconSize" />,
       title: "Help",
       id: 15,
     },
     {
-      icon: <MdFeedback className="text-2xl" />,
+      icon: <MdFeedback className="text-iconSize" />,
       title: "Send feedback",
       id: 16,
     },
@@ -93,7 +93,7 @@ export default function LeftSidebar() {
           {leftSidebariconsFirst.map((item) => (
             <li
               key={item.id}
-              className="text-xs w-[90%] text-gray-200 flex flex-row items-center gap-2 px-4 py-2 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal  w-[90%] text-gray-200 flex flex-row items-center gap-2 px-4 py-2 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>
@@ -106,7 +106,7 @@ export default function LeftSidebar() {
           {leftSidebariconsSecond.map((item) => (
             <li
               key={item.id}
-              className="text-xs w-[90%] text-gray-200 flex flex-row items-center gap-2 px-4 py-2 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal w-[90%] text-gray-200 flex flex-row items-center gap-2 px-4 py-2 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>
@@ -115,7 +115,7 @@ export default function LeftSidebar() {
       </div>
 
       <div className="px-4 border-b border-gray-600 py-3 flex flex-col gap-3">
-        <span className="text-xs">
+        <span className="text-normal">
           <p>
             Sign in to like videos,
             <br /> comment, and subscribe.
@@ -139,7 +139,7 @@ export default function LeftSidebar() {
           {leftSidebariconsThird.map((item) => (
             <li
               key={item.id}
-              className="text-xs text-gray-200 flex flex-row items-center gap-2 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal text-gray-200 flex flex-row items-center gap-2 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>
@@ -153,7 +153,7 @@ export default function LeftSidebar() {
           {leftSidebariconsFourth.map((item) => (
             <li
               key={item.id}
-              className="text-xs text-gray-200 flex flex-row items-center gap-2 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal text-gray-200 flex flex-row items-center gap-2 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>
@@ -166,7 +166,7 @@ export default function LeftSidebar() {
           {LeftSidbarIconsFive.map((item) => (
             <li
               key={item.id}
-              className="text-xs text-gray-200 flex flex-row items-center gap-2 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal text-gray-200 flex flex-row items-center gap-2 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>

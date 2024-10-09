@@ -93,7 +93,6 @@ export default function SignIn() {
       );
       if (res.data.success) {
         setIsLogin(true);
-        setIsPasswordWrong(res.data.message === "incorrect password!! please try again");
         toast.success(res.data.message || "Login successful!", {
           position: "top-right",
           autoClose: 3000,
@@ -103,7 +102,7 @@ export default function SignIn() {
             color: "#ffffff",
           },
         });
-        navigate("/"); // Redirect to homepage
+        navigate("/");
       } else {
         toast.error(res.data.message || "Login failed!", {
           position: "top-right",
@@ -120,9 +119,9 @@ export default function SignIn() {
         error.response?.data?.message ===
         "incorrect password!! please try again"
       ) {
-        setIsPasswordWrong(true); // Set password error to true
+        setIsPasswordWrong(true);
       } else {
-        setIsPasswordWrong(false); // Reset if it's not a password issue
+        setIsPasswordWrong(false);
       }
       toast.error(error?.response?.data?.message || "Login failed!", {
         position: "top-right",

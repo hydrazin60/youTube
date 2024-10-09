@@ -13,14 +13,14 @@ export default function Navbar() {
     <div className=" bg-zinc-950 w-screen h-12 fixed top-0 flex items-center">
       <div className="px-4 flex flex-row w-full justify-between">
         <div className="flex flex-row gap-4 cursor-pointer">
-          <span className="text-2xl h-8 w-8 rounded-full hover:bg-zinc-800 cursor-pointer flex items-center justify-center">
+          <span className="text-xl h-8 w-8 rounded-full hover:bg-zinc-800 cursor-pointer flex items-center justify-center">
             <IoMenuOutline />
           </span>
           <span
             className="flex flex-row items-center gap-1"
             onClick={() => navigate("/")}
           >
-            <BsYoutube className="text-2xl text-red-600" />
+            <BsYoutube className="text-xl text-red-600" />
             <p className="text-xl" style={{ fontWeight: 400 }}>
               YouTube
             </p>
