@@ -1,17 +1,14 @@
 import mongoose from "mongoose";
+
 const longVideoSchema = new mongoose.Schema(
   {
     title: {
       type: String,
       required: true,
-      default: function () {
-        const today = new Date();
-        return today.toDateString();
-      },
     },
     description: {
       type: String,
-      maxlength: [5000, "description should be less than  5000 characters"],
+      maxlength: [5000, "Description should be less than 5000 characters"],
     },
     LongVideo: {
       type: String,
@@ -22,7 +19,7 @@ const longVideoSchema = new mongoose.Schema(
       enum: ["public", "private"],
       default: "public",
     },
-    user: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
@@ -42,5 +39,5 @@ const longVideoSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const LongVideo = mongoose.model("LongVideo", longVideoSchema);
-export default LongVideo;
+const LongVideoModel = mongoose.model("LongVideoModel", longVideoSchema);
+export default LongVideoModel;

@@ -43,6 +43,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import userRoutes from "./routes/user.routes.js";
+import postRoutes from "./routes/post.routes.js";
 
 dotenv.config();
 const app = express();
@@ -61,6 +62,7 @@ app.use(
 );
 
 app.use("/youtube/api/v1/user", userRoutes);
+app.use("/youtube_studio/api/v1/post" , postRoutes)
 
 app.listen(PORT, () => {
   try {
