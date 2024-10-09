@@ -18,7 +18,7 @@ const ShortVideoSchema = new mongoose.Schema(
       enum: ["public", "private"],
       default: "public",
     },
-    user: {
+    author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
@@ -40,5 +40,5 @@ const ShortVideoSchema = new mongoose.Schema(
   }
 );
 
-const ShortVideo = mongoose.model("ShortVideo", ShortVideoSchema);
-export default ShortVideo;
+const ShortVideoModel = mongoose.model("ShortVideoModel", ShortVideoSchema);
+export default ShortVideoModel;
