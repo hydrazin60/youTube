@@ -71,6 +71,74 @@ export const UploadLongVideo = async (req, res) => {
   }
 };
 
+export const EditLongVideo = async (req, res) => {
+  try {
+    const authorId = req.id;
+    const longVideoPostId = req.params.id;
+    const { title, description, visibility } = req.body;
+    const LongVideoFile = req.files?.LongVideo?.[0];
+    const authorUser = await User.findById(authorId);
+    if (!authorUser) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "User not found, please register first",
+      });
+    }
+    const longVideoPostDeata = await LongVideoModel.findById(longVideoPostId);
+    if (!longVideoPostDeata) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Post not found",
+      });
+    }
+
+    if (authorId !== longVideoPostDeata.author.toString()) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "You are not authorized to edit this post",
+      });
+    }
+
+    if (LongVideoFile) {
+      const fileUri = getDataUri(LongVideoFile);
+      const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+        resource_type: "video",
+        folder: "long_videos",
+        public_id: `${title}_${authorId}`,
+      });
+      longVideoPostDeata.LongVideo = cloudResponse.secure_url;
+    }
+
+    if (title) {
+      longVideoPostDeata.title = title;
+    }
+    if (description) {
+      longVideoPostDeata.description = description;
+    }
+    if (visibility) {
+      longVideoPostDeata.visibility = visibility;
+    }
+    await longVideoPostDeata.save();
+
+    return res.status(200).json({
+      success: true,
+      error: false,
+      message: "Post edited successfully",
+      longVideoPostDeata,
+    });
+  } catch (error) {
+    console.log(`Error during Edit Long Video : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      error: true,
+      message: `Error during Edit Long Video : ${error.message}`,
+    });
+  }
+};
+
 export const UploadShortVideo = async (req, res) => {
   try {
     const authorId = req.id;
@@ -83,7 +151,6 @@ export const UploadShortVideo = async (req, res) => {
         message: "Please upload a video",
       });
     }
-
     const authorUser = await User.findById(authorId);
     if (!authorUser) {
       return res.status(400).json({

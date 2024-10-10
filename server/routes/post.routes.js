@@ -1,6 +1,7 @@
 import express from "express";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 import {
+  EditLongVideo,
   UploadLongVideo,
   UploadShortVideo,
 } from "../controller/post.controller.js";
@@ -13,6 +14,7 @@ postRoutes.post(
   isAuthenticated,
   UploadLongVideo
 );
+postRoutes.post("/long_video/edit/:id", isAuthenticated, EditLongVideo);
 postRoutes.post(
   "/short_video/upload",
   uploadVideo.fields([{ name: "ShortVideo" }]),

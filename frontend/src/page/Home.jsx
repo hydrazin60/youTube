@@ -34,7 +34,7 @@ export default function Home() {
   ];
 
   const shortVideoList = [1, 2, 3, 4, 5, 6];
-const longvideoList = [1,2,3,4,5,6,7,8,9,10]
+const longvideoList = [1,2,3,4,5,6,7,8]
   return (
     <div className="h-screen mt-12">
       <div className="flex flex-row h-full">
