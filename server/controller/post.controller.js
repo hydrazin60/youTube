@@ -216,6 +216,62 @@ export const DeleteLongVideo = async (req, res) => {
   }
 };
 
+export const GetAllLongVideo = async (req, res) => {
+  try {
+    const authorId = req.params.id;
+    const loginUserId = req.id;
+    const authorUser = await User.findById(authorId);
+    if (!authorUser) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "User not found, please register first",
+      });
+    }
+    if (authorUser.role !== "contentCreator") {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Only content creators can get all long videos",
+      });
+    }
+    const longVideodata = await LongVideoModel.find({ author: authorId });
+    if (!longVideodata) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "No long videos found",
+      });
+    }
+    if (authorId === loginUserId) {
+      return res.status(400).json({
+        success: true,
+        error: false,
+        message: "All long videos fetched successfully",
+        longVideodata,
+      });
+    }
+
+    const publicLongVideodata = longVideodata.filter(
+      (longVideo) => longVideo.visibility === "public"
+    );
+
+    return res.status(200).json({
+      success: true,
+      error: false,
+      message: "Long videos fetched successfully",
+      publicLongVideodata,
+    });
+  } catch (error) {
+    console.log(`Error during Get All Long Video : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      error: true,
+      message: `Error during Get All Long Video : ${error.message}`,
+    });
+  }
+};
+
 export const UploadShortVideo = async (req, res) => {
   try {
     const authorId = req.id;
@@ -357,66 +413,6 @@ export const EditShortVideo = async (req, res) => {
     });
   }
 };
-
-// export const DeleteShortVideo = async (req, res) => {
-//   try {
-//     const authorId = req.id;
-//     const shortVideoPostId = req.params.id;
-//     const autherUserData = await User.findById(authorId);
-
-//     if (!autherUserData) {
-//       return res.status(400).json({
-//         success: false,
-//         error: true,
-//         message: "User not found, please register first",
-//       });
-//     }
-//     if (autherUserData.role !== "contentCreator") {
-//       return res.status(400).json({
-//         success: false,
-//         error: true,
-//         message: "Only content creators can delete short videos",
-//       });
-//     }
-//     const shortVideoPostData = await ShortVideoModel.findById(shortVideoPostId);
-//     if (!shortVideoPostData) {
-//       return res.status(400).json({
-//         success: false,
-//         error: true,
-//         message: "Post not found",
-//       });
-//     }
-//     if (authorId !== shortVideoPostData.author.toString()) {
-//       return res.status(400).json({
-//         success: false,
-//         error: true,
-//         message: "You are not authorized to delete this post",
-//       });
-//     }
-//     const channel = await Channel.findById(autherUserData.channelId);
-//     if (channel) {
-//       const index = channel.ShortVideoId.indexOf(shortVideoPostId);
-//       if (index > -1) {
-//         channel.ShortVideoId.splice(index, 1);
-//         await channel.save();
-//       }
-//     }
-//     await shortVideoPostData.remove();
-//     return res.status(200).json({
-//       success: true,
-//       error: false,
-//       message: "Post deleted successfully",
-//     });
-//   } catch (error) {
-//     console.log(`Error during Delete Short Video : ${error.message}`);
-//     return res.status(500).json({
-//       success: false,
-//       error: true,
-//       message: `Error during Delete Short Video : ${error.message}`,
-//     });
-//   }
-// };
-
 export const DeleteShortVideo = async (req, res) => {
   try {
     const authorId = req.id; // Ensure req.id is set during authentication

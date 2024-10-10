@@ -5,6 +5,7 @@ import {
   DeleteShortVideo,
   EditLongVideo,
   EditShortVideo,
+  GetAllLongVideo,
   UploadLongVideo,
   UploadShortVideo,
 } from "../controller/post.controller.js";
@@ -23,6 +24,18 @@ postRoutes.put(
   isAuthenticated,
   EditLongVideo
 );
+postRoutes.get("/longvideo/all/:id", isAuthenticated, GetAllLongVideo);
+
+
+
+
+
+
+
+
+
+
+
 postRoutes.delete("/long_video/delete/:id", isAuthenticated, DeleteLongVideo);
 postRoutes.post(
   "/short_video/upload",
