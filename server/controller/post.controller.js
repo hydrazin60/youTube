@@ -152,6 +152,66 @@ export const EditLongVideo = async (req, res) => {
     });
   }
 };
+export const DeleteLongVideo = async (req, res) => {
+  try {
+    const authorId = req.id;
+    const longVideoPostId = req.params.id;
+    const authorUser = await User.findById(authorId);
+    if (!authorUser) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "User not found, please register first",
+      });
+    }
+    if (authorUser.role !== "contentCreator") {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Only content creators can delete long videos",
+      });
+    }
+    const LongVideoPostdata = await LongVideoModel.findById(longVideoPostId);
+    if (!LongVideoPostdata) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Post not found",
+      });
+    }
+
+    if (authorId !== LongVideoPostdata.author.toString()) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "You are not authorized to delete this post",
+      });
+    }
+
+    const channel = await Channel.findById(LongVideoPostdata.channel);
+    if (channel) {
+      const index = channel.LongVideoId.indexOf(longVideoPostId);
+      if (index !== -1) {
+        channel.LongVideoId.splice(index, 1);
+        await channel.save();
+      }
+    }
+
+    await LongVideoModel.findByIdAndDelete(longVideoPostId);
+    return res.status(200).json({
+      success: true,
+      error: false,
+      message: "Post deleted successfully",
+    });
+  } catch (error) {
+    console.log(`Error during Delete Long Video : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      error: true,
+      message: `Error during Delete Long Video : ${error.message}`,
+    });
+  }
+};
 
 export const UploadShortVideo = async (req, res) => {
   try {
@@ -285,7 +345,6 @@ export const EditShortVideo = async (req, res) => {
       message: "Post edited successfully",
       shortVideoPostData,
     });
-    
   } catch (error) {
     console.log(`Error during Edit Short Video : ${error.message}`);
     return res.status(500).json({

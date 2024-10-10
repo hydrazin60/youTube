@@ -1,6 +1,7 @@
 import express from "express";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 import {
+  DeleteLongVideo,
   EditLongVideo,
   EditShortVideo,
   UploadLongVideo,
@@ -16,11 +17,13 @@ postRoutes.post(
   UploadLongVideo
 );
 postRoutes.post("/long_video/edit/:id", isAuthenticated, EditLongVideo);
+postRoutes.delete("/long_video/delete/:id", isAuthenticated, DeleteLongVideo)
 postRoutes.post(
   "/short_video/upload",
   uploadVideo.fields([{ name: "ShortVideo" }]),
   isAuthenticated,
   UploadShortVideo
 );
+
 postRoutes.post("/short_video/edit/:id", isAuthenticated, EditShortVideo);
 export default postRoutes;
