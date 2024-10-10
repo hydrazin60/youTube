@@ -487,3 +487,56 @@ export const DeleteShortVideo = async (req, res) => {
     });
   }
 };
+
+export const getAllShortVideos = async (req, res) => {
+  try {
+    const authorId = req.params.id;
+    const loginUser = req.id;
+    const authorUser = await User.findById(authorId);
+    if (!authorUser) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "User not found, please register first",
+      });
+    }
+
+    if (authorUser.role !== "contentCreator") {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Only content creators can see all short videos",
+      });
+    }
+    const short_videos = await ShortVideoModel.find({ author: authorId });
+    if (!short_videos) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "No short videos found",
+      });
+    }
+    if (loginUser === authorId) {
+      return res.status(200).json({
+        success: true,
+        error: false,
+        short_videos,
+      });
+    }
+    const publicLongVideodata = short_videos.filter(
+      (short_video) => short_video.visibility === "public"
+    );
+    return res.status(200).json({
+      success: true,
+      error: false,
+      publicLongVideodata,
+    });
+  } catch (error) {
+    console.log(`Error during getAllShortVideos : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      error: true,
+      message: `Error during getAllShortVideos : ${error.message}`,
+    });
+  }
+};
