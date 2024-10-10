@@ -4,6 +4,7 @@ import { getDataUri } from "../utils/datauri.js";
 import LongVideoModel from "../models/LongVideo.model.js";
 import Channel from "../models/channel.models.js";
 import ShortVideoModel from "../models/ShortVideo.models.js";
+import userRoutes from "../routes/user.routes.js";
 
 export const UploadLongVideo = async (req, res) => {
   try {
@@ -84,6 +85,7 @@ export const EditLongVideo = async (req, res) => {
     const longVideoPostId = req.params.id;
     const { title, description, visibility } = req.body;
     const LongVideoFile = req.files?.LongVideo?.[0];
+
     const authorUser = await User.findById(authorId);
     if (!authorUser) {
       return res.status(400).json({
@@ -152,6 +154,7 @@ export const EditLongVideo = async (req, res) => {
     });
   }
 };
+
 export const DeleteLongVideo = async (req, res) => {
   try {
     const authorId = req.id;
@@ -351,6 +354,140 @@ export const EditShortVideo = async (req, res) => {
       success: false,
       error: true,
       message: `Error during Edit Short Video : ${error.message}`,
+    });
+  }
+};
+
+// export const DeleteShortVideo = async (req, res) => {
+//   try {
+//     const authorId = req.id;
+//     const shortVideoPostId = req.params.id;
+//     const autherUserData = await User.findById(authorId);
+
+//     if (!autherUserData) {
+//       return res.status(400).json({
+//         success: false,
+//         error: true,
+//         message: "User not found, please register first",
+//       });
+//     }
+//     if (autherUserData.role !== "contentCreator") {
+//       return res.status(400).json({
+//         success: false,
+//         error: true,
+//         message: "Only content creators can delete short videos",
+//       });
+//     }
+//     const shortVideoPostData = await ShortVideoModel.findById(shortVideoPostId);
+//     if (!shortVideoPostData) {
+//       return res.status(400).json({
+//         success: false,
+//         error: true,
+//         message: "Post not found",
+//       });
+//     }
+//     if (authorId !== shortVideoPostData.author.toString()) {
+//       return res.status(400).json({
+//         success: false,
+//         error: true,
+//         message: "You are not authorized to delete this post",
+//       });
+//     }
+//     const channel = await Channel.findById(autherUserData.channelId);
+//     if (channel) {
+//       const index = channel.ShortVideoId.indexOf(shortVideoPostId);
+//       if (index > -1) {
+//         channel.ShortVideoId.splice(index, 1);
+//         await channel.save();
+//       }
+//     }
+//     await shortVideoPostData.remove();
+//     return res.status(200).json({
+//       success: true,
+//       error: false,
+//       message: "Post deleted successfully",
+//     });
+//   } catch (error) {
+//     console.log(`Error during Delete Short Video : ${error.message}`);
+//     return res.status(500).json({
+//       success: false,
+//       error: true,
+//       message: `Error during Delete Short Video : ${error.message}`,
+//     });
+//   }
+// };
+
+export const DeleteShortVideo = async (req, res) => {
+  try {
+    const authorId = req.id; // Ensure req.id is set during authentication
+    const shortVideoPostId = req.params.id; // Get the ID of the post to be deleted
+
+    // Find the user attempting to delete the post
+    const authorUserData = await User.findById(authorId);
+
+    // Check if the user exists
+    if (!authorUserData) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "User not found, please register first",
+      });
+    }
+
+    // Check if the user is a content creator
+    if (authorUserData.role !== "contentCreator") {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Only content creators can delete short videos",
+      });
+    }
+
+    // Find the short video post by its ID
+    const shortVideoPostData = await ShortVideoModel.findById(shortVideoPostId);
+    if (!shortVideoPostData) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Post not found",
+      });
+    }
+
+    // Ensure the user is authorized to delete this post (only the author can delete)
+    if (authorId !== shortVideoPostData.author.toString()) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "You are not authorized to delete this post",
+      });
+    }
+
+    // Find the channel associated with the user's `channelId`
+    const channel = await Channel.findById(authorUserData.channelId);
+    if (channel) {
+      // If the video post is found in the channel's ShortVideoId array, remove it
+      const index = channel.ShortVideoId.indexOf(shortVideoPostId);
+      if (index > -1) {
+        channel.ShortVideoId.splice(index, 1); // Remove the video post from the array
+        await channel.save(); // Save the updated channel
+      }
+    }
+
+    // Delete the short video post from the database
+    await ShortVideoModel.findByIdAndDelete(shortVideoPostId);
+
+    // Return a success message
+    return res.status(200).json({
+      success: true,
+      error: false,
+      message: "Post deleted successfully",
+    });
+  } catch (error) {
+    console.log(`Error during Delete Short Video: ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      error: true,
+      message: `Error during Delete Short Video: ${error.message}`,
     });
   }
 };
