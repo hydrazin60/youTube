@@ -27,6 +27,13 @@ export const UploadLongVideo = async (req, res) => {
         message: "User not found, please register first",
       });
     }
+    if (authorUser.role !== "contentCreator") {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Only content creators can upload long videos",
+      });
+    }
 
     const fileUri = getDataUri(LongVideoFile);
 
@@ -83,6 +90,13 @@ export const EditLongVideo = async (req, res) => {
         success: false,
         error: true,
         message: "User not found, please register first",
+      });
+    }
+    if (authorUser.role !== "contentCreator") {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Only content creators can edit long videos",
       });
     }
     const longVideoPostDeata = await LongVideoModel.findById(longVideoPostId);
@@ -159,7 +173,13 @@ export const UploadShortVideo = async (req, res) => {
         message: "User not found, please register first",
       });
     }
-
+    if (authorUser.role !== "contentCreator") {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Only content creators can upload short videos",
+      });
+    }
     const fileUri = getDataUri(ShortVideoFile);
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
       resource_type: "video",
@@ -197,6 +217,81 @@ export const UploadShortVideo = async (req, res) => {
       success: false,
       error: true,
       message: `Something went wrong during short video upload: ${error.message}`,
+    });
+  }
+};
+
+export const EditShortVideo = async (req, res) => {
+  try {
+    const authorId = req.id;
+    const shortVideoPostId = req.params.id;
+    const { title, description, visibility } = req.body;
+    const ShortVideoFile = req.files?.ShortVideo?.[0];
+
+    const autherData = await User.findById(authorId);
+    if (!autherData) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "User not found, please register first",
+      });
+    }
+    if (autherData.role !== "contentCreator") {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Only content creators can edit short videos",
+      });
+    }
+
+    const shortVideoPostData = await ShortVideoModel.findById(shortVideoPostId);
+    if (!shortVideoPostData) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Post not found",
+      });
+    }
+    if (authorId !== shortVideoPostData.author.toString()) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "You are not authorized to edit this post",
+      });
+    }
+    if (title) {
+      shortVideoPostData.title = title;
+    }
+    if (description) {
+      shortVideoPostData.description = description;
+    }
+    if (visibility) {
+      shortVideoPostData.visibility = visibility;
+    }
+
+    if (ShortVideoFile) {
+      const fileUri = getDataUri(ShortVideoFile);
+      const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
+        resource_type: "video",
+        folder: "short_videos",
+        public_id: `${title}_${authorId}`,
+      });
+      shortVideoPostData.ShortVideo = cloudResponse.secure_url;
+    }
+    await shortVideoPostData.save();
+    return res.status(200).json({
+      success: true,
+      error: false,
+      message: "Post edited successfully",
+      shortVideoPostData,
+    });
+    
+  } catch (error) {
+    console.log(`Error during Edit Short Video : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      error: true,
+      message: `Error during Edit Short Video : ${error.message}`,
     });
   }
 };
