@@ -1,14 +1,14 @@
 import SignupDialog from "@/components/dialogBox/SignupDialog";
 import LeftSidebar from "@/components/LeftSidbar";
 import { RxCross1 } from "react-icons/rx";
-
 import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { RxCross2 } from "react-icons/rx";
 
 import { SiYoutubeshorts } from "react-icons/si";
+import { useSelector } from "react-redux";
 export default function Home() {
-  const [islogin, setIsLogin] = React.useState(true);
+  const { user } = useSelector((state) => state.userAuth);
   const youtubeTag = [
     { id: 1, tag: "Trending" },
     { id: 2, tag: "Music" },
@@ -34,7 +34,7 @@ export default function Home() {
   ];
 
   const shortVideoList = [1, 2, 3, 4, 5, 6];
-const longvideoList = [1,2,3,4,5,6,7,8]
+  const longvideoList = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <div className="h-screen mt-12">
       <div className="flex flex-row h-full">
@@ -43,7 +43,7 @@ const longvideoList = [1,2,3,4,5,6,7,8]
         </div>
 
         <div className="w-[85%] h-full">
-          {islogin ? (
+          {user ? (
             <main className="w-full h-full overflow-y-scroll pb-20 ">
               <div className="h-9 overflow-x-auto hide-scrollbar whitespace-nowrap flex items-center">
                 {youtubeTag.map((tag) => {
@@ -104,7 +104,7 @@ const longvideoList = [1,2,3,4,5,6,7,8]
                     </span>
                   </div>
                   <div>
-                  <span className=" text-xl  h-9 w-9 p-1 rounded-full hover:bg-zinc-800 cursor-pointer flex items-center justify-center">
+                    <span className=" text-xl  h-9 w-9 p-1 rounded-full hover:bg-zinc-800 cursor-pointer flex items-center justify-center">
                       <RxCross1 className="text-xl text-zinc-300" />
                     </span>
                   </div>
@@ -112,7 +112,10 @@ const longvideoList = [1,2,3,4,5,6,7,8]
                 <div className="flex ">
                   {shortVideoList.map((video, index) => {
                     return (
-                      <div className="w-[12rem] h-[21rem]  p-2 hover:bg-zinc-700 rounded-xl transition duration-500 flex flex-col gap-2">
+                      <div
+                        key={index}
+                        className="w-[12rem] h-[21rem]  p-2 hover:bg-zinc-700 rounded-xl transition duration-500 flex flex-col gap-2"
+                      >
                         <div>
                           <img
                             src="youtubethembel.jpg"
