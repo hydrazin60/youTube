@@ -3,6 +3,8 @@ import { Input } from "../components/ui/input";
 import axios from "axios";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { setAuthUser } from "@/redux/userAuthSlice";
 
 export default function SignIn() {
   const [isPasswordWrong, setIsPasswordWrong] = useState(false); // State to track wrong password
@@ -18,6 +20,10 @@ export default function SignIn() {
   });
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user } = useSelector((state) => state.userAuth);
+ 
 
   const handleChange = (e) => {
     setSignUpFormData({ ...SignUpformData, [e.target.name]: e.target.value });
@@ -93,6 +99,9 @@ export default function SignIn() {
       );
       if (res.data.success) {
         setIsLogin(true);
+        dispatch(setAuthUser(res.data.userData));
+        console.log(res.data.userData);
+
         toast.success(res.data.message || "Login successful!", {
           position: "top-right",
           autoClose: 3000,

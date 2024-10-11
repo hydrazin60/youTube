@@ -6,8 +6,12 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { Button } from "./ui/button";
 import { CgProfile } from "react-icons/cg";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { MdOutlineVideoCall } from "react-icons/md";
+import { IoMdNotificationsOutline } from "react-icons/io";
 
 export default function Navbar() {
+  const { user } = useSelector((state) => state.userAuth);
   const navigate = useNavigate();
   return (
     <div className=" bg-zinc-950 w-screen h-12 fixed top-0 flex items-center">
@@ -38,17 +42,51 @@ export default function Navbar() {
             <IoSearch className="text-xl" />
           </span>
         </div>
-        <div className="flex flex-row items-center justify-between gap-6">
-          <span className="cursor-pointer flex items-center justify-center">
-            <BsThreeDotsVertical />
-          </span>
-          <span className="rounded-full">
-            <Button
-              className="h-7 rounded-full flex items-center justify-between gap-1 border border-zinc-500 px-3 hover:bg-slate-700"
-              onClick={() => navigate("/sign-in")}
-            >
-              <CgProfile className="text-xl" /> <p>Sign in</p>
-            </Button>
+        <div className="flex flex-row items-center justify-between gap-6 relative">
+          {user ? (
+            <>
+              <span className="rounded-full cursor-pointer  ">
+                <MdOutlineVideoCall className="text-xl text-white  cursor-pointer" />
+              </span>
+              <span className="rounded-full cursor-pointer ">
+                <IoMdNotificationsOutline className="text-xl  cursor-pointer  " />
+                <span className="bg-red-700 h-3 w-5 absolute bottom-4 right-10   rounded-full flex items-center justify-center text-[10px] font-semibold ">
+                  9+
+                </span>
+              </span>
+            </>
+          ) : (
+            <span className="cursor-pointer flex items-center justify-center">
+              <BsThreeDotsVertical />
+            </span>
+          )}
+          <span className="rounded-full cursor-pointer">
+            {user ? (
+              <div>
+                {user?.profilePic ? (
+                  <img
+                    src={user?.profilePicture}
+                    alt="profile"
+                    className="h-8 w-8 rounded-full"
+                  />
+                ) : (
+                  <div className=" h-6 w-6 p-2 rounded-full bg-blue-800 flex items-center justify-center">
+                    <p className="text-xs font-semibold text-blue-100">
+                      {user?.name[0] + user?.name[1]}
+                    </p>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <span className="rounded-full">
+                <Button
+                  className="h-7 rounded-full flex items-center justify-between gap-1 border border-zinc-500 px-2 hover:bg-slate-600"
+                  onClick={() => navigate("/sign-in")}
+                >
+                  <CgProfile className="text-xl" /> <p>Sign in</p>
+                </Button>
+              </span>
+            )}
           </span>
         </div>
       </div>

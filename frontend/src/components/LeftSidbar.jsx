@@ -20,11 +20,17 @@ import { CiTrophy } from "react-icons/ci";
 import { CgProfile } from "react-icons/cg";
 import { Button } from "./ui/button";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function LeftSidebar() {
+  const { user } = useSelector((state) => state.userAuth);
   const leftSidebariconsFirst = [
     { icon: <IoMdHome className="text-iconSize" />, title: "Home", id: 1 },
-    { icon: <SiYoutubeshorts className="text-iconSize" />, title: "Shorts", id: 2 },
+    {
+      icon: <SiYoutubeshorts className="text-iconSize" />,
+      title: "Shorts",
+      id: 2,
+    },
     {
       icon: <MdSubscriptions className="text-iconSize" />,
       title: "Subscriptions",
@@ -33,14 +39,22 @@ export default function LeftSidebar() {
   ];
 
   const leftSidebariconsSecond = [
-    { icon: <MdOndemandVideo className="text-iconSize" />, title: "You", id: 4 },
+    {
+      icon: <MdOndemandVideo className="text-iconSize" />,
+      title: "You",
+      id: 4,
+    },
     { icon: <LuHistory className="text-iconSize" />, title: "History", id: 5 },
   ];
 
   const leftSidebariconsThird = [
     { icon: <FaFireAlt className="text-iconSize" />, title: "Trending", id: 6 },
     { icon: <MdMusicNote className="text-iconSize" />, title: "Music", id: 7 },
-    { icon: <SiYoutubegaming className="text-iconSize" />, title: "Gaming", id: 8 },
+    {
+      icon: <SiYoutubegaming className="text-iconSize" />,
+      title: "Gaming",
+      id: 8,
+    },
     { icon: <CiTrophy className="text-iconSize" />, title: "Sports", id: 9 },
   ];
 
@@ -93,7 +107,7 @@ export default function LeftSidebar() {
           {leftSidebariconsFirst.map((item) => (
             <li
               key={item.id}
-              className="text-normal  w-[90%] text-gray-200 flex flex-row items-center gap-2 px-4 py-2 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal  w-[90%] text-gray-200 flex flex-row items-center gap-4 px-4 py-2 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>
@@ -106,7 +120,7 @@ export default function LeftSidebar() {
           {leftSidebariconsSecond.map((item) => (
             <li
               key={item.id}
-              className="text-normal w-[90%] text-gray-200 flex flex-row items-center gap-2 px-4 py-2 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal w-[90%] text-gray-200 flex flex-row items-center gap-4 px-4 py-2 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>
@@ -114,32 +128,36 @@ export default function LeftSidebar() {
         </ul>
       </div>
 
-      <div className="px-4 border-b border-gray-600 py-3 flex flex-col gap-3">
-        <span className="text-normal">
-          <p>
-            Sign in to like videos,
-            <br /> comment, and subscribe.
-          </p>
-        </span>
+      {user ? (
+        ""
+      ) : (
+        <div className="px-4 border-b border-gray-600 py-3 flex flex-col gap-1">
+          <span className="text-normal">
+            <p>
+              Sign in to like videos,
+              <br /> comment, and subscribe.
+            </p>
+          </span>
 
-        <span className="rounded-full">
-          <Button
-            className="h-6 py-3 rounded-full flex items-center justify-between gap-1 border border-zinc-500 px-3 hover:bg-slate-700"
-            onClick={() => navigate("sign-in")}
-          >
-            <CgProfile className="text-lg  text-blue-600" />
-            <p className="text-xs text-blue-600">Sign in</p>
-          </Button>
-        </span>
-      </div>
+          <span className="rounded-full">
+            <Button
+              className="h-6 py-3 rounded-full flex items-center justify-between gap-2 border border-zinc-500 px-3 hover:bg-slate-700"
+              onClick={() => navigate("sign-in")}
+            >
+              <CgProfile className="text-lg  text-blue-600" />
+              <p className="text-xs text-blue-600">Sign in</p>
+            </Button>
+          </span>
+        </div>
+      )}
 
       <div className="px-4 border-b border-gray-600 py-3">
-        <p className="pl-3 text-lg text-gray-200">Explore</p>
+        <p className="pl-3 text-md font-semibold text-gray-200">Explore</p>
         <ul>
           {leftSidebariconsThird.map((item) => (
             <li
               key={item.id}
-              className="text-normal text-gray-200 flex flex-row items-center gap-2 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal text-gray-200 flex gap-4 flex-row items-center  py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>
@@ -148,12 +166,14 @@ export default function LeftSidebar() {
       </div>
 
       <div className="px-4 border-b border-gray-600 py-3">
-        <p className="pl-3 text-lg text-gray-200">More from YouTube</p>
+        <p className="pl-3 text-md font-semibold text-gray-200">
+          More from YouTube
+        </p>
         <ul>
           {leftSidebariconsFourth.map((item) => (
             <li
               key={item.id}
-              className="text-normal text-gray-200 flex flex-row items-center gap-2 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal text-gray-200 flex flex-row items-center gap-4 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>
@@ -166,7 +186,7 @@ export default function LeftSidebar() {
           {LeftSidbarIconsFive.map((item) => (
             <li
               key={item.id}
-              className="text-normal text-gray-200 flex flex-row items-center gap-2 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
+              className="text-normal text-gray-200 flex flex-row items-center gap-4 py-2 px-4 hover:bg-zinc-800 hover:rounded-xl cursor-pointer"
             >
               {item.icon} {item.title}
             </li>
@@ -176,12 +196,12 @@ export default function LeftSidebar() {
 
       <div className="px-4 border-b border-gray-600 py-3 flex flex-col text-start gap-4 ">
         <span>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-400 font-semibold">
             AboutPressCopyrightContact usCreatorsAdvertiseDevelopers
           </p>
         </span>
         <span>
-          <p className="text-xs text-gray-400">
+          <p className="text-xs text-gray-400 ">
             TermsPrivacyPolicy & SafetyHow YouTube worksTest new features
           </p>
         </span>
