@@ -10,12 +10,14 @@ import { useSelector } from "react-redux";
 import { MdOutlineVideoCall } from "react-icons/md";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import ProfileOpen from "./dialogBox/ProfileOpen";
+import CreateChannel from "./dialogBox/CreateChannel";
+import SignupDialog from "./dialogBox/SignupDialog";
 
 export default function Navbar() {
   const { user } = useSelector((state) => state.userAuth);
   const navigate = useNavigate();
   const [OpenProfileDialog, setOpenProfileDialog] = React.useState(false);
-
+  const [OpenCreateChannel, setOpenCreateChannel] = React.useState(false);
   return (
     <div>
       <div className=" bg-zinc-950 w-screen h-12 fixed top-0 flex items-center pr-4">
@@ -49,7 +51,10 @@ export default function Navbar() {
           <div className="flex flex-row items-center justify-between gap-6 relative ">
             {user ? (
               <>
-                <span className="rounded-full cursor-pointer  ">
+                <span
+                  className="rounded-full cursor-pointer"
+                  onClick={() => setOpenCreateChannel(!OpenCreateChannel)}
+                >
                   <MdOutlineVideoCall className="text-xl text-white  cursor-pointer" />
                 </span>
                 <span className="rounded-full cursor-pointer ">
@@ -68,7 +73,9 @@ export default function Navbar() {
               {user ? (
                 <div className="relative">
                   {user?.profilePic ? (
-                    <div onClick={() => setOpenProfileDialog(!OpenProfileDialog)}>
+                    <div
+                      onClick={() => setOpenProfileDialog(!OpenProfileDialog)}
+                    >
                       <img
                         src={user?.profilePicture}
                         alt="profile"
@@ -89,6 +96,12 @@ export default function Navbar() {
                     <ProfileOpen
                       open={OpenProfileDialog}
                       setOpen={setOpenProfileDialog}
+                    />
+                  </span>
+                  <span className="z-10 absolute -right-7">
+                    <CreateChannel
+                      open={OpenCreateChannel}
+                      setOpen={setOpenCreateChannel}
                     />
                   </span>
                 </div>
