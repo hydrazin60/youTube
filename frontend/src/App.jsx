@@ -1,9 +1,9 @@
 import React from "react";
-import { Button } from "./components/ui/button";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./page/Home";
 import SignIn from "./page/SignIn";
+import YoutubeStudioPage from "./page/YoutubeStudioPage";
 
 export default function App() {
   return (
@@ -14,6 +14,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/sign-in" element={<SignIn />} />
+            <Route path="/youtube-studio/:id" element={<YoutubeStudioPage />} />
           </Routes>
         </div>
       </BrowserRouter>

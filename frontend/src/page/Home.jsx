@@ -9,29 +9,6 @@ import { SiYoutubeshorts } from "react-icons/si";
 import { useSelector } from "react-redux";
 export default function Home() {
   const { user } = useSelector((state) => state.userAuth);
-  const youtubeTag = [
-    { id: 1, tag: "Trending" },
-    { id: 2, tag: "Music" },
-    { id: 3, tag: "Gaming" },
-    { id: 4, tag: "News" },
-    { id: 5, tag: "Live" },
-    { id: 6, tag: "Sports" },
-    { id: 7, tag: "Learning" },
-    { id: 8, tag: "Movies" },
-    { id: 9, tag: "Fashion" },
-    { id: 10, tag: "Travel" },
-    { id: 11, tag: "Technology" },
-    { id: 12, tag: "Comedy" },
-    { id: 13, tag: "Entertainment" },
-    { id: 14, tag: "How-to" },
-    { id: 15, tag: "Science" },
-    { id: 16, tag: "Food" },
-    { id: 17, tag: "Health" },
-    { id: 18, tag: "Lifestyle" },
-    { id: 19, tag: "DIY" },
-    { id: 20, tag: "Vlogs" },
-    { id: 21, tag: "Podcasts" },
-  ];
 
   const shortVideoList = [1, 2, 3, 4, 5, 6];
   const longvideoList = [1, 2, 3, 4, 5, 6, 7, 8];
@@ -45,20 +22,6 @@ export default function Home() {
         <div className="w-[85%] h-full">
           {user ? (
             <main className="w-full h-full overflow-y-scroll pb-20 ">
-              <div className="h-9 overflow-x-auto hide-scrollbar whitespace-nowrap flex items-center">
-                {youtubeTag.map((tag) => {
-                  return (
-                    <span
-                      key={tag.id}
-                      className="text-white font-semibold text-normal px-2 py-2"
-                    >
-                      <p className="h-6 bg-zinc-800 px-4 text-normal rounded-normal hover:bg-zinc-700 cursor-pointer flex items-center">
-                        {tag.tag}
-                      </p>
-                    </span>
-                  );
-                })}
-              </div>
               <div className="flex flex-wrap gap-3 p-1">
                 {longvideoList.map((video, index) => {
                   return (

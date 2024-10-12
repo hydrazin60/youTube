@@ -101,7 +101,7 @@ export default function LeftSidebar() {
   const navigate = useNavigate(); // Corrected the hook usage
 
   return (
-    <div className="left-sidebar h-screen overflow-y-auto pb-10 ">
+    <div className="left-sidebar h-screen overflow-y-auto pb-10 z-10 ">
       <div className="pl-2 border-b border-gray-600 py-3">
         <ul>
           {leftSidebariconsFirst.map((item) => (

@@ -5,7 +5,7 @@ export default function UploadVideo() {
   return (
     <Dialog>
       <DialogTrigger className="text-xs">Upload Video</DialogTrigger>
-      <DialogContent >
+      <DialogContent className="w-[100%] h-[60%]">
         <div>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis
           aut quisquam, eligendi harum dolor, sequi totam, perferendis nobis
