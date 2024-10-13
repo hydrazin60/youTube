@@ -49,20 +49,21 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(express.json({ limit: '200mb' }));
+app.use(express.urlencoded({ limit: '200mb', extended: true }));
 
-// Correctly configure CORS
 app.use(
   cors({
-    origin: "http://localhost:5173", // Frontend origin
-    credentials: true, // Allow credentials like cookies, authorization headers
+    origin: "http://localhost:5173",
+    credentials: true, //
   })
 );
 
 app.use("/youtube/api/v1/user", userRoutes);
-app.use("/youtube_studio/api/v1/post" , postRoutes)
+app.use("/youtube_studio/api/v1/post", postRoutes);
 
 app.listen(PORT, () => {
   try {

@@ -116,7 +116,9 @@ export const RegisterUser = async (req, res) => {
       userData,
     });
   } catch (error) {
-    console.log(`Something went wrong while registering the user: ${error.message}`);
+    console.log(
+      `Something went wrong while registering the user: ${error.message}`
+    );
     return res.status(500).json({
       success: false,
       message: `Something went wrong on Register User! Error: ${error.message}`,
@@ -151,7 +153,6 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({
         success: false,
         message: "incorrect password!! please try again",
-        
       });
     }
 
@@ -368,6 +369,10 @@ export const ViewOwnChannel = async (req, res) => {
       });
     }
     const channel = await Channel.findById(channelId);
+    await channel.populate({
+      path: "authorId",
+      select: "name profilePic",
+    });
     return res.status(200).json({
       success: true,
       channel,

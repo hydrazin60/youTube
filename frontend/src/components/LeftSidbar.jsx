@@ -98,7 +98,7 @@ export default function LeftSidebar() {
       id: 16,
     },
   ];
-  const navigate = useNavigate(); // Corrected the hook usage
+  const navigate = useNavigate();  
 
   return (
     <div className="left-sidebar h-screen overflow-y-auto pb-10 z-10 ">

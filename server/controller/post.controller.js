@@ -11,7 +11,7 @@ export const UploadLongVideo = async (req, res) => {
     const authorId = req.id;
     const { title, description, visibility } = req.body;
     const LongVideoFile = req.files?.LongVideo?.[0];
-
+    
     if (!LongVideoFile) {
       return res.status(400).json({
         success: false,
@@ -37,7 +37,7 @@ export const UploadLongVideo = async (req, res) => {
     }
 
     const fileUri = getDataUri(LongVideoFile);
-
+// populate
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
       resource_type: "video",
       folder: "long_videos",

@@ -122,7 +122,7 @@ export default function YoutubeStudioPage() {
           <div className="flex flex-col h-full  ">
             {YourChannelcontrollerIconsList.map((item) => {
               return (
-                <>
+                <div key={item.id}>
                   <div
                     key={item.id}
                     className="flex items-center gap-4 p-3 hover:bg-black rounded-md pl-4"
@@ -137,7 +137,7 @@ export default function YoutubeStudioPage() {
                   {item.id === 8 ? (
                     <div className="h-[1px] w-full bg-zinc-600 my-1"></div>
                   ) : null}
-                </>
+                </div>
               );
             })}
           </div>
