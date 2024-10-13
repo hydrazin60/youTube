@@ -16,6 +16,7 @@ import { LiaFileAudio } from "react-icons/lia";
 import { IoSettingsOutline } from "react-icons/io5";
 import { BiCommentError } from "react-icons/bi";
 import { icons } from "lucide-react";
+import { TbLockOpenOff } from "react-icons/tb";
 
 export default function YoutubeStudioPage() {
   const contentList = [
@@ -108,8 +109,8 @@ export default function YoutubeStudioPage() {
           <div className="px-12">
             <span>
               <img
-                src="https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/292694884_729606568152974_711651807545817504_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=kZulNBXicMcQ7kNvgHvAYuW&_nc_ht=scontent.fktm21-1.fna&_nc_gid=ATlu7BHpCIHLCeTNkYFrL9H&oh=00_AYC0s7ucvGbiKxPfP0uDe871f2ZhrPIpXoLtS_r5PuetFg&oe=67101964"
-                alt=""
+                src="https://scontent.fktm21-1.fna.fbcdn.net/v/t1.6435-9/124430192_112731063979533_9176685090302778504_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=86c6b0&_nc_ohc=oMkvQ9jWRHkQ7kNvgG8aBb3&_nc_ht=scontent.fktm21-1.fna&_nc_gid=AkyAlgsuFR2lgqGiTX9X-Dv&oh=00_AYCkn_4iP_KX1-bbpyvmk-PzwlSjO7Nqji5SEUg2oYyovg&oe=6731FC1B"
+                alt="logo"
                 className="w-24 h-24 rounded-full"
               />
             </span>
@@ -202,7 +203,7 @@ export default function YoutubeStudioPage() {
                       <div className="pl-8 flex flex-row gap-2 ">
                         <span>
                           <img
-                            src="https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/292694884_729606568152974_711651807545817504_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=kZulNBXicMcQ7kNvgHvAYuW&_nc_ht=scontent.fktm21-1.fna&_nc_gid=ATlu7BHpCIHLCeTNkYFrL9H&oh=00_AYC0s7ucvGbiKxPfP0uDe871f2ZhrPIpXoLtS_r5PuetFg&oe=67101964"
+                            src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Nature-Wallpaper.jpg"
                             alt="image"
                             className=" w-28 h-16 rounded-md object-cover object-center overflow-hidden"
                           />
@@ -219,9 +220,10 @@ export default function YoutubeStudioPage() {
                     </th>
                     <th className="px-4 py-2">
                       <div className="flex flex-row gap-2 items-center ">
-                        <MdOutlineLock className="text-sm text-white" />
+                        {/* <MdOutlineLock className="text-sm text-white" /> */}
+                        <TbLockOpenOff className="text-sm text-white" />
                         <p className=" text-[.7rem] text-white  font-normal">
-                          Private
+                          Public
                         </p>
                       </div>
                     </th>
@@ -235,7 +237,7 @@ export default function YoutubeStudioPage() {
                     <th className="px-2 py-2">
                       <div className="flex flex-col  items-center">
                         <p className=" text-[.7rem] text-white  font-normal">
-                          Jan 1, 2022
+                          october 12, 2024
                         </p>
                         <p className="text-[0.6rem] text-zinc-400  font-normal">
                           Uploaded
@@ -245,21 +247,21 @@ export default function YoutubeStudioPage() {
                     <th className="px-5 py-2">
                       <div>
                         <p className=" text-[.7rem] text-white  font-normal">
-                          100k
+                          10
                         </p>
                       </div>
                     </th>
                     <th className="px-8 py-2">
                       <div>
                         <p className=" text-[.7rem] text-white  font-normal">
-                          10k
+                          6
                         </p>
                       </div>
                     </th>
                     <th className=" py-2">
                       <div className="flex flex-col items-center">
                         <p className="text-[.7rem] text-white  font-normal">
-                          100k
+                          10
                         </p>
                         <p className="text-[0.6rem] text-zinc-400  font-normal">
                           Likes

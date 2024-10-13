@@ -4,6 +4,7 @@ import { HiOutlineSignal } from "react-icons/hi2";
 import { TfiWrite } from "react-icons/tfi";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import UploadVideo from "./UploadVideo";
 
 export default function CreateChannel({ open, setOpen }) {
   const { user } = useSelector((state) => state.userAuth);
@@ -24,7 +25,7 @@ export default function CreateChannel({ open, setOpen }) {
             <CiYoutube />
           </span>
           <span className="text-sm">
-            <p>Upload Video</p>
+         <UploadVideo/>
           </span>
         </div>
         <div className="flex flex-row items-center gap-3 hover:bg-zinc-700 w-full py-1 px-3">
