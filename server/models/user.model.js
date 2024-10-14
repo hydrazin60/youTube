@@ -32,13 +32,13 @@ const userSchema = new mongoose.Schema(
     LongVideoHistory: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "LongVideo",
+        ref: "LongVideoModel",
       },
     ],
     ShortVideoHistory: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "ShortVideo",
+        ref: "ShortVideoModel",
       },
     ],
     playlist: [
@@ -50,11 +50,11 @@ const userSchema = new mongoose.Schema(
     likesVideo: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "LongVideo",
+        ref: "LongVideoModel",
       },
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "ShortVideo",
+        ref: "ShortVideoModel",
       },
     ],
     subscribedChannels: [

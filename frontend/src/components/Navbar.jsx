@@ -103,9 +103,9 @@ export default function Navbar() {
                       onClick={() => setOpenProfileDialog(!OpenProfileDialog)}
                     >
                       <img
-                        src={user?.profilePicture}
+                        src={user?.profilePic}
                         alt="profile"
-                        className="h-8 w-8 rounded-full"
+                        className="h-8 w-8 rounded-full object-cover overflow-hidden cursor-pointer "
                       />
                     </div>
                   ) : (

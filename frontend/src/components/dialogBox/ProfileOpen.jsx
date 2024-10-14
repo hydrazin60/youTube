@@ -130,6 +130,8 @@ export default function ProfileOpen({ open, setOpen }) {
     }
   };
 
+  
+
   return (
     <main
       className={`w-[19vw] h-[92vh] bg-zinc-800 z-10 rounded-xl overflow-hidden  ${
@@ -140,11 +142,19 @@ export default function ProfileOpen({ open, setOpen }) {
         <div>
           <div className="flex flex-row gap-4 p-3 overflow-hidden  ">
             <span>
-              <img
-                src="https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/292694884_729606568152974_711651807545817504_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=kZulNBXicMcQ7kNvgHipWqO&_nc_ht=scontent.fktm21-1.fna&_nc_gid=ADpt8Q7zHwALNIMNkhdgqfQ&oh=00_AYBKtUlhQ-VeGJCnWcE1P2yiDSSVlM1GDbR_DCXYViCs9A&oe=670E8FA4"
-                alt="profile"
-                className="h-9 w-9 rounded-full"
-              />
+              {user.profilePic ? (
+                <img
+                  src={user.profilePic}
+                  alt="profile"
+                  className="h-9 w-9 rounded-full object-cover overflow-hidden"
+                />
+              ) : (
+                <div className="h-9 w-9  rounded-full bg-blue-800 flex items-center justify-center">
+                  <p className="text-[1.1rem] font-semibold text-blue-200">
+                    {user.name[0] + user.name[1]}
+                  </p>
+                </div>
+              )}
             </span>
             <span>
               <p className="text-zinc-200 text-normal font-semibold ">

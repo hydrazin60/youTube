@@ -29,13 +29,13 @@ const channelSchema = new mongoose.Schema(
     LongVideoId: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "LongVideo",
+        ref: "LongVideoModel",
       },
     ],
     ShortVideoId: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "ShortVideo",
+        ref: "ShortVideoModel",
       },
     ],
     subscribers: [

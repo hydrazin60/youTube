@@ -316,22 +316,98 @@ export const UpdateChannelDetails = async (req, res) => {
   }
 };
 
+// export const otherChannelView = async (req, res) => {
+//   try {
+//     const channelId = req.params.id;
+//     if (channelId.length !== 24) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalide credentials",
+//       });
+//     }
+//     const channel = await Channel.findById(channelId);
+//     if (!channel) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Channel not found",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       success: true,
+//       channel,
+//     });
+//   } catch (error) {
+//     console.log(`Error during View Channel is : ${error.message}`);
+//     return res.status(500).json({
+//       success: false,
+//       message: `Error during View Channel is : ${error.message}`,
+//     });
+//   }
+// };
+
+// export const otherChannelView = async (req, res) => {
+//   try {
+//     const channelId = req.params.id;
+//     if (channelId.length !== 24) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Invalid credentials",
+//       });
+//     }
+
+//     const channel = await Channel.findById(channelId);
+
+//     if (!channel) {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Channel not found",
+//       });
+//     }
+//     await channel.populate({
+//       path: "LongVideoId",
+//       select: "title LongVideo",
+//     });
+//     return res.status(200).json({
+//       success: true,
+//       channel,
+//     });
+//   } catch (error) {
+//     console.log(`Error during View Channel is : ${error.message}`);
+//     return res.status(500).json({
+//       success: false,
+//       message: `Error during View Channel is : ${error.message}`,
+//     });
+//   }
+// };
+
 export const otherChannelView = async (req, res) => {
   try {
     const channelId = req.params.id;
     if (channelId.length !== 24) {
       return res.status(400).json({
         success: false,
-        message: "Invalide credentials",
+        message: "Invalid credentials",
       });
     }
-    const channel = await Channel.findById(channelId);
+
+    const channel = await Channel.findById(channelId)
+      .populate({
+        path: "LongVideoId",
+        select: "title LongVideo", // Adjust this as needed
+      })
+      .populate({
+        path: "ShortVideoId",
+        select: "title ShortVideo", // Adjust this as needed
+      });
+
     if (!channel) {
       return res.status(400).json({
         success: false,
         message: "Channel not found",
       });
     }
+
     return res.status(200).json({
       success: true,
       channel,
@@ -370,8 +446,12 @@ export const ViewOwnChannel = async (req, res) => {
     }
     const channel = await Channel.findById(channelId);
     await channel.populate({
-      path: "authorId",
-      select: "name profilePic",
+      path: "LongVideoId",
+      select: "title LongVideo",
+    });
+    await channel.populate({
+      path: "ShortVideoId",
+      select: "title ShortVideo",
     });
     return res.status(200).json({
       success: true,
