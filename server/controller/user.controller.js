@@ -447,11 +447,11 @@ export const ViewOwnChannel = async (req, res) => {
     const channel = await Channel.findById(channelId);
     await channel.populate({
       path: "LongVideoId",
-      select: "title LongVideo",
+      select: "title LongVideo description likes visibility comments ",
     });
     await channel.populate({
       path: "ShortVideoId",
-      select: "title ShortVideo",
+      select: "title ShortVideo description likes visibility comments ",
     });
     return res.status(200).json({
       success: true,

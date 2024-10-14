@@ -1,5 +1,5 @@
 import { Input } from "@/components/ui/input";
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoFilterSharp } from "react-icons/io5";
 import { FaArrowDown } from "react-icons/fa";
@@ -17,6 +17,8 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { BiCommentError } from "react-icons/bi";
 import { icons } from "lucide-react";
 import { TbLockOpenOff } from "react-icons/tb";
+import axios from "axios";
+import { toast } from "sonner";
 
 export default function YoutubeStudioPage() {
   const contentList = [
@@ -102,8 +104,63 @@ export default function YoutubeStudioPage() {
     },
   ];
   const { id } = useParams();
+  const [ownChannelData, setOwnChannelData] = React.useState([]);
+  const [loading, setLoding] = React.useState(true);
+  const [error, setError] = React.useState(null);
+
+  // useEffect(() => {
+  //   const fetchOwnChannelData = async () => {
+  //     try {
+  //       const res = await axios.get(
+  //         "http://localhost:4000/youtube/api/v1/user/view/Yourchannel",
+  //         {
+  //           withCredentials: true,
+  //         }
+  //       );
+  //       if (res.data.success) {
+  //         setOwnChannelData(res.data.data);
+  //         console.log(res.data.data);
+  //       } else {
+  //         console.log(ownChannelData);
+  //         toast.error(res.data.message);
+  //       }
+  //     } catch (err) {
+  //       console.log(err.message);
+  //     }
+  //   };
+  //   fetchOwnChannelData();
+  // }, []);
+
+  useEffect(() => {
+    const fetchOwnChannelData = async () => {
+      try {
+        setLoding(true);
+        const res = await axios.get(
+          "http://localhost:4000/youtube/api/v1/user/view/Yourchannel",
+          {
+            withCredentials: true,
+          }
+        );
+
+        if (res.data.success) {
+          setOwnChannelData(res.data.channel);
+          console.log(ownChannelData);
+        } else {
+          toast.error(res.data.message);
+        }
+      } catch (err) {
+        console.log("Error fetching channel data:", err.message);
+      } finally {
+        setLoding(false);
+      }
+    };
+    fetchOwnChannelData();
+  }, []);
+  if (loading) return <p>Loading...</p>;
+  if (!ownChannelData) return <p>No channel data available</p>;
+
   return (
-    <main className="h-screen w-screen bg-zinc-800  mt-auto">
+    <main className="h-screen w-screen bg-zinc-800  mt-auto pb-10">
       <div className="h-full w-full flex">
         <div className="h-full w-[16%] py-4 bg-zinc-800  border-r border-zinc-600 flex justify-center flex-col gap-2">
           <div className="px-12">
@@ -115,8 +172,10 @@ export default function YoutubeStudioPage() {
               />
             </span>
             <span className=" flex items-center flex-col ">
-              <p className=" font-semibold">Your channel</p>
-              <p className="text-sm text-zinc-400">+2Helper</p>
+              <p className=" font-semibold">Your Channel</p>
+              <p className="text-sm text-zinc-400">
+                {ownChannelData?.channelName}
+              </p>
             </span>
           </div>
           <div className="flex flex-col h-full  ">
@@ -142,7 +201,7 @@ export default function YoutubeStudioPage() {
             })}
           </div>
         </div>
-        <div className="h-full w-[85%] bg-zinc-800 flex flex-col">
+        <div className="h-full w-[85%] bg-zinc-800 flex flex-col overflow-y-scroll">
           <div className="h-[14%] w-full border-b border-zinc-600 flex flex-col gap-5 p-4">
             <div>
               <h1 className="text-xl font-semibold"> Channel content</h1>
@@ -197,78 +256,71 @@ export default function YoutubeStudioPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="border-b border-zinc-600 hover:bg-black">
-                  <tr>
-                    <th className="text-xs  text-zinc-400 font-medium px-7 py-2 ">
-                      <div className="pl-8 flex flex-row gap-2 ">
-                        <span>
-                          <img
-                            src="https://www.pixelstalk.net/wp-content/uploads/2016/06/Nature-Wallpaper.jpg"
-                            alt="image"
-                            className=" w-28 h-16 rounded-md object-cover object-center overflow-hidden"
-                          />
-                        </span>
-                        <span className="flex flex-col">
-                          <p className="text-xs text-white">
-                            my first youtube video
-                          </p>
-                          <p className="text-[10px] text-zinc-400">
-                            hello world description
-                          </p>
-                        </span>
-                      </div>
-                    </th>
-                    <th className="px-4 py-2">
-                      <div className="flex flex-row gap-2 items-center ">
-                        {/* <MdOutlineLock className="text-sm text-white" /> */}
-                        <TbLockOpenOff className="text-sm text-white" />
-                        <p className=" text-[.7rem] text-white  font-normal">
-                          Public
+                <tbody className="border-b border-zinc-600 ">
+                  {ownChannelData.LongVideoId.map((video) => (
+                    <tr key={video._id} className="hover:bg-black">
+                      <th className="text-xs text-zinc-400 font-medium px-7 py-2">
+                        <div className="pl-8 flex flex-row gap-2">
+                          <span>
+                            <video
+                              width="150"
+                              height="80"
+                              controls
+                              className="rounded-lg object-contain overflow-hidden"
+                            >
+                              <source src={video.LongVideo} type="video/mp4" />
+                            </video>
+                          </span>
+                          <span className="flex flex-col">
+                            <p className="text-xs text-white">{video.title}</p>
+                            <p className="text-[10px] text-zinc-400">
+                              {video.description}
+                            </p>
+                          </span>
+                        </div>
+                      </th>
+                      <th className="px-4 py-2">
+                        <div className="flex items-center">
+                          <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+                            {video.visibility}
+                          </span>
+                        </div>
+                      </th>
+                      <th className="px-4 py-2">
+                        <div className="flex items-center">
+                          {video.restrictions ? (
+                            <span className="bg-red-600 px-3 rounded-md text-white text-[0.7rem]">
+                              {video.restrictions}
+                            </span>
+                          ) : (
+                            <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+                              No Restrictions
+                            </span>
+                          )}
+                        </div>
+                      </th>
+                      <th className="px-4 py-2">
+                        <p className="text-zinc-400 text-[0.7rem]">
+                          {video.date}
                         </p>
-                      </div>
-                    </th>
-                    <th className="px-4 py-2">
-                      <div>
-                        <p className=" text-[.7rem] font-normal text-white">
-                          Made for Kids
+                      </th>
+                      <th className="px-4 py-2">
+                        <p className="text-zinc-400 text-[0.7rem]">
+                          {video.views}
                         </p>
-                      </div>
-                    </th>
-                    <th className="px-2 py-2">
-                      <div className="flex flex-col  items-center">
-                        <p className=" text-[.7rem] text-white  font-normal">
-                          october 12, 2024
+                      </th>
+                      <th className="px-4 py-2">
+                        <p className="text-zinc-400 text-[0.7rem]">
+                          {video.comments}
                         </p>
-                        <p className="text-[0.6rem] text-zinc-400  font-normal">
-                          Uploaded
+                      </th>
+                      <th className="px-4 py-2">
+                        <p className="text-zinc-400 text-[0.7rem]">
+                          {video.likes} (vs {video.dislikes})
                         </p>
-                      </div>
-                    </th>
-                    <th className="px-5 py-2">
-                      <div>
-                        <p className=" text-[.7rem] text-white  font-normal">
-                          10
-                        </p>
-                      </div>
-                    </th>
-                    <th className="px-8 py-2">
-                      <div>
-                        <p className=" text-[.7rem] text-white  font-normal">
-                          6
-                        </p>
-                      </div>
-                    </th>
-                    <th className=" py-2">
-                      <div className="flex flex-col items-center">
-                        <p className="text-[.7rem] text-white  font-normal">
-                          10
-                        </p>
-                        <p className="text-[0.6rem] text-zinc-400  font-normal">
-                          Likes
-                        </p>
-                      </div>
-                    </th>
-                  </tr>
+                      </th>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
@@ -278,3 +330,88 @@ export default function YoutubeStudioPage() {
     </main>
   );
 }
+
+// /*<tr>
+//                     <th className="text-xs  text-zinc-400 font-medium px-7 py-2 ">
+//                       <div className="pl-8 flex flex-row gap-2 ">
+//                         <span>
+//                           <div className="flex flex-col gap-4 mt-4">
+//                             {ownChannelData.LongVideoId.map((video, index) => (
+//                               <video
+//                                 key={index}
+//                                 width="150"
+//                                 height="80"
+//                                 controls
+//                                 className="rounded-lg object-contain  overflow-hidden"
+//                               >
+//                                 <source
+//                                   src={video.LongVideo}
+//                                   type="video/mp4"
+//                                 />
+//                               </video>
+//                             ))}
+//                           </div>
+//                         </span>
+//                         <span className="flex flex-col">
+//                           <p className="text-xs text-white">
+//                             {ownChannelData.LongVideoId.map((video, index) => (
+//                               <p key={index}>{video.title}</p>
+//                             ))}
+//                           </p>
+//                           <p className="text-[10px] text-zinc-400">
+//                             heare description
+//                           </p>
+//                         </span>
+//                       </div>
+//                     </th>
+//                     <th className="px-4 py-2">
+//                       <div className="flex flex-row gap-2 items-center ">
+//                         {/* <MdOutlineLock className="text-sm text-white" /> */}
+//                         <TbLockOpenOff className="text-sm text-white" />
+//                         <p className=" text-[.7rem] text-white  font-normal">
+//                           Public
+//                         </p>
+//                       </div>
+//                     </th>
+//                     <th className="px-4 py-2">
+//                       <div>
+//                         <p className=" text-[.7rem] font-normal text-white">
+//                           Made for Kids
+//                         </p>
+//                       </div>
+//                     </th>
+//                     <th className="px-2 py-2">
+//                       <div className="flex flex-col  items-center">
+//                         <p className=" text-[.7rem] text-white  font-normal">
+//                           october 12, 2024
+//                         </p>
+//                         <p className="text-[0.6rem] text-zinc-400  font-normal">
+//                           Uploaded
+//                         </p>
+//                       </div>
+//                     </th>
+//                     <th className="px-5 py-2">
+//                       <div>
+//                         <p className=" text-[.7rem] text-white  font-normal">
+//                           10
+//                         </p>
+//                       </div>
+//                     </th>
+//                     <th className="px-8 py-2">
+//                       <div>
+//                         <p className=" text-[.7rem] text-white  font-normal">
+//                           6
+//                         </p>
+//                       </div>
+//                     </th>
+//                     <th className=" py-2">
+//                       <div className="flex flex-col items-center">
+//                         <p className="text-[.7rem] text-white  font-normal">
+//                           10
+//                         </p>
+//                         <p className="text-[0.6rem] text-zinc-400  font-normal">
+//                           Likes
+//                         </p>
+//                       </div>
+//                     </th>
+//                   </tr>*/
