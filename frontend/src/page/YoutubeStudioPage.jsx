@@ -107,6 +107,14 @@ export default function YoutubeStudioPage() {
   const [ownChannelData, setOwnChannelData] = React.useState([]);
   const [loading, setLoding] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const [video, setVideo] = React.useState(true);
+  const [ChoseContentList, setChoseContentList] = React.useState(1);
+  const [ChoseContentListName, setChoseContentListName] =
+    React.useState("Videos");
+  const HandlechosContentList = (id, name) => {
+    setChoseContentList(id);
+    setChoseContentListName(name);
+  };
 
   // useEffect(() => {
   //   const fetchOwnChannelData = async () => {
@@ -156,6 +164,7 @@ export default function YoutubeStudioPage() {
     };
     fetchOwnChannelData();
   }, []);
+
   if (loading) return <p>Loading...</p>;
   if (!ownChannelData) return <p>No channel data available</p>;
 
@@ -213,8 +222,22 @@ export default function YoutubeStudioPage() {
                     className="flex flex-row items-center gap-2 cursor-pointer w-full "
                     key={item.id}
                   >
-                    <span className="text-[0.8rem] font-semibold hover:border-b-2 hover:border-zinc-500 text-zinc-400">
-                      {item.name}
+                    <span
+                      className={`text-[0.8rem] font-semibold hover:border-b-2 hover:border-zinc-500 text-zinc-400 ${
+                        ChoseContentList === item.id &&
+                        "border-b-2 border-white"
+                      }`}
+                    >
+                      <button
+                        onClick={() =>
+                          HandlechosContentList(item.id, item.name)
+                        }
+                        className={`${
+                          ChoseContentList === item.id && "text-white"
+                        }`}
+                      >
+                        {item.name}
+                      </button>
                     </span>
                   </div>
                 );
@@ -228,7 +251,7 @@ export default function YoutubeStudioPage() {
             </span>
             <Input className="bg-zinc-800 border-none" />
           </div>
-          <div>
+          <>
             <div className="overflow-x-auto ">
               <table className="table-auto w-full text-left text-sm text-gray-500 overflow-x-scroll ">
                 <thead className="border-b border-zinc-600">
@@ -256,162 +279,391 @@ export default function YoutubeStudioPage() {
                     </th>
                   </tr>
                 </thead>
-                <tbody className="border-b border-zinc-600 ">
-                  {ownChannelData.LongVideoId.map((video) => (
-                    <tr key={video._id} className="hover:bg-black">
-                      <th className="text-xs text-zinc-400 font-medium px-7 py-2">
-                        <div className="pl-8 flex flex-row gap-2">
-                          <span>
-                            <video
-                              width="150"
-                              height="80"
-                              controls
-                              className="rounded-lg object-contain overflow-hidden"
-                            >
-                              <source src={video.LongVideo} type="video/mp4" />
-                            </video>
-                          </span>
-                          <span className="flex flex-col">
-                            <p className="text-xs text-white">{video.title}</p>
-                            <p className="text-[10px] text-zinc-400">
-                              {video.description}
-                            </p>
-                          </span>
-                        </div>
-                      </th>
-                      <th className="px-4 py-2">
-                        <div className="flex items-center">
-                          <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
-                            {video.visibility}
-                          </span>
-                        </div>
-                      </th>
-                      <th className="px-4 py-2">
-                        <div className="flex items-center">
-                          {video.restrictions ? (
-                            <span className="bg-red-600 px-3 rounded-md text-white text-[0.7rem]">
-                              {video.restrictions}
+                {ChoseContentList === 1 ? (
+                  <tbody className="border-b border-zinc-600 ">
+                    {ownChannelData.LongVideoId.map((video) => (
+                      <tr key={video._id} className="hover:bg-black">
+                        <th className="text-xs text-zinc-400 font-medium px-7 py-2">
+                          <div className="pl-8 flex flex-row gap-2">
+                            <span>
+                              <video
+                                width="150"
+                                height="80"
+                                controls
+                                className="rounded-lg object-contain overflow-hidden"
+                              >
+                                <source
+                                  src={video.LongVideo}
+                                  type="video/mp4"
+                                />
+                              </video>
                             </span>
-                          ) : (
+                            <span className="flex flex-col">
+                              <p className="text-xs text-white">
+                                {video.title}
+                              </p>
+                              <p className="text-[10px] text-zinc-400">
+                                {video.description}
+                              </p>
+                            </span>
+                          </div>
+                        </th>
+                        <th className="px-4 py-2">
+                          <div className="flex items-center">
                             <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
-                              No Restrictions
+                              {video.visibility}
                             </span>
-                          )}
-                        </div>
-                      </th>
-                      <th className="px-4 py-2">
-                        <p className="text-zinc-400 text-[0.7rem]">
-                          {video.date}
-                        </p>
-                      </th>
-                      <th className="px-4 py-2">
-                        <p className="text-zinc-400 text-[0.7rem]">
-                          {video.views}
-                        </p>
-                      </th>
-                      <th className="px-4 py-2">
-                        <p className="text-zinc-400 text-[0.7rem]">
-                          {video.comments}
-                        </p>
-                      </th>
-                      <th className="px-4 py-2">
-                        <p className="text-zinc-400 text-[0.7rem]">
-                          {video.likes} (vs {video.dislikes})
-                        </p>
-                      </th>
-                    </tr>
-                  ))}
-                </tbody>
+                          </div>
+                        </th>
+                        <th className="px-4 py-2">
+                          <div className="flex items-center">
+                            {video.restrictions ? (
+                              <span className="bg-red-600 px-3 rounded-md text-white text-[0.7rem]">
+                                {video.restrictions}
+                              </span>
+                            ) : (
+                              <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+                                No Restrictions
+                              </span>
+                            )}
+                          </div>
+                        </th>
+                        <th className="px-4 py-2">
+                          <p className="text-zinc-400 text-[0.7rem]">
+                            {video.date}
+                          </p>
+                        </th>
+                        <th className="px-4 py-2">
+                          <p className="text-zinc-400 text-[0.7rem]">
+                            {video.views}
+                          </p>
+                        </th>
+                        <th className="px-4 py-2">
+                          <p className="text-zinc-400 text-[0.7rem]">
+                            {video.comments}
+                          </p>
+                        </th>
+                        <th className="px-4 py-2">
+                          <p className="text-zinc-400 text-[0.7rem]">
+                            {video.likes} (vs {video.dislikes})
+                          </p>
+                        </th>
+                      </tr>
+                    ))}
+                  </tbody>
+                ) : ChoseContentList === 2 ? (
+                  <tbody className="border-b border-zinc-600 ">
+                    {ownChannelData.ShortVideoId.map((video) => (
+                      <tr
+                        key={video._id}
+                        className="border-b border-zinc-600 hover:bg-black hover:border-red-600"
+                      >
+                        <th className="text-xs text-zinc-400 font-medium px-7 py-2  ">
+                          <div className="pl-8 flex flex-row gap-2">
+                            <span>
+                              <video
+                                width="100"
+                                height="100"
+                                controls
+                                className="rounded-lg object-contain overflow-hidden"
+                              >
+                                <source
+                                  src={video.ShortVideo}
+                                  type="video/mp4"
+                                />
+                              </video>
+                            </span>
+                            <span className="flex flex-col">
+                              <p className="text-xs text-white">
+                                {video.title}
+                              </p>
+                              <p className="text-[10px] text-zinc-400">
+                                {video.description}
+                              </p>
+                            </span>
+                          </div>
+                        </th>
+                        <th className="px-4 py-2">
+                          <div className="flex items-center  ">
+                            <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+                              {video.visibility}
+                            </span>
+                          </div>
+                        </th>
+                        <th className="px-4 py-2">
+                          <div className="flex items-center">
+                            {video.restrictions ? (
+                              <span className="bg-red-600 px-3 rounded-md text-white text-[0.7rem]">
+                                {video.restrictions}
+                              </span>
+                            ) : (
+                              <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+                                No restrictions
+                              </span>
+                            )}
+                          </div>
+                        </th>
+                        <th className="px-4 py-2">
+                          <p className="text-zinc-400 text-[0.7rem]">
+                            {video.date}
+                          </p>
+                        </th>
+                        <th className="px-4 py-2">
+                          <p className="text-zinc-400 text-[0.7rem]">
+                            {video.views}
+                          </p>
+                        </th>
+                        <th className="px-4 py-2">
+                          <p className="text-zinc-400 text-[0.7rem]">
+                            {video.comments}
+                          </p>
+                        </th>
+                        <th className="px-4 py-2">
+                          <p className="text-zinc-400 text-[0.7rem]">
+                            Likes : {video.likes} <br />
+                            Dislikes: {video.dislikes}
+                          </p>
+                        </th>
+                      </tr>
+                    ))}
+                  </tbody>
+                ) : (
+                  <div className="w-full h-full mt-10 flex items-center justify-center">
+                    <div>
+                      <p className="text-red-600 text-5xl font-bold">
+                        {ChoseContentListName} Not Found
+                      </p>
+                    </div>
+                  </div>
+                )}
               </table>
             </div>
-          </div>
+          </>
         </div>
       </div>
     </main>
   );
 }
 
-// /*<tr>
-//                     <th className="text-xs  text-zinc-400 font-medium px-7 py-2 ">
-//                       <div className="pl-8 flex flex-row gap-2 ">
-//                         <span>
-//                           <div className="flex flex-col gap-4 mt-4">
-//                             {ownChannelData.LongVideoId.map((video, index) => (
-//                               <video
-//                                 key={index}
-//                                 width="150"
-//                                 height="80"
-//                                 controls
-//                                 className="rounded-lg object-contain  overflow-hidden"
-//                               >
-//                                 <source
-//                                   src={video.LongVideo}
-//                                   type="video/mp4"
-//                                 />
-//                               </video>
-//                             ))}
-//                           </div>
-//                         </span>
-//                         <span className="flex flex-col">
-//                           <p className="text-xs text-white">
-//                             {ownChannelData.LongVideoId.map((video, index) => (
-//                               <p key={index}>{video.title}</p>
-//                             ))}
-//                           </p>
-//                           <p className="text-[10px] text-zinc-400">
-//                             heare description
-//                           </p>
-//                         </span>
-//                       </div>
-//                     </th>
-//                     <th className="px-4 py-2">
-//                       <div className="flex flex-row gap-2 items-center ">
-//                         {/* <MdOutlineLock className="text-sm text-white" /> */}
-//                         <TbLockOpenOff className="text-sm text-white" />
-//                         <p className=" text-[.7rem] text-white  font-normal">
-//                           Public
+// {/*
+// /*{ownChannelData.LongVideoId.map((video) => (
+//                     <tr key={video._id} className="hover:bg-black">
+//                       <th className="text-xs text-zinc-400 font-medium px-7 py-2">
+//                         <div className="pl-8 flex flex-row gap-2">
+//                           <span>
+//                             <video
+//                               width="150"
+//                               height="80"
+//                               controls
+//                               className="rounded-lg object-contain overflow-hidden"
+//                             >
+//                               <source src={video.LongVideo} type="video/mp4" />
+//                             </video>
+//                           </span>
+//                           <span className="flex flex-col">
+//                             <p className="text-xs text-white">{video.title}</p>
+//                             <p className="text-[10px] text-zinc-400">
+//                               {video.description}
+//                             </p>
+//                           </span>
+//                         </div>
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <div className="flex items-center">
+//                           <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+//                             {video.visibility}
+//                           </span>
+//                         </div>
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <div className="flex items-center">
+//                           {video.restrictions ? (
+//                             <span className="bg-red-600 px-3 rounded-md text-white text-[0.7rem]">
+//                               {video.restrictions}
+//                             </span>
+//                           ) : (
+//                             <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+//                               No Restrictions
+//                             </span>
+//                           )}
+//                         </div>
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <p className="text-zinc-400 text-[0.7rem]">
+//                           {video.date}
 //                         </p>
-//                       </div>
-//                     </th>
-//                     <th className="px-4 py-2">
-//                       <div>
-//                         <p className=" text-[.7rem] font-normal text-white">
-//                           Made for Kids
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <p className="text-zinc-400 text-[0.7rem]">
+//                           {video.views}
 //                         </p>
-//                       </div>
-//                     </th>
-//                     <th className="px-2 py-2">
-//                       <div className="flex flex-col  items-center">
-//                         <p className=" text-[.7rem] text-white  font-normal">
-//                           october 12, 2024
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <p className="text-zinc-400 text-[0.7rem]">
+//                           {video.comments}
 //                         </p>
-//                         <p className="text-[0.6rem] text-zinc-400  font-normal">
-//                           Uploaded
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <p className="text-zinc-400 text-[0.7rem]">
+//                           {video.likes} (vs {video.dislikes})
 //                         </p>
-//                       </div>
-//                     </th>
-//                     <th className="px-5 py-2">
-//                       <div>
-//                         <p className=" text-[.7rem] text-white  font-normal">
-//                           10
+//                       </th>
+//                     </tr>
+//                   ))}*/
+
+//   /* <tbody className="border-b border-zinc-600 ">
+//                   {ownChannelData.ShortVideoId.map((video) => (
+//                     <tr
+//                       key={video._id}
+//                       className="border-b border-zinc-600 hover:bg-black hover:border-red-600"
+//                     >
+//                       <th className="text-xs text-zinc-400 font-medium px-7 py-2  ">
+//                         <div className="pl-8 flex flex-row gap-2">
+//                           <span>
+//                             <video
+//                               width="100"
+//                               height="100"
+//                               controls
+//                               className="rounded-lg object-contain overflow-hidden"
+//                             >
+//                               <source src={video.ShortVideo} type="video/mp4" />
+//                             </video>
+//                           </span>
+//                           <span className="flex flex-col">
+//                             <p className="text-xs text-white">{video.title}</p>
+//                             <p className="text-[10px] text-zinc-400">
+//                               {video.description}
+//                             </p>
+//                           </span>
+//                         </div>
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <div className="flex items-center  ">
+//                           <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+//                             {video.visibility}
+//                           </span>
+//                         </div>
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <div className="flex items-center">
+//                           {video.restrictions ? (
+//                             <span className="bg-red-600 px-3 rounded-md text-white text-[0.7rem]">
+//                               {video.restrictions}
+//                             </span>
+//                           ) : (
+//                             <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+//                               No restrictions
+//                             </span>
+//                           )}
+//                         </div>
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <p className="text-zinc-400 text-[0.7rem]">
+//                           {video.date}
 //                         </p>
-//                       </div>
-//                     </th>
-//                     <th className="px-8 py-2">
-//                       <div>
-//                         <p className=" text-[.7rem] text-white  font-normal">
-//                           6
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <p className="text-zinc-400 text-[0.7rem]">
+//                           {video.views}
 //                         </p>
-//                       </div>
-//                     </th>
-//                     <th className=" py-2">
-//                       <div className="flex flex-col items-center">
-//                         <p className="text-[.7rem] text-white  font-normal">
-//                           10
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <p className="text-zinc-400 text-[0.7rem]">
+//                           {video.comments}
 //                         </p>
-//                         <p className="text-[0.6rem] text-zinc-400  font-normal">
-//                           Likes
+//                       </th>
+//                       <th className="px-4 py-2">
+//                         <p className="text-zinc-400 text-[0.7rem]">
+//                           Likes : {video.likes} <br />
+//                           Dislikes: {video.dislikes}
 //                         </p>
-//                       </div>
-//                     </th>
-//                   </tr>*/
+//                       </th>
+//                     </tr>
+//                   ))}
+//                 </tbody>
+
+// // /*<tr>
+// //                     <th className="text-xs  text-zinc-400 font-medium px-7 py-2 ">
+// //                       <div className="pl-8 flex flex-row gap-2 ">
+// //                         <span>
+// //                           <div className="flex flex-col gap-4 mt-4">
+// //                             {ownChannelData.LongVideoId.map((video, index) => (
+// //                               <video
+// //                                 key={index}
+// //                                 width="150"
+// //                                 height="80"
+// //                                 controls
+// //                                 className="rounded-lg object-contain  overflow-hidden"
+// //                               >
+// //                                 <source
+// //                                   src={video.LongVideo}
+// //                                   type="video/mp4"
+// //                                 />
+// //                               </video>
+// //                             ))}
+// //                           </div>
+// //                         </span>
+// //                         <span className="flex flex-col">
+// //                           <p className="text-xs text-white">
+// //                             {ownChannelData.LongVideoId.map((video, index) => (
+// //                               <p key={index}>{video.title}</p>
+// //                             ))}
+// //                           </p>
+// //                           <p className="text-[10px] text-zinc-400">
+// //                             heare description
+// //                           </p>
+// //                         </span>
+// //                       </div>
+// //                     </th>
+// //                     <th className="px-4 py-2">
+// //                       <div className="flex flex-row gap-2 items-center ">
+// //                         {/* <MdOutlineLock className="text-sm text-white" /> */
+// }
+// {/* //                         <TbLockOpenOff className="text-sm text-white" />
+// //                         <p className=" text-[.7rem] text-white  font-normal">
+// //                           Public
+// //                         </p>
+// //                       </div>
+// //                     </th>
+// //                     <th className="px-4 py-2">
+// //                       <div>
+// //                         <p className=" text-[.7rem] font-normal text-white">
+// //                           Made for Kids
+// //                         </p>
+// //                       </div>
+// //                     </th>
+// //                     <th className="px-2 py-2">
+// //                       <div className="flex flex-col  items-center">
+// //                         <p className=" text-[.7rem] text-white  font-normal">
+// //                           october 12, 2024
+// //                         </p>
+// //                         <p className="text-[0.6rem] text-zinc-400  font-normal">
+// //                           Uploaded
+// //                         </p>
+// //                       </div>
+// //                     </th>
+// //                     <th className="px-5 py-2">
+// //                       <div>
+// //                         <p className=" text-[.7rem] text-white  font-normal">
+// //                           10
+// //                         </p>
+// //                       </div>
+// //                     </th>
+// //                     <th className="px-8 py-2">
+// //                       <div>
+// //                         <p className=" text-[.7rem] text-white  font-normal">
+// //                           6
+// //                         </p>
+// //                       </div>
+// //                     </th>
+// //                     <th className=" py-2">
+// //                       <div className="flex flex-col items-center">
+// //                         <p className="text-[.7rem] text-white  font-normal">
+// //                           10
+// //                         </p>
+// //                         <p className="text-[0.6rem] text-zinc-400  font-normal">
+// //                           Likes
+// //                         </p>
+// //                       </div>
+// //                     </th>
+// //                   </tr>*/
