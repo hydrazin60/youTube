@@ -554,6 +554,10 @@ export const getAllChannel = async (req, res) => {
       .populate({
         path: "LongVideoId",
         select: "title description LongVideo likes comments visibility",
+      })
+      .populate({
+        path: "ShortVideoId",
+        select: "title description  ShortVideo  likes comments visibility",
       });
 
     return res.status(200).json({

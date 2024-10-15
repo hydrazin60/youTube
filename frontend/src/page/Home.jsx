@@ -1,63 +1,215 @@
+// import SignupDialog from "@/components/dialogBox/SignupDialog";
+// import LeftSidebar from "@/components/LeftSidbar";
+// import { RxCross1 } from "react-icons/rx";
+// import React, { useEffect } from "react";
+// import { BsThreeDotsVertical } from "react-icons/bs";
+// import { SiYoutubeshorts } from "react-icons/si";
+// import { useSelector } from "react-redux";
+// import axios from "axios";
+
+// export default function Home() {
+//   const { user } = useSelector((state) => state.userAuth);
+
+//   const shortVideoList = [1, 2, 3, 4, 5, 6];
+//   const longvideoList = [1, 2, 3, 4, 5, 6, 7, 8];
+
+//   const [youtubeVideoListHome, setYoutubeVideoListHome] = React.useState([]);
+
+//   useEffect(() => {
+//     const fetchYoutubeChannel = async () => {
+//       try {
+//         const res = await axios(
+//           "http://localhost:4000/youtube_studio/api/v1/post/home",
+//           { withCredentials: true }
+//         );
+//         if (res.data.success) {
+//           setYoutubeVideoListHome(res.data.ChannelsData);
+//         } else {
+//           console.log(res.data.message);
+//         }
+//       } catch (err) {
+//         console.log(`error during fetchYoutubeChannel ${err}`);
+//       }
+//     };
+//     fetchYoutubeChannel();
+//   }, []);
+
+//   return (
+//     <div className="h-screen mt-20">
+//       <div className="flex flex-row h-full">
+//         <div className="w-[16%] h-full">
+//           <LeftSidebar />
+//         </div>
+//         <div className="w-[85%] h-full">
+//           {user ? (
+//             <main className="w-full h-full overflow-y-scroll pb-20">
+//               <div className="flex flex-wrap gap-4 p-1">
+//                 {youtubeVideoListHome.map((channel, channelIndex) => (
+//                   <div
+//                     key={channelIndex}
+//                     className="h-60 cursor-pointer hover:bg-zinc-800 flex flex-col rounded-xl p-2"
+//                   >
+//                     {channel.LongVideoId.map((video, index) => (
+//                       <div key={index}>
+//                         <video
+//                           className="rounded-xl object-cover w-full h-36"
+//                           controls
+//                         >
+//                           <source src={video.LongVideo} type="video/mp4" />
+//                         </video>
+
+//                         <div className="flex gap-2 mt-2">
+//                           <img
+//                             src={channel.profilePic}
+//                             alt="channel icon"
+//                             className="h-7 rounded-full"
+//                           />
+//                           <div>
+//                             <p className="text-sm font-semibold">
+//                               {video.title}
+//                             </p>
+//                             <p className="text-normal font-semibold text-slate-400">
+//                               {channel.channelName}
+//                             </p>
+//                             <p className="text-normal text-slate-400">
+//                               634K views • 1 year ago
+//                             </p>
+//                           </div>
+//                         </div>
+//                       </div>
+//                     ))}
+//                   </div>
+//                 ))}
+//               </div>
+
+//               {/* Shorts Section */}
+//               <div className="mt-6">
+//                 <div className="flex justify-between px-3 gap-3 items-center h-12">
+//                   <div className="flex gap-2 items-center">
+//                     <SiYoutubeshorts className="text-xl text-red-600" />
+//                     <p className="text-sm font-semibold">Shorts</p>
+//                   </div>
+//                   <RxCross1 className="text-xl text-zinc-300 cursor-pointer h-9 w-9 p-1 rounded-full hover:bg-zinc-800" />
+//                 </div>
+
+//                 <div className="flex gap-2">
+//                   {shortVideoList.map((video, index) => (
+//                     <div
+//                       key={index}
+//                       className="w-[12rem] h-[21rem] p-2 hover:bg-zinc-700 rounded-xl transition duration-500 flex flex-col gap-2"
+//                     >
+//                       <img
+//                         src="youtubethembel.jpg"
+//                         alt="thumbnail"
+//                         className="rounded-xl w-full h-60 object-cover"
+//                       />
+//                       <div className="text-sm font-semibold flex justify-between">
+//                         <p>5 Day solo Amazon Jungle survival</p>
+//                         <BsThreeDotsVertical className="text-xl cursor-pointer h-8 w-8 p-2 rounded-full hover:bg-zinc-800" />
+//                       </div>
+//                       <p className="text-normal text-slate-400">634K views</p>
+//                     </div>
+//                   ))}
+//                 </div>
+//               </div>
+//             </main>
+//           ) : (
+//             <main className="flex w-5/6 h-full flex-col items-center gap-10">
+//               <div className="flex bg-zinc-900 h-20 w-1/2 flex-col items-center justify-center rounded-3xl">
+//                 <p className="text-xl font-semibold">
+//                   Try searching to get started
+//                 </p>
+//                 <p className="text-zinc-400 text-sm">
+//                   Start watching videos to help us build a feed of videos you'll
+//                   love.
+//                 </p>
+//               </div>
+//             </main>
+//           )}
+//         </div>
+//       </div>
+//     </div>
+//   );
+// }
+
 import SignupDialog from "@/components/dialogBox/SignupDialog";
 import LeftSidebar from "@/components/LeftSidbar";
 import { RxCross1 } from "react-icons/rx";
-import React from "react";
+import React, { useEffect } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { RxCross2 } from "react-icons/rx";
-
 import { SiYoutubeshorts } from "react-icons/si";
 import { useSelector } from "react-redux";
+import axios from "axios";
+
 export default function Home() {
   const { user } = useSelector((state) => state.userAuth);
 
   const shortVideoList = [1, 2, 3, 4, 5, 6];
-  const longvideoList = [1, 2, 3, 4, 5, 6, 7, 8];
+  const [youtubeVideoListHome, setYoutubeVideoListHome] = React.useState([]);
 
-  const fetchYoutubeChannel = () => {};
+  useEffect(() => {
+    const fetchYoutubeChannel = async () => {
+      try {
+        const res = await axios(
+          "http://localhost:4000/youtube_studio/api/v1/post/home",
+          { withCredentials: true }
+        );
+        if (res.data.success) {
+          setYoutubeVideoListHome(res.data.ChannelsData);
+        } else {
+          console.log(res.data.message);
+        }
+      } catch (err) {
+        console.log(`error during fetchYoutubeChannel ${err}`);
+      }
+    };
+    fetchYoutubeChannel();
+  }, []);
+
   return (
-    <div className="h-screen mt-20">
+    <div className="h-screen mt-20 pb-12">
       <div className="flex flex-row h-full">
-        <div className="w-[16%] h-full">
+        <div className="w-[15%] h-full">
           <LeftSidebar />
         </div>
 
-        <div className="w-[85%] h-full">
+        <div className="h-full overflow-y-scroll pb-20">
           {user ? (
-            <main className="w-full h-full overflow-y-scroll pb-20 ">
-              <div className="flex flex-wrap gap-3 p-1">
-                {longvideoList.map((video, index) => {
-                  return (
+            <main className="w-full">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 p-4">
+                {youtubeVideoListHome.map((channel, channelindex) =>
+                  channel.LongVideoId.map((video, index) => (
                     <div
-                      key={index}
-                      className=" h-60    cursor-pointer hover:bg-zinc-800 flex rounded-xl p-2 flex-col gap-2"
-                      style={{ flexBasis: "calc(25% - 16px)" }}
+                      key={`${channelindex}-${index}`}
+                      className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer"
                     >
-                      <div>
+                      <video
+                        className="rounded-lg w-full h-40 object-cover"
+                        controls
+                      >
+                        <source src={video.LongVideo} type="video/mp4" />
+                      </video>
+                      <div className="flex gap-2 p-2">
                         <img
-                          src="youtubethembel.jpg"
-                          alt="logo"
-                          className="rounded-xl w-full h-36 object-cover"
+                          src={channel.profilePic}
+                          alt="channel icon"
+                          className="h-7 rounded-full"
                         />
-                      </div>
-                      <div className="flex gap-2">
-                        <img src="googlelogo.png" alt="icon" className="h-7" />
-                        <span>
-                          <p className="text-sm font-semibold">
-                            5 Day solo Amazon Jungle survival | Not Food, Water,
-                            or
+                        <div>
+                          <p className="text-sm font-bold ">{video.title}</p>
+                          <p className="text-[0.8rem] font-semibold text-slate-400">
+                            {channel.channelName}
                           </p>
-                          <p className="text-normal font-semibold text-slate-400">
-                            Xander Budnick
-                          </p>
-                          <p className="text-normal text-slate-400">
+                          <p className="text-[0.7rem] text-slate-400">
                             634K views • 1 year ago
                           </p>
-                        </span>
+                        </div>
                       </div>
                     </div>
-                  );
-                })}
+                  ))
+                )}
               </div>
+
               <div>
                 <div className="flex justify-between px-3 gap-3 items-center h-12 mt-6">
                   <div className="flex gap-2 items-center">
@@ -74,53 +226,49 @@ export default function Home() {
                     </span>
                   </div>
                 </div>
-                <div className="flex ">
-                  {shortVideoList.map((video, index) => {
-                    return (
-                      <div
-                        key={index}
-                        className="w-[12rem] h-[21rem]  p-2 hover:bg-zinc-700 rounded-xl transition duration-500 flex flex-col gap-2"
-                      >
-                        <div>
-                          <img
-                            src="youtubethembel.jpg"
-                            alt="logo"
-                            className="rounded-xl w-full h-60 object-cover"
-                          />
-                        </div>
-                        <div>
-                          <div className="text-sm font-semibold flex justify-between ">
-                            <span>
-                              <p>5 Day solo Amazon Jungle survival or</p>
-                            </span>
-                            <span className=" text-xl  h-8 w-8 p-2 rounded-full hover:bg-zinc-800 cursor-pointer flex items-center justify-center">
-                              <BsThreeDotsVertical className="text-xl" />
-                            </span>
-                          </div>
-                          <p className="text-normal text-slate-400">
-                            634K views
-                          </p>
-                        </div>
+              </div>
+
+              <div className="flex  ">
+                {youtubeVideoListHome.map((channel, channelindex) =>
+                  channel.ShortVideoId.map((video, index) => (
+                    <div
+                      key={channelindex}
+                      className="w-[12rem]   p-2 hover:bg-zinc-800   rounded-xl transition duration-500 flex flex-col gap-1"
+                    >
+                      <div>
+                        <video
+                          className="rounded-lg w-full h-80 object-cover"
+                          controls
+                        >
+                          <source src={video.ShortVideo} type="video/mp4" />
+                        </video>
                       </div>
-                    );
-                  })}
-                </div>
+                      <div>
+                        <div className="text-sm font-semibold flex justify-between ">
+                          <span>
+                            <p>{video.title}</p>
+                          </span>
+                          <span className=" text-xl  h-8 w-8 p-2 rounded-full hover:bg-zinc-800 cursor-pointer flex items-center justify-center">
+                            <BsThreeDotsVertical className="text-xl" />
+                          </span>
+                        </div>
+                        <p className="text-normal text-slate-400">634K views</p>
+                      </div>
+                    </div>
+                  ))
+                )}
               </div>
             </main>
           ) : (
             <main className="flex w-5/6 h-full flex-col items-center gap-10">
               <div className="flex bg-zinc-900 h-20 w-1/2 flex-col items-center justify-center rounded-3xl">
-                <span>
-                  <p className="text-xl font-semibold">
-                    Try searching to get started
-                  </p>
-                </span>
-                <span>
-                  <p className="text-zinc-400 text-sm">
-                    Start watching videos to help us build a feed of videos
-                    you'll love.
-                  </p>
-                </span>
+                <p className="text-xl font-semibold">
+                  Try searching to get started
+                </p>
+                <p className="text-zinc-400 text-sm">
+                  Start watching videos to help us build a feed of videos you'll
+                  love.
+                </p>
               </div>
             </main>
           )}
