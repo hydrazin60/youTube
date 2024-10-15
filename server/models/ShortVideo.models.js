@@ -3,11 +3,15 @@ const ShortVideoSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      default: function () {
+        const currentDate = new Date();
+        const formattedDate = currentDate.toISOString().split("T")[0];
+        return `Untitled ${formattedDate}`;
+      },
     },
     description: {
       type: String,
-      required: true,
+      default: "",
     },
     ShortVideo: {
       type: String,

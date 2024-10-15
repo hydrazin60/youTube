@@ -327,7 +327,7 @@ export const UploadShortVideo = async (req, res) => {
     return res.status(200).json({
       success: true,
       error: false,
-      message: "Video uploaded successfully",
+      message: " Reel (Short video) uploaded successfully",
       newShortVideo,
     });
   } catch (error) {

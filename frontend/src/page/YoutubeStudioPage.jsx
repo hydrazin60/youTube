@@ -171,13 +171,13 @@ export default function YoutubeStudioPage() {
   if (!ownChannelData) return <p>No channel data available</p>;
 
   return (
-    <main className="h-screen w-screen bg-zinc-800  mt-auto pb-10">
+    <main className="h-screen w-screen bg-zinc-800  mt-auto  pb-12">
       <div className="h-full w-full flex">
-        <div className="h-full w-[16%] py-4 bg-zinc-800  border-r border-zinc-600 flex justify-center flex-col gap-2">
-          <div className="px-12">
+        <div className="h-full w-[16%]  py-4 bg-zinc-800  border-r border-zinc-600 flex justify-center flex-col gap-2">
+          <div className="px-12 mt-10">
             <span>
               <img
-                src="https://scontent.fktm21-1.fna.fbcdn.net/v/t1.6435-9/124430192_112731063979533_9176685090302778504_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=86c6b0&_nc_ohc=oMkvQ9jWRHkQ7kNvgG8aBb3&_nc_ht=scontent.fktm21-1.fna&_nc_gid=AkyAlgsuFR2lgqGiTX9X-Dv&oh=00_AYCkn_4iP_KX1-bbpyvmk-PzwlSjO7Nqji5SEUg2oYyovg&oe=6731FC1B"
+                src= "https://scontent.fktm21-1.fna.fbcdn.net/v/t1.6435-9/124430192_112731063979533_9176685090302778504_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=86c6b0&_nc_ohc=oMkvQ9jWRHkQ7kNvgG8aBb3&_nc_ht=scontent.fktm21-1.fna&_nc_gid=AkyAlgsuFR2lgqGiTX9X-Dv&oh=00_AYCkn_4iP_KX1-bbpyvmk-PzwlSjO7Nqji5SEUg2oYyovg&oe=6731FC1B"
                 alt="logo"
                 className="w-24 h-24 rounded-full"
               />

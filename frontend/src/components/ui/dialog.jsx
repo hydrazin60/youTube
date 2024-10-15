@@ -37,14 +37,14 @@ const DialogContent = React.forwardRef(
         {...props}
       >
         {children}
-        <DialogClose asChild>
+        {/* <DialogClose asChild>
           <button 
             type="button"
             className="absolute top-3 right-3 rounded-sm opacity-70 hover:opacity-100 focus-visible:outline-none focus-visible:ring focus-visible:ring-slate-400 focus-visible:ring-opacity-75"
           >
             <X className="h-4 w-4" />
           </button>
-        </DialogClose>
+        </DialogClose> */}
       </DialogPrimitive.Content>
     </DialogPortal>
   )
