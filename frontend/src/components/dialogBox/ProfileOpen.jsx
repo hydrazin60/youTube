@@ -134,7 +134,7 @@ export default function ProfileOpen({ open, setOpen }) {
 
   return (
     <main
-      className={`w-[19vw] h-[92vh] bg-zinc-800 z-10 rounded-xl overflow-hidden  ${
+      className={`w-[19vw] h-[92vh] bg-zinc-800 z-50  rounded-xl overflow-hidden  ${
         open ? " " : "hidden"
       }  `}
     >

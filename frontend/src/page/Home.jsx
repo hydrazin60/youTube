@@ -132,6 +132,15 @@
 //   );
 // }
 
+
+
+ 
+
+
+
+
+
+
 import SignupDialog from "@/components/dialogBox/SignupDialog";
 import LeftSidebar from "@/components/LeftSidbar";
 import { RxCross1 } from "react-icons/rx";
@@ -167,7 +176,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="h-screen mt-20 pb-12">
+    <div className="h-screen mt-20 pb-12 ">
       <div className="flex flex-row h-full">
         <div className="w-[15%] h-full">
           <LeftSidebar />
@@ -181,7 +190,7 @@ export default function Home() {
                   channel.LongVideoId.map((video, index) => (
                     <div
                       key={`${channelindex}-${index}`}
-                      className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer"
+                      className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer -z-50"
                     >
                       <video
                         className="rounded-lg w-full h-40 object-cover"
@@ -237,7 +246,7 @@ export default function Home() {
                     >
                       <div>
                         <video
-                          className="rounded-lg w-full h-80 object-cover"
+                          className="rounded-lg w-full h-80 object-cover -z-10"
                           controls
                         >
                           <source src={video.ShortVideo} type="video/mp4" />

@@ -6,6 +6,7 @@ import Channel from "../models/channel.models.js";
 import ShortVideoModel from "../models/ShortVideo.models.js";
 import userRoutes from "../routes/user.routes.js";
 import { populate } from "dotenv";
+import { get } from "mongoose";
 
 export const UploadLongVideo = async (req, res) => {
   try {
@@ -542,7 +543,7 @@ export const getAllShortVideosofChannel = async (req, res) => {
   }
 };
 
-export const getAllChannel = async (req, res) => {
+export const getAllChannels = async (req, res) => {
   try {
     const ChannelsData = await Channel.find()
 
@@ -575,3 +576,36 @@ export const getAllChannel = async (req, res) => {
     });
   }
 };
+
+// export const  getAllChannels = async (req, res) => {
+//   try {
+//     const channelsData = await Channel.find()
+//       .sort({ createdAt: -1 })
+//       .populate({
+//         path: "authorId",
+//         select: "name",
+//       })
+//       .populate({
+//         path: "LongVideoId",
+//         select: "title description LongVideo likes comments visibility",
+//       })
+//       .populate({
+//         path: "ShortVideoId",
+//         select: "title description ShortVideo likes comments visibility",
+//       });
+
+//     return res.status(200).json({
+//       success: true,
+//       error: false,
+//       channelsData, // Ensure the variable name is consistent
+//       message: "Channels fetched successfully",
+//     });
+//   } catch (error) {
+//     console.log(`Error during getAllChannels: ${error.message}`);
+//     return res.status(500).json({
+//       success: false,
+//       error: true,
+//       message: `Error during getAllChannels: ${error.message}`,
+//     });
+//   }
+// };

@@ -1,5 +1,5 @@
 import multer from "multer";
- 
+
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
 const uploadImage = multer({
   storage: multer.memoryStorage(),
@@ -18,7 +18,7 @@ const uploadImage = multer({
     }
   },
 });
- 
+
 const MAX_VIDEO_SIZE = 100 * 1024 * 1024; // 100MB limit
 const uploadVideo = multer({
   storage: multer.memoryStorage(),
@@ -39,3 +39,4 @@ const uploadVideo = multer({
 });
 
 export { uploadImage, uploadVideo };
+ 

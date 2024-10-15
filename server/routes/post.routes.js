@@ -5,7 +5,7 @@ import {
   DeleteShortVideo,
   EditLongVideo,
   EditShortVideo,
-  getAllChannel,
+  getAllChannels,
   GetAllLongVideoOfChannel,
   getAllShortVideosofChannel,
   UploadLongVideo,
@@ -47,5 +47,5 @@ postRoutes.get(
   isAuthenticated,
   getAllShortVideosofChannel
 );
-postRoutes.get("/home", isAuthenticated, getAllChannel);
+postRoutes.get("/home", isAuthenticated, getAllChannels);
 export default postRoutes;

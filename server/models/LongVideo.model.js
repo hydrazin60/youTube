@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 
 const longVideoSchema = new mongoose.Schema(
   {
+    thumbnail: {
+      type: String,
+      default: "",
+    },
     title: {
       type: String,
       required: true,
