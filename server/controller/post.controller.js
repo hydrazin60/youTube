@@ -5,13 +5,14 @@ import LongVideoModel from "../models/LongVideo.model.js";
 import Channel from "../models/channel.models.js";
 import ShortVideoModel from "../models/ShortVideo.models.js";
 import userRoutes from "../routes/user.routes.js";
+import { populate } from "dotenv";
 
 export const UploadLongVideo = async (req, res) => {
   try {
     const authorId = req.id;
     const { title, description, visibility } = req.body;
     const LongVideoFile = req.files?.LongVideo?.[0];
-    
+
     if (!LongVideoFile) {
       return res.status(400).json({
         success: false,
@@ -37,7 +38,7 @@ export const UploadLongVideo = async (req, res) => {
     }
 
     const fileUri = getDataUri(LongVideoFile);
-// populate
+    // populate
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
       resource_type: "video",
       folder: "long_videos",
@@ -216,7 +217,7 @@ export const DeleteLongVideo = async (req, res) => {
   }
 };
 
-export const GetAllLongVideo = async (req, res) => {
+export const GetAllLongVideoOfChannel = async (req, res) => {
   try {
     const authorId = req.params.id;
     const loginUserId = req.id;
@@ -271,8 +272,6 @@ export const GetAllLongVideo = async (req, res) => {
     });
   }
 };
-
-
 
 export const UploadShortVideo = async (req, res) => {
   try {
@@ -490,7 +489,7 @@ export const DeleteShortVideo = async (req, res) => {
   }
 };
 
-export const getAllShortVideos = async (req, res) => {
+export const getAllShortVideosofChannel = async (req, res) => {
   try {
     const authorId = req.params.id;
     const loginUser = req.id;
@@ -539,6 +538,36 @@ export const getAllShortVideos = async (req, res) => {
       success: false,
       error: true,
       message: `Error during getAllShortVideos : ${error.message}`,
+    });
+  }
+};
+
+export const getAllChannel = async (req, res) => {
+  try {
+    const ChannelsData = await Channel.find()
+
+      .sort({ createdAt: -1 })
+      .populate({
+        path: "authorId",
+        select: "name",
+      })
+      .populate({
+        path: "LongVideoId",
+        select: "title description LongVideo likes comments visibility",
+      });
+
+    return res.status(200).json({
+      success: true,
+      error: false,
+      ChannelsData,
+      message: "Channel fetched successfully",
+    });
+  } catch (error) {
+    console.log(`Error during  getAllChannel : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      error: true,
+      message: `Error during  getAllChannel : ${error.message}`,
     });
   }
 };

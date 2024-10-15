@@ -19,6 +19,8 @@ import { icons } from "lucide-react";
 import { TbLockOpenOff } from "react-icons/tb";
 import axios from "axios";
 import { toast } from "sonner";
+import { MdLockOutline } from "react-icons/md";
+import { BiWorld } from "react-icons/bi";
 
 export default function YoutubeStudioPage() {
   const contentList = [
@@ -282,15 +284,18 @@ export default function YoutubeStudioPage() {
                 {ChoseContentList === 1 ? (
                   <tbody className="border-b border-zinc-600 ">
                     {ownChannelData.LongVideoId.map((video) => (
-                      <tr key={video._id} className="hover:bg-black">
-                        <th className="text-xs text-zinc-400 font-medium px-7 py-2">
+                      <tr
+                        key={video._id}
+                        className="hover:bg-black hover:border-b hover:border-red-600"
+                      >
+                        <th className="text-xs text-zinc-400  px-7 py-2">
                           <div className="pl-8 flex flex-row gap-2">
                             <span>
                               <video
                                 width="150"
                                 height="80"
                                 controls
-                                className="rounded-lg object-contain overflow-hidden"
+                                className="rounded-lg object-contain overflow-hidden cursor-pointer"
                               >
                                 <source
                                   src={video.LongVideo}
@@ -310,8 +315,18 @@ export default function YoutubeStudioPage() {
                         </th>
                         <th className="px-4 py-2">
                           <div className="flex items-center">
-                            <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
-                              {video.visibility}
+                            <span className=" px-3  text-white text-[0.8rem] font-[400]">
+                              {video.visibility === "public" ? (
+                                <span className="flex flex-row gap-2 items-center">
+                                  <BiWorld className="text-zinc-400 text-lg" />{" "}
+                                  {video.visibility}
+                                </span>
+                              ) : (
+                                <span className="flex flex-row gap-2 items-center justify-center">
+                                  <MdLockOutline className="text-zinc-400 text-lg" />
+                                  {video.visibility}
+                                </span>
+                              )}
                             </span>
                           </div>
                         </th>
@@ -358,14 +373,14 @@ export default function YoutubeStudioPage() {
                         key={video._id}
                         className="border-b border-zinc-600 hover:bg-black hover:border-red-600"
                       >
-                        <th className="text-xs text-zinc-400 font-medium px-7 py-2  ">
+                        <th className="text-xs text-zinc-400  px-7 py-2  ">
                           <div className="pl-8 flex flex-row gap-2">
                             <span>
                               <video
-                                width="100"
-                                height="100"
+                                width="80"
+                                height="80"
                                 controls
-                                className="rounded-lg object-contain overflow-hidden"
+                                className="rounded-lg object-contain overflow-hidden cursor-pointer"
                               >
                                 <source
                                   src={video.ShortVideo}
@@ -385,26 +400,36 @@ export default function YoutubeStudioPage() {
                         </th>
                         <th className="px-4 py-2">
                           <div className="flex items-center  ">
-                            <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
-                              {video.visibility}
+                            <span className=" px-3   text-white text-[0.7rem] font-[400]">
+                              {video.visibility === "public" ? (
+                                <span className="flex flex-row gap-2 items-center">
+                                  <BiWorld className="text-zinc-400 text-lg" />
+                                  {video.visibility}
+                                </span>
+                              ) : (
+                                <span className="flex flex-row gap-2 items-center justify-center">
+                                  <MdLockOutline className="text-zinc-400 text-lg" />
+                                  {video.visibility}
+                                </span>
+                              )}
                             </span>
                           </div>
                         </th>
                         <th className="px-4 py-2">
-                          <div className="flex items-center">
+                          <div className="flex items-center font-[400]">
                             {video.restrictions ? (
                               <span className="bg-red-600 px-3 rounded-md text-white text-[0.7rem]">
                                 {video.restrictions}
                               </span>
                             ) : (
-                              <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+                              <span className="bg-green-600 px-3 rounded-md  text-white text-[0.7rem]">
                                 No restrictions
                               </span>
                             )}
                           </div>
                         </th>
                         <th className="px-4 py-2">
-                          <p className="text-zinc-400 text-[0.7rem]">
+                          <p className="text-zinc-400 text-[0.7rem] ">
                             {video.date}
                           </p>
                         </th>
@@ -419,7 +444,7 @@ export default function YoutubeStudioPage() {
                           </p>
                         </th>
                         <th className="px-4 py-2">
-                          <p className="text-zinc-400 text-[0.7rem]">
+                          <p className="text-zinc-400 text-[0.7rem] font-[400]">
                             Likes : {video.likes} <br />
                             Dislikes: {video.dislikes}
                           </p>
