@@ -43,7 +43,6 @@ export default function Navbar() {
   const [OpenProfileDialog, setOpenProfileDialog] = React.useState(false);
   const [OpenCreateChannel, setOpenCreateChannel] = React.useState(false);
   const isYoutubeStudioPage = location.pathname === "/";
-
   return (
     <>
       <div className=" bg-zinc-950 w-screen h-auto fixed top-1 flex flex-col items-end gap-3 pr-4">

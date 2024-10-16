@@ -152,13 +152,14 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { SiYoutubeshorts } from "react-icons/si";
 import { useSelector } from "react-redux";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
   const { user } = useSelector((state) => state.userAuth);
   const [youtubeVideoListHome, setYoutubeVideoListHome] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchYoutubeChannel = async () => {
       try {
@@ -209,6 +210,7 @@ export default function Home() {
                         <div
                           key={`${channelindex}-${video.LongVideo}-${index}`}
                           className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer"
+                          onClick={() => navigate(`/video/watch/${video._id}`)}
                         >
                           <video
                             className="rounded-lg w-full h-40 object-cover overflow-hidden"
@@ -217,20 +219,6 @@ export default function Home() {
                             <source src={video.LongVideo} type="video/mp4" />
                           </video>
                           <div className="flex gap-3 p-2">
-                            {/* {channel.profilePic !== " " ? (
-                          <img
-                            src={channel.profilePic}
-                            alt="channel icon"
-                            className="h-7 w-7 object-cover overflow-hidden rounded-full"
-                          />
-                        ) : (
-                          <div className="h-7 w-7 bg-zinc-800 rounded-full">
-                            <p className="text-sm font-bold text-zinc-400 flex items-center justify-center h-full w-full">
-                              {channel.channelName[0] + channel.channelName[1]}
-                            </p>
-                          </div>
-                        )} */}
-
                             {channel.profilePic &&
                             channel.profilePic.trim() === null ? (
                               <div className="h-7 w-7 bg-zinc-800 rounded-full">

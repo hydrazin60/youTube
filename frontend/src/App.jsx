@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Home from "./page/Home";
 import SignIn from "./page/SignIn";
 import YoutubeStudioPage from "./page/YoutubeStudioPage";
+import LongVideoOpen from "./page/LongVideoOpen";
 
 export default function App() {
   return (
@@ -15,6 +16,7 @@ export default function App() {
             <Route path="/" element={<Home />} />
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/youtube-studio/:id" element={<YoutubeStudioPage />} />
+            <Route path="/video/watch/:id" element={<LongVideoOpen />} />
           </Routes>
         </div>
       </BrowserRouter>
