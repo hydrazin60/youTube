@@ -19,17 +19,8 @@ export default function UploadVideo() {
     visibility: "",
     LongVideo: null,
   });
-  // short video
-  const [selectContentType, setSelectContentType] = useState("UploadVideo");
-  const [ReelsPreview, setReelsPreview] = useState(null);
-  const [ReelsData, setReelsData] = useState({
-    title: "",
-    description: "",
-    visibility: "",
-    ShortVideo: null,
-  });
 
-  // Handle file change and handleSubmit for long video
+  // Handle file change for long video
   const handleFileChange = async (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -39,6 +30,16 @@ export default function UploadVideo() {
       setLoading(false);
     }
   };
+  
+  // short video
+  const [selectContentType, setSelectContentType] = useState("UploadVideo");
+  const [ReelsPreview, setReelsPreview] = useState(null);
+  const [ReelsData, setReelsData] = useState({
+    title: "",
+    description: "",
+    visibility: "",
+    ShortVideo: null,
+  });
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);

@@ -21,8 +21,10 @@ import axios from "axios";
 import { toast } from "sonner";
 import { MdLockOutline } from "react-icons/md";
 import { BiWorld } from "react-icons/bi";
+import { useSelector } from "react-redux";
 
 export default function YoutubeStudioPage() {
+  const { user } = useSelector((state) => state.userAuth);
   const contentList = [
     {
       id: 1,
@@ -174,17 +176,25 @@ export default function YoutubeStudioPage() {
     <main className="h-screen w-screen bg-zinc-800  mt-auto  pb-12">
       <div className="h-full w-full flex">
         <div className="h-full w-[16%]  py-4 bg-zinc-800  border-r border-zinc-600 flex justify-center flex-col gap-2">
-          <div className="px-12 mt-10">
-            <span>
-              <img
-                src= "https://scontent.fktm21-1.fna.fbcdn.net/v/t1.6435-9/124430192_112731063979533_9176685090302778504_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=86c6b0&_nc_ohc=oMkvQ9jWRHkQ7kNvgG8aBb3&_nc_ht=scontent.fktm21-1.fna&_nc_gid=AkyAlgsuFR2lgqGiTX9X-Dv&oh=00_AYCkn_4iP_KX1-bbpyvmk-PzwlSjO7Nqji5SEUg2oYyovg&oe=6731FC1B"
-                alt="logo"
-                className="w-24 h-24 rounded-full"
-              />
-            </span>
+          <div className="px-[3.4rem] mt-10">
+            <>
+              {user.channelId.profilePic ? (
+                <img
+                  src={user.channelId.profilePic}
+                  alt="logo"
+                  className="w-24 h-24 p-1 rounded-full border border-blue-600"
+                />
+              ) : (
+                <div className="w-20 h-20 flex items-center justify-center rounded-full  bg-blue-600">
+                  <p className="text-3xl font-bold text-white">
+                    {user?.name[0] + user?.name[1]}
+                  </p>
+                </div>
+              )}
+            </>
             <span className=" flex items-center flex-col ">
               <p className=" font-semibold">Your Channel</p>
-              <p className="text-sm text-zinc-400">
+              <p className="text-sm text-blue-400">
                 {ownChannelData?.channelName}
               </p>
             </span>

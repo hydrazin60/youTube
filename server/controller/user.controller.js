@@ -142,6 +142,10 @@ export const loginUser = async (req, res) => {
       });
     }
     const user = await User.findOne({ email });
+    await user.populate({
+      path: "channelId",
+      select: "channelName profilePic",
+    });
     if (!user) {
       return res.status(400).json({
         success: false,
@@ -453,6 +457,7 @@ export const ViewOwnChannel = async (req, res) => {
       path: "ShortVideoId",
       select: "title ShortVideo description likes visibility comments ",
     });
+
     return res.status(200).json({
       success: true,
       channel,

@@ -202,35 +202,66 @@ export default function Home() {
               {/* Long Video Section */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 p-4">
                 {youtubeVideoListHome.map((channel, channelindex) =>
-                  channel.LongVideoId.map((video, index) => (
-                    <div
-                      key={`${channelindex}-${video.LongVideo}-${index}`}
-                      className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer"
-                    >
-                      <video
-                        className="rounded-lg w-full h-40 object-cover overflow-hidden"
-                        controls
-                      >
-                        <source src={video.LongVideo} type="video/mp4" />
-                      </video>
-                      <div className="flex gap-2 p-2">
-                        <img
-                          src={channel.profilePic}
-                          alt="channel icon"
-                          className="h-7 w-7 object-cover overflow-hidden rounded-full"
-                        />
-                        <div>
-                          <p className="text-sm font-bold">{video.title}</p>
-                          <p className="text-[0.8rem] font-semibold text-zinc-400">
-                            {channel.channelName}
-                          </p>
-                          <p className="text-[0.7rem] text-zinc-400">
-                            634K views • 1 year ago
-                          </p>
+                  channel.LongVideoId.map(
+                    (video, index) => (
+                      console.log(channel.profilePic),
+                      (
+                        <div
+                          key={`${channelindex}-${video.LongVideo}-${index}`}
+                          className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer"
+                        >
+                          <video
+                            className="rounded-lg w-full h-40 object-cover overflow-hidden"
+                            controls
+                          >
+                            <source src={video.LongVideo} type="video/mp4" />
+                          </video>
+                          <div className="flex gap-3 p-2">
+                            {/* {channel.profilePic !== " " ? (
+                          <img
+                            src={channel.profilePic}
+                            alt="channel icon"
+                            className="h-7 w-7 object-cover overflow-hidden rounded-full"
+                          />
+                        ) : (
+                          <div className="h-7 w-7 bg-zinc-800 rounded-full">
+                            <p className="text-sm font-bold text-zinc-400 flex items-center justify-center h-full w-full">
+                              {channel.channelName[0] + channel.channelName[1]}
+                            </p>
+                          </div>
+                        )} */}
+
+                            {channel.profilePic &&
+                            channel.profilePic.trim() === null ? (
+                              <div className="h-7 w-7 bg-zinc-800 rounded-full">
+                                <p className="text-sm font-bold text-zinc-400 flex items-center justify-center h-full w-full">
+                                  {channel.channelName
+                                    .slice(0, 2)
+                                    .toUpperCase()}
+                                </p>
+                              </div>
+                            ) : (
+                              <img
+                                src={channel.profilePic}
+                                alt="channel icon"
+                                className="h-8 w-8 object-cover overflow-hidden rounded-full"
+                              />
+                            )}
+
+                            <div>
+                              <p className="text-sm font-bold">{video.title}</p>
+                              <p className="text-[0.8rem] font-semibold text-zinc-400">
+                                {channel.channelName}
+                              </p>
+                              <p className="text-[0.7rem] text-zinc-400">
+                                634K views • 1 year ago
+                              </p>
+                            </div>
+                          </div>
                         </div>
-                      </div>
-                    </div>
-                  ))
+                      )
+                    )
+                  )
                 )}
               </div>
 

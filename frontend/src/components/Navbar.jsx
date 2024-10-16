@@ -98,12 +98,12 @@ export default function Navbar() {
             <span className="rounded-full cursor-pointer">
               {user ? (
                 <div className="relative">
-                  {user?.profilePic ? (
+                  {user.channelId.profilePic ? (
                     <div
                       onClick={() => setOpenProfileDialog(!OpenProfileDialog)}
                     >
                       <img
-                        src={user?.profilePic}
+                        src={user.channelId.profilePic}
                         alt="profile"
                         className="h-8 w-8 rounded-full object-cover overflow-hidden cursor-pointer "
                       />

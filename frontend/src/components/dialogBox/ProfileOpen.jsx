@@ -130,7 +130,7 @@ export default function ProfileOpen({ open, setOpen }) {
     }
   };
 
-  
+  console.log(user.channelId.profilePic);
 
   return (
     <main
@@ -142,9 +142,9 @@ export default function ProfileOpen({ open, setOpen }) {
         <div>
           <div className="flex flex-row gap-4 p-3 overflow-hidden  ">
             <span>
-              {user.profilePic ? (
+              {user.channelId.profilePic !== " " ? (
                 <img
-                  src={user.profilePic}
+                  src={user.channelId.profilePic}
                   alt="profile"
                   className="h-9 w-9 rounded-full object-cover overflow-hidden"
                 />
@@ -161,7 +161,7 @@ export default function ProfileOpen({ open, setOpen }) {
                 {user.name}
               </p>
               <p className="text-zinc-200 text-normal font-semibold overflow-hidden ">
-                @{user.email}
+                @{user.channelId.channelName}
               </p>
               <p className="text-blue-400 text-[11px] my-1">
                 View your channel
