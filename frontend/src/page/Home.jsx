@@ -172,7 +172,7 @@ export default function Home() {
         );
         if (res.data.success) {
           setYoutubeVideoListHome(res.data.ChannelsData);
-          // dispatch(setChannelsData(res.data.ChannelsData));
+          dispatch(setChannelsData(res.data.ChannelsData));
         } else {
           setError(res.data.message);
         }
@@ -207,67 +207,63 @@ export default function Home() {
               {/* Long Video Section */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 p-4">
                 {youtubeVideoListHome.map((channel, channelindex) =>
-                  channel.LongVideoId.map(
-                    (video, index) => (
-                      dispatch({
-                        type: "UPDATE_TOAST",
-                        toast: {
-                          id: video._id,
-                          title: video.title,
-                          description: video.description,
-                          profilePic: channel.profilePic,
-                          channelName: channel.channelName,
-                          LongVideo: video.LongVideo,
-                        },
-                      }),
-                      (
-                        <div
-                          key={`${channelindex}-${video.LongVideo}-${index}`}
-                          className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer"
-                          onClick={() =>
-                            navigate(`/video/watch/${video._id}`, {
-                              state: { videoData: video, channelData: channel },
-                            })
-                          }
-                        >
-                          <video
-                            className="rounded-lg w-full h-40 object-cover overflow-hidden"
-                            controls
-                          >
-                            <source src={video.LongVideo} type="video/mp4" />
-                          </video>
-                          <div className="flex gap-3 p-2">
-                            {channel.profilePic &&
-                            channel.profilePic.trim() === null ? (
-                              <div className="h-7 w-7 bg-zinc-800 rounded-full">
-                                <p className="text-sm font-bold text-zinc-400 flex items-center justify-center h-full w-full">
-                                  {channel.channelName
-                                    .slice(0, 2)
-                                    .toUpperCase()}
-                                </p>
-                              </div>
-                            ) : (
-                              <img
-                                src={channel.profilePic}
-                                alt="channel icon"
-                                className="h-8 w-8 object-cover overflow-hidden rounded-full"
-                              />
-                            )}
-
-                            <div>
-                              <p className="text-sm font-bold">{video.title}</p>
-                              <p className="text-[0.8rem] font-semibold text-zinc-400">
-                                {channel.channelName}
-                              </p>
-                              <p className="text-[0.7rem] text-zinc-400">
-                                634K views • 1 year ago
-                              </p>
-                            </div>
+                  channel.LongVideoId.map((video, index) => (
+                    // dispatch({
+                    //   type: "UPDATE_TOAST",
+                    //   toast: {
+                    //     id: video._id,
+                    //     title: video.title,
+                    //     description: video.description,
+                    //     profilePic: channel.profilePic,
+                    //     channelName: channel.channelName,
+                    //     LongVideo: video.LongVideo,
+                    //   },
+                    // }),
+                    <div
+                      key={`${channelindex}-${video.LongVideo}-${index}`}
+                      className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer"
+                      onClick={() =>
+                        navigate(`/video/watch/${video._id}`, {
+                          state: { videoData: video, channelData: channel },
+                        })
+                      }
+                    >
+                      <video
+                        className="rounded-lg w-full h-40 object-cover overflow-hidden"
+                        controls
+                      >
+                        <source src={video.LongVideo} type="video/mp4" />
+                      </video>
+                      <div className="flex gap-3 p-2">
+                        {channel.profilePic &&
+                        channel.profilePic.trim() === null ? (
+                          <div className="h-7 w-7 bg-zinc-800 rounded-full">
+                            <p className="text-sm font-bold text-zinc-400 flex items-center justify-center h-full w-full">
+                              {channel.channelName.slice(0, 2).toUpperCase()}
+                            </p>
                           </div>
+                        ) : (
+                          <img
+                            src={channel.profilePic}
+                            alt="channel icon"
+                            className="h-8 w-8 object-cover overflow-hidden rounded-full"
+                          />
+                        )}
+
+                        <div>
+                          <p className="text-sm font-bold  line-clamp-2 ">
+                            {video.title}{" "}
+                          </p>
+                          <p className="text-[0.8rem] font-semibold text-zinc-400">
+                            {channel.channelName}
+                          </p>
+                          <p className="text-[0.7rem] text-zinc-400">
+                            634K views • 1 year ago
+                          </p>
                         </div>
-                      )
-                    )
-                  )
+                      </div>
+                    </div>
+                  ))
                 )}
               </div>
               {/* Shorts Section */}
@@ -336,7 +332,7 @@ export default function Home() {
                       </div>
                       <div className="text-sm font-semibold flex justify-between">
                         <span>
-                          <p>{video.title}</p>
+                          <p className="line-clamp-2">{video.title} </p>
                         </span>
                         <span className="text-xl h-8 w-8 p-2 rounded-full hover:bg-zinc-800 cursor-pointer flex items-center justify-center">
                           <BsThreeDotsVertical className="text-xl" />

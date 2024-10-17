@@ -17,7 +17,6 @@ export default function LongVideoOpen() {
   const videoData = state?.videoData;
   const channelData = state?.channelData;
   const [isExpanded, setIsExpanded] = useState(false);
-
   if (!videoData || !channelData) {
     return (
       <div className="h-screen w-screen flex items-center justify-center">
@@ -32,8 +31,8 @@ export default function LongVideoOpen() {
 
   return (
     <main className="h-screen w-screen overflow-y-scroll p-4   ">
-      <div className="w-full h-fit   pb-16 flex ">
-        <div className="w-[70%]   px-8 ">
+      <div className="w-full h-fit   pb-28 flex ">
+        <div className="w-[76%]   px-8 ">
           <div className="w-full">
             <video
               className="rounded-xl  w-full   object-cover overflow-hidden"
@@ -43,7 +42,7 @@ export default function LongVideoOpen() {
             </video>
           </div>
 
-          <div className="w-full flex flex-col  h-[15%]  ">
+          <div className="w-full flex flex-col  h-[9%]  ">
             <div>
               <p className="text-lg font-semibold">{videoData.title}</p>
             </div>
@@ -51,7 +50,7 @@ export default function LongVideoOpen() {
               <div className="flex gap-3 items-center">
                 <span>
                   <img
-                    src="https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/292694884_729606568152974_711651807545817504_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=xnL-0IiuGI4Q7kNvgFxBB23&_nc_zt=23&_nc_ht=scontent.fktm21-1.fna&_nc_gid=AAv6g-Z8MgbW4Pwf0kurWLa&oh=00_AYDHUrcC2uZ0i5vpcKCztLJ4GBY69KpAGjh6AdnseXtoxQ&oe=67152724"
+                    src={channelData.profilePic}
                     alt="profile"
                     className="h-10 w-10 rounded-full object-cover overflow-hidden cursor-pointer "
                   />
@@ -105,7 +104,11 @@ export default function LongVideoOpen() {
             className="w-full h-fit bg-zinc-800 text-zinc-200 text-xs p-3 rounded-xl font-semibold cursor-pointer"
             onClick={toggleExpand}
           >
-            <p className={`transition-all ${isExpanded ? "" : "line-clamp-4"}`}>
+            <p
+              className={`transition-all text-zinc-300 ${
+                isExpanded ? "" : "line-clamp-4  "
+              }`}
+            >
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio
               odio reiciendis nam a, dolores deserunt aut qui minima itaque sit
               suscipit harum! Eos tempore minus earum maiores eaque sit quaerat.
@@ -146,8 +149,8 @@ export default function LongVideoOpen() {
                 <span className="text-lg font-semibold">2,243 Comments</span>
                 <span className="text-lg font-semibold flex items-center gap-1 ">
                   <>
-                    <FaArrowUpWideShort className="text-lg" />
-                    <p className="text-xs">Short</p>
+                    <FaArrowUpWideShort className="text-lg text-zinc-400" />
+                    <p className="text-xs text-zinc-400">Short</p>
                   </>
                 </span>
               </div>
@@ -157,7 +160,7 @@ export default function LongVideoOpen() {
                     <img
                       src="https://scontent.fktm21-1.fna.fbcdn.net/v/t39.30808-6/292694884_729606568152974_711651807545817504_n.jpg?_nc_cat=104&ccb=1-7&_nc_sid=833d8c&_nc_ohc=xnL-0IiuGI4Q7kNvgFxBB23&_nc_zt=23&_nc_ht=scontent.fktm21-1.fna&_nc_gid=AAv6g-Z8MgbW4Pwf0kurWLa&oh=00_AYDHUrcC2uZ0i5vpcKCztLJ4GBY69KpAGjh6AdnseXtoxQ&oe=67152724"
                       alt="profile"
-                      className="h-10 w-10 rounded-full object-cover overflow-hidden cursor-pointer "
+                      className="h-9 w-9 rounded-full object-cover overflow-hidden cursor-pointer "
                     />
                   </button>
                   <input
@@ -214,10 +217,41 @@ export default function LongVideoOpen() {
           </div>
         </div>
 
-        <div className="w-[30%] h-full  min-h-[100vh]  ">
-          requminded video list Lorem ipsum dolor sit amet consectetur
-          adipisicing elit. Similique perferendis tenetur corrupti provident
-          earum nesciunt nobis? Ut modi facilis necessitatibus sunt earum. Odio
+        <div className="w-[24%] h-full  min-h-[100vh] flex flex-col gap-1 ">
+          {ChannelsData?.map((channel, index) => {
+            return channel.LongVideoId?.map((video, Videoindex) => {
+              return (
+                <div
+                  className="flex w-full  flex-row justify-between  rounded-xl"
+                  key={Videoindex}
+                >
+                  <div className="rounded-lg overflow-hidden cursor-pointer flex w-full h-full justify-between gap-2 ">
+                    <div className="  w-[55%]">
+                      <video
+                        className="rounded-lg w-full h-24 object-cover overflow-hidden"
+                        controls
+                      >
+                        <source src={video.LongVideo} type="video/mp4" />
+                      </video>
+                    </div>
+                    <div className="  w-[45%]">
+                      <div className="w-full">
+                        <p className="text-[0.7rem] font-bold flex-wrap line-clamp-2 ">
+                          {video.title}
+                        </p>
+                        <p className="text-[0.6rem] font-semibold text-zinc-400">
+                          {channel.channelName}
+                        </p>
+                        <p className="text-[0.6rem] text-zinc-400">
+                          634K views • 1 year ago
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            });
+          })}
         </div>
       </div>
     </main>
