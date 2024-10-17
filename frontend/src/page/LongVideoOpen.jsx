@@ -227,12 +227,12 @@ export default function LongVideoOpen() {
                 >
                   <div className="rounded-lg overflow-hidden cursor-pointer flex w-full h-full justify-between gap-2 ">
                     <div className="  w-[55%]">
-                      <video
+                      <img
+                        src={video.thumbnail}
                         className="rounded-lg w-full h-24 object-cover overflow-hidden"
                         controls
-                      >
-                        <source src={video.LongVideo} type="video/mp4" />
-                      </video>
+                      > 
+                      </img>
                     </div>
                     <div className="  w-[45%]">
                       <div className="w-full">

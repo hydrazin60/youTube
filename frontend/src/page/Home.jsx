@@ -228,7 +228,6 @@ export default function Home() {
                         })
                       }
                     >
-       
                       <img
                         src={video.thumbnail}
                         className="rounded-lg w-full h-40 object-cover overflow-hidden"
