@@ -11,15 +11,22 @@ import {
   UploadLongVideo,
   UploadShortVideo,
 } from "../controller/post.controller.js";
-import { uploadVideo } from "../middlewares/multer.js";
-
+import {
+  uploadVideo,
+  uploadMedia,
+  uploadImage,
+} from "../middlewares/multer.js";
 const postRoutes = express.Router();
 postRoutes.post(
   "/long_video/upload",
-  uploadVideo.fields([{ name: "LongVideo" }]),
+  uploadMedia.fields([
+    { name: "LongVideo", maxCount: 1 },  
+    { name: "thumbnail", maxCount: 1 }, 
+  ]),
   isAuthenticated,
   UploadLongVideo
 );
+
 postRoutes.put(
   "/long_video/edit/:id",
   uploadVideo.fields([{ name: "LongVideo" }]),

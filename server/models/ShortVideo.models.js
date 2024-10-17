@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 const ShortVideoSchema = new mongoose.Schema(
   {
+    thumbnail: {
+      type: String,
+      default: "",
+    },
     title: {
       type: String,
       default: function () {

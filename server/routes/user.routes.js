@@ -10,7 +10,7 @@ import {
   ViewOwnChannel,
 } from "../controller/user.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
-import {uploadImage} from "../middlewares/multer.js";
+import { uploadImage } from "../middlewares/multer.js";
 const userRoutes = express.Router();
 userRoutes.post("/register", RegisterUser);
 userRoutes.post("/login", loginUser);

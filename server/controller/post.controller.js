@@ -13,6 +13,7 @@ export const UploadLongVideo = async (req, res) => {
     const authorId = req.id;
     const { title, description, visibility } = req.body;
     const LongVideoFile = req.files?.LongVideo?.[0];
+    const thumbnailFile = req.files?.thumbnail?.[0];
 
     if (!LongVideoFile) {
       return res.status(400).json({
@@ -45,6 +46,15 @@ export const UploadLongVideo = async (req, res) => {
       folder: "long_videos",
       public_id: `${title}_${authorId}`,
     });
+    const thumbnailFileUri = getDataUri(thumbnailFile);
+    const thumbnailCloudResponse = await cloudinary.uploader.upload(
+      thumbnailFileUri.content,
+      {
+        resource_type: "image",
+        folder: "thumbnails",
+        public_id: `${title}_${authorId}`,
+      }
+    );
 
     const newLongVideo = await LongVideoModel.create({
       title,
@@ -52,6 +62,7 @@ export const UploadLongVideo = async (req, res) => {
       visibility,
       author: authorId,
       LongVideo: cloudResponse.secure_url,
+      thumbnail: thumbnailCloudResponse.secure_url,
     });
 
     const channel = await Channel.findById(authorUser.channelId);
