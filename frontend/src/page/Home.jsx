@@ -150,12 +150,15 @@ import LeftSidebar from "@/components/LeftSidbar";
 import { RxCross1 } from "react-icons/rx";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { SiYoutubeshorts } from "react-icons/si";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { setChannelsData } from "@/redux/ChannelsDataSlice";
 
 export default function Home() {
   const { user } = useSelector((state) => state.userAuth);
+  const { ChannelsData } = useSelector((state) => state.ChannelsData);
+  const dispatch = useDispatch();
   const [youtubeVideoListHome, setYoutubeVideoListHome] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -169,6 +172,7 @@ export default function Home() {
         );
         if (res.data.success) {
           setYoutubeVideoListHome(res.data.ChannelsData);
+          // dispatch(setChannelsData(res.data.ChannelsData));
         } else {
           setError(res.data.message);
         }
@@ -193,7 +197,7 @@ export default function Home() {
   return (
     <div className="h-screen mt-20 pb-12">
       <div className="flex flex-row h-full">
-        <div className="w-[15%] h-full">
+        <div className="w-[16%] h-full">
           <LeftSidebar />
         </div>
 
@@ -205,12 +209,26 @@ export default function Home() {
                 {youtubeVideoListHome.map((channel, channelindex) =>
                   channel.LongVideoId.map(
                     (video, index) => (
-                      console.log(channel.profilePic),
+                      dispatch({
+                        type: "UPDATE_TOAST",
+                        toast: {
+                          id: video._id,
+                          title: video.title,
+                          description: video.description,
+                          profilePic: channel.profilePic,
+                          channelName: channel.channelName,
+                          LongVideo: video.LongVideo,
+                        },
+                      }),
                       (
                         <div
                           key={`${channelindex}-${video.LongVideo}-${index}`}
                           className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer"
-                          onClick={() => navigate(`/video/watch/${video._id}`)}
+                          onClick={() =>
+                            navigate(`/video/watch/${video._id}`, {
+                              state: { videoData: video, channelData: channel },
+                            })
+                          }
                         >
                           <video
                             className="rounded-lg w-full h-40 object-cover overflow-hidden"
@@ -252,7 +270,6 @@ export default function Home() {
                   )
                 )}
               </div>
-
               {/* Shorts Section */}
               <div>
                 <div className="flex justify-between px-3 gap-3 items-center h-12 mt-6">

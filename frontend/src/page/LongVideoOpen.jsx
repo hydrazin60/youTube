@@ -8,13 +8,28 @@ import { CiBookmark } from "react-icons/ci";
 import { FaArrowUpWideShort } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { useLocation, useParams } from "react-router-dom";
 
 export default function LongVideoOpen() {
+  const { ChannelsData } = useSelector((state) => state.ChannelsData);
+  const { state } = useLocation();
+  const videoData = state?.videoData;
+  const channelData = state?.channelData;
   const [isExpanded, setIsExpanded] = useState(false);
+
+  if (!videoData || !channelData) {
+    return (
+      <div className="h-screen w-screen flex items-center justify-center">
+        Loading...
+      </div>
+    );
+  }
 
   const toggleExpand = () => {
     setIsExpanded(!isExpanded);
   };
+
   return (
     <main className="h-screen w-screen overflow-y-scroll p-4   ">
       <div className="w-full h-fit   pb-16 flex ">
@@ -24,19 +39,13 @@ export default function LongVideoOpen() {
               className="rounded-xl  w-full   object-cover overflow-hidden"
               controls
             >
-              <source
-                src="https://www.youtube.com/watch?v=iYA_AU16iHA&list=RDGMEMCMFH2exzjBeE_zAHHJOdxgVM6Rpy_VcoNSw&index=4"
-                type="video/mp4"
-              />
+              <source src={videoData.LongVideo} type="video/mp4" />
             </video>
           </div>
 
           <div className="w-full flex flex-col  h-[15%]  ">
             <div>
-              <p className="text-lg font-semibold">
-                title Timle Bato Fereu Are Latest Song By Melina Rai with
-                English subtitles
-              </p>
+              <p className="text-lg font-semibold">{videoData.title}</p>
             </div>
             <div className="flex justify-between items-center">
               <div className="flex gap-3 items-center">
@@ -48,9 +57,11 @@ export default function LongVideoOpen() {
                   />
                 </span>
                 <span className="flex flex-col">
-                  <p className="text-sm font-semibold">Shallum Lama</p>
+                  <p className="text-sm font-semibold">
+                    {channelData.channelName}
+                  </p>
                   <p className="text-slate-400 text-[0.7rem]">
-                    11.3k subscribers
+                    {channelData.subscriberCount} 11 subscribers
                   </p>
                 </span>
                 <span>
@@ -63,7 +74,7 @@ export default function LongVideoOpen() {
                 <div className="h-7 w-28    rounded-full  cursor-pointer flex items-center justify-between">
                   <span className="h-[100%] w-[75%] text-lg flex items-center  border-r border-zinc-400 bg-zinc-800 hover:bg-zinc-700 rounded-l-full pl-3  gap-1 text-zinc-200">
                     <AiOutlineLike />
-                    <p className="text-xs font-semibold">10 k</p>
+                    <p className="text-xs font-semibold">{videoData.likes}l</p>
                   </span>
                   <span className="h-[100%] w-[40%] text-lg flex items-center justify-evenly text-zinc-200 hover:bg-zinc-700 bg-zinc-800 rounded-r-full p-2">
                     <AiOutlineDislike />
@@ -152,8 +163,8 @@ export default function LongVideoOpen() {
                   <input
                     type="text"
                     placeholder="Add a comment"
-                    className=" w-full outline-none border-b-0 bg-black text-white  
-                  focus:border-b-2 focus:border-white hover:border-b-2 hover:border-white 
+                    className=" w-full outline-none  bg-black text-white
+                  focus:border-b-2 focus:border-white border-b-2 border-white
                   transition-all duration-200 placeholder-zinc-300 placeholder:text-sm placeholder:font-normal"
                   />
                 </div>
@@ -183,11 +194,12 @@ export default function LongVideoOpen() {
                   />
                 </div>
                 <div>
-                 <span className="flex items-center gap-2">
-                 <button className=" rounded-full px-2  text-[0.7rem]  bg-zinc-700 ">
-                    <p>@karunakarki</p>
-                  </button> <p className="text-[0.7rem]"> 2 day ago</p>
-                 </span>
+                  <span className="flex items-center gap-2">
+                    <button className=" rounded-full px-2  text-[0.7rem]  bg-zinc-700 ">
+                      <p>@karunakarki</p>
+                    </button>{" "}
+                    <p className="text-[0.7rem]"> 2 day ago</p>
+                  </span>
                   <span>
                     <p className="text-sm font-semibold">
                       Lorem ipsum dolor sit amet this is comment

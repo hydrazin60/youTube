@@ -129,9 +129,6 @@ export default function ProfileOpen({ open, setOpen }) {
       LogoutHandler();
     }
   };
-
-  console.log(user.channelId.profilePic);
-
   return (
     <main
       className={`w-[19vw] h-[92vh] bg-zinc-800 z-50  rounded-xl overflow-hidden  ${

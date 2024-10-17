@@ -10,6 +10,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { ChannelsDataSlice } from "./ChannelsDataSlice.js";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +20,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   userAuth: userAuthSlice.reducer,
+  ChannelsData: ChannelsDataSlice.reducer,
 });
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
