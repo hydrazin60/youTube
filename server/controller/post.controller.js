@@ -290,6 +290,14 @@ export const UploadShortVideo = async (req, res) => {
     const authorId = req.id;
     const { title, description, visibility } = req.body;
     const ShortVideoFile = req.files?.ShortVideo?.[0];
+    const thumbnailFile = req.files?.thumbnail?.[0];
+    if (!thumbnailFile) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Please upload a thumbnail",
+      });
+    }
     if (!ShortVideoFile) {
       return res.status(400).json({
         success: false,
@@ -319,12 +327,22 @@ export const UploadShortVideo = async (req, res) => {
       public_id: `${title}_${authorId}`,
     });
 
+    const thumbnailUri = getDataUri(thumbnailFile);
+    const thumbnailCloudResponse = await cloudinary.uploader.upload(
+      thumbnailUri.content,
+      {
+        resource_type: "image",
+        folder: "short_videos",
+        public_id: `${title}_${authorId}`,
+      }
+    );
     const newShortVideo = await ShortVideoModel.create({
       title,
       description,
       visibility,
       author: authorId,
       ShortVideo: cloudResponse.secure_url,
+      thumbnail: thumbnailCloudResponse.secure_url,
     });
     const channel = await Channel.findById(authorUser.channelId);
     if (channel) {
@@ -565,11 +583,11 @@ export const getAllChannels = async (req, res) => {
       })
       .populate({
         path: "LongVideoId",
-        select: "title description LongVideo likes comments visibility",
+        select: "title thumbnail  description LongVideo likes comments visibility",
       })
       .populate({
         path: "ShortVideoId",
-        select: "title description  ShortVideo  likes comments visibility",
+        select: "title thumbnail description  ShortVideo  likes comments visibility",
       });
 
     return res.status(200).json({

@@ -57,7 +57,7 @@ const uploadMedia = multer({
           false
         );
       }
-    } else if (file.fieldname === "LongVideo") {
+    } else if (file.fieldname === "LongVideo" || file.fieldname === "ShortVideo") {
       const allowedVideoTypes = ["video/mp4", "video/mov", "video/avi"];
       if (allowedVideoTypes.includes(file.mimetype)) {
         // Check file size for videos

@@ -20,8 +20,8 @@ const postRoutes = express.Router();
 postRoutes.post(
   "/long_video/upload",
   uploadMedia.fields([
-    { name: "LongVideo", maxCount: 1 },  
-    { name: "thumbnail", maxCount: 1 }, 
+    { name: "LongVideo", maxCount: 1 },
+    { name: "thumbnail", maxCount: 1 },
   ]),
   isAuthenticated,
   UploadLongVideo
@@ -29,7 +29,10 @@ postRoutes.post(
 
 postRoutes.put(
   "/long_video/edit/:id",
-  uploadVideo.fields([{ name: "LongVideo" }]),
+  uploadMedia.fields([
+    { name: "LongVideo", maxCount: 1 },
+    { name: "thumbnail", maxCount: 1 },
+  ]),
   isAuthenticated,
   EditLongVideo
 );
@@ -38,13 +41,19 @@ postRoutes.get("/longvideo/all/:id", isAuthenticated, GetAllLongVideoOfChannel);
 postRoutes.delete("/long_video/delete/:id", isAuthenticated, DeleteLongVideo);
 postRoutes.post(
   "/short_video/upload",
-  uploadVideo.fields([{ name: "ShortVideo" }]),
+  uploadMedia.fields([
+    { name: "ShortVideo", maxCount: 1 },
+    { name: "thumbnail", maxCount: 1 },
+  ]),
   isAuthenticated,
   UploadShortVideo
 );
 postRoutes.put(
   "/short_video/edit/:id",
-  uploadVideo.fields([{ name: "ShortVideo" }]),
+  uploadMedia.fields([
+    { name: "ShortVideo", maxCount: 1 },
+    { name: "thumbnail", maxCount: 1 },
+  ]),
   isAuthenticated,
   EditShortVideo
 );

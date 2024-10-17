@@ -228,12 +228,11 @@ export default function Home() {
                         })
                       }
                     >
-                      <video
+       
+                      <img
+                        src={video.thumbnail}
                         className="rounded-lg w-full h-40 object-cover overflow-hidden"
-                        controls
-                      >
-                        <source src={video.LongVideo} type="video/mp4" />
-                      </video>
+                      ></img>
                       <div className="flex gap-3 p-2">
                         {channel.profilePic &&
                         channel.profilePic.trim() === null ? (
@@ -252,7 +251,7 @@ export default function Home() {
 
                         <div>
                           <p className="text-sm font-bold  line-clamp-2 ">
-                            {video.title}{" "}
+                            {video.title}
                           </p>
                           <p className="text-[0.8rem] font-semibold text-zinc-400">
                             {channel.channelName}

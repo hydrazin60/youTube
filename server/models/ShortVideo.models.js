@@ -3,7 +3,8 @@ const ShortVideoSchema = new mongoose.Schema(
   {
     thumbnail: {
       type: String,
-      default: "",
+      default:""
+ 
     },
     title: {
       type: String,
