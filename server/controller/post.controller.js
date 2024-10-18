@@ -14,6 +14,7 @@ export const UploadLongVideo = async (req, res) => {
     const { title, description, visibility } = req.body;
     const LongVideoFile = req.files?.LongVideo?.[0];
     const thumbnailFile = req.files?.thumbnail?.[0];
+    console.log("Received files:", req.files);
 
     if (!LongVideoFile) {
       return res.status(400).json({
@@ -22,7 +23,13 @@ export const UploadLongVideo = async (req, res) => {
         message: "Please upload a video",
       });
     }
-
+    if (!thumbnailFile) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Please upload a thumbnail",
+      });
+    }
     const authorUser = await User.findById(authorId);
     if (!authorUser) {
       return res.status(400).json({
@@ -40,13 +47,14 @@ export const UploadLongVideo = async (req, res) => {
     }
 
     const fileUri = getDataUri(LongVideoFile);
-    // populate
+
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
       resource_type: "video",
       folder: "long_videos",
       public_id: `${title}_${authorId}`,
     });
     const thumbnailFileUri = getDataUri(thumbnailFile);
+
     const thumbnailCloudResponse = await cloudinary.uploader.upload(
       thumbnailFileUri.content,
       {
@@ -583,11 +591,13 @@ export const getAllChannels = async (req, res) => {
       })
       .populate({
         path: "LongVideoId",
-        select: "title thumbnail  description LongVideo likes comments visibility",
+        select:
+          "title thumbnail  description LongVideo likes comments visibility",
       })
       .populate({
         path: "ShortVideoId",
-        select: "title thumbnail description  ShortVideo  likes comments visibility",
+        select:
+          "title thumbnail description  ShortVideo  likes comments visibility",
       });
 
     return res.status(200).json({

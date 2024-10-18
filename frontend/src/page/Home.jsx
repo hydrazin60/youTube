@@ -205,7 +205,7 @@ export default function Home() {
           {user ? (
             <main className="w-full">
               {/* Long Video Section */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1 p-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  p-2">
                 {youtubeVideoListHome.map((channel, channelindex) =>
                   channel.LongVideoId.map((video, index) => (
                     // dispatch({
@@ -227,7 +227,7 @@ export default function Home() {
                           state: { videoData: video, channelData: channel },
                         })
                       }
-                    >
+                    > 
                       <img
                         src={video.thumbnail}
                         className="rounded-lg w-full h-40 object-cover overflow-hidden"

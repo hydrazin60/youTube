@@ -13,7 +13,7 @@ import {
 } from "../controller/post.controller.js";
 import {
   uploadVideo,
-  uploadMedia,
+   uploadMedia,
   uploadImage,
 } from "../middlewares/multer.js";
 const postRoutes = express.Router();
