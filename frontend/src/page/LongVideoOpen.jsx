@@ -111,7 +111,28 @@ export default function LongVideoOpen() {
                 isExpanded ? "" : "line-clamp-4"
               }`}
             >
-              {videoData.description}
+              {videoData.description} || || || || || || Lorem ipsum dolor sit amet
+              consectetur, adipisicing elit. Nulla laboriosam sit deserunt quos
+              quas corporis voluptatibus aut quidem recusandae optio rerum
+              delectus, blanditiis quia a animi fuga odio, amet cupiditate?
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem
+              ratione suscipit, perspiciatis quos delectus accusamus earum ex
+              saepe, fugiat aperiam exercitationem cupiditate illo neque quas!
+              Dolore ad animi Lorem ipsum dolor sit amet consectetur adipisicing
+              elit. Nostrum consequuntur laudantium asperiores eius, voluptatem
+              deleniti modi, id ipsa, ea numquam unde vel perspiciatis possimus?
+              Nesciunt, aliquid obcaecati! Incidunt, eum ut!   Lorem ipsum dolor sit amet
+              consectetur, adipisicing elit. Nulla laboriosam sit deserunt quos
+              quas corporis voluptatibus aut quidem recusandae optio rerum
+              delectus, blanditiis quia a animi fuga odio, amet cupiditate?
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem
+              ratione suscipit, perspiciatis quos delectus accusamus earum ex
+              saepe, fugiat aperiam exercitationem cupiditate illo neque quas!
+              Dolore ad animi Lorem ipsum dolor sit amet consectetur adipisicing
+              elit. Nostrum consequuntur laudantium asperiores eius, voluptatem
+              deleniti modi, id ipsa, ea numquam unde vel perspiciatis possimus?
+              Nesciunt, aliquid obcaecati! Incidunt, eum ut!#jiban #coding
+              #region #jiban #coding
             </p>
           </div>
           <div className="w-full h-fit my-6">
