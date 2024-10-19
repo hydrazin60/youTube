@@ -19,7 +19,7 @@ const channelSchema = new mongoose.Schema(
     },
     profilePic: {
       type: String,
-      default: "",
+      default: null,
     },
     authorId: {
       type: mongoose.Schema.Types.ObjectId,

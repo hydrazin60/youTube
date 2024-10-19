@@ -302,8 +302,8 @@ export default function YoutubeStudioPage() {
                           <div className="pl-8 flex flex-row gap-2">
                             <span>
                               <video
-                                width="150"
-                                height="80"
+                                width="200"
+                                height="100"
                                 controls
                                 className="rounded-lg object-contain overflow-hidden cursor-pointer"
                               >
@@ -313,11 +313,11 @@ export default function YoutubeStudioPage() {
                                 />
                               </video>
                             </span>
-                            <span className="flex flex-col">
-                              <p className="text-xs text-white">
+                            <span className="flex flex-col w-96 ">
+                              <p className="text-xs text-white  line-clamp-2">
                                 {video.title}
                               </p>
-                              <p className="text-[10px] text-zinc-400">
+                              <p className="text-[10px] text-zinc-400  line-clamp-2">
                                 {video.description}
                               </p>
                             </span>
@@ -387,8 +387,8 @@ export default function YoutubeStudioPage() {
                           <div className="pl-8 flex flex-row gap-2">
                             <span>
                               <video
-                                width="80"
-                                height="80"
+                                width="100"
+                                height="100"
                                 controls
                                 className="rounded-lg object-contain overflow-hidden cursor-pointer"
                               >
@@ -399,10 +399,10 @@ export default function YoutubeStudioPage() {
                               </video>
                             </span>
                             <span className="flex flex-col">
-                              <p className="text-xs text-white">
+                              <p className="text-xs text-white line-clamp-2">
                                 {video.title}
                               </p>
-                              <p className="text-[10px] text-zinc-400">
+                              <p className="text-[10px] line-clamp-2 text-zinc-400">
                                 {video.description}
                               </p>
                             </span>

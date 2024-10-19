@@ -139,7 +139,7 @@ export default function ProfileOpen({ open, setOpen }) {
         <div>
           <div className="flex flex-row gap-4 p-3 overflow-hidden  ">
             <span>
-              {user.channelId.profilePic !== " " ? (
+              {user.channelId.profilePic !== null ? (
                 <img
                   src={user.channelId.profilePic}
                   alt="profile"
