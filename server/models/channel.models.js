@@ -50,6 +50,9 @@ const channelSchema = new mongoose.Schema(
     timestamps: true,
   }
 );
+channelSchema.virtual("totalSubscribers").get(function () {
+  return this.subscribers.length;
+});
 
 const Channel = mongoose.model("Channel", channelSchema);
 export default Channel;

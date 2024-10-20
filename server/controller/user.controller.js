@@ -451,11 +451,13 @@ export const ViewOwnChannel = async (req, res) => {
     const channel = await Channel.findById(channelId);
     await channel.populate({
       path: "LongVideoId",
-      select: "thumbnail title LongVideo description likes visibility comments ",
+      select:
+        "thumbnail title LongVideo description likes visibility comments ",
     });
     await channel.populate({
       path: "ShortVideoId",
-      select: " thumbnail title ShortVideo description likes visibility comments ",
+      select:
+        " thumbnail title ShortVideo description likes visibility comments ",
     });
 
     return res.status(200).json({
@@ -474,7 +476,7 @@ export const ViewOwnChannel = async (req, res) => {
 export const SubscribeORUnsubscribe = async (req, res) => {
   try {
     const userId = req.id;
-    const channelId = req.params.id;
+    const channelId = req.params.channelId;
 
     if (
       !userId ||

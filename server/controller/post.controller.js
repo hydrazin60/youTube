@@ -666,7 +666,6 @@ export const LikeAndDislikeLongVideo = async (req, res) => {
         message: "Post disliked successfully",
       });
     }
-
     if (!isLikedLingVideo) {
       await Promise.all([
         LongVideoModel.updateOne(
@@ -689,3 +688,5 @@ export const LikeAndDislikeLongVideo = async (req, res) => {
     });
   }
 };
+
+ 

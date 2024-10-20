@@ -10,6 +10,8 @@ import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import LongVideoOpenSidbar from "@/components/contentType/LongVideoOpenSidbar";
 import { BsThreeDotsVertical } from "react-icons/bs";
+import axios from "axios";
+import { toast } from "sonner";
 
 export default function LongVideoOpen() {
   const { ChannelsData } = useSelector((state) => state.ChannelsData);
@@ -21,7 +23,6 @@ export default function LongVideoOpen() {
   const videoRef = useRef(null);
 
   useEffect(() => {
-    console.log("Video Source URL:", videoData?.LongVideo);
     if (videoRef.current && videoData) {
       videoRef.current.load();
       videoRef.current.play();
@@ -35,9 +36,34 @@ export default function LongVideoOpen() {
       </div>
     );
   }
-
   const [isExpanded, setIsExpanded] = useState(false);
+  const [subscribersCount, setSubscribersCount] = useState(0);
+
   const toggleExpand = () => setIsExpanded(!isExpanded);
+  const subscribeChannel = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:4000/youtube/api/v1/user/subscribe-unsubscribe/${channelData._id}`,
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      console.error(
+        `Error during subscribeChannel:`,
+        err.response ? err.response.data : err.message
+      );
+      toast.error(
+        `Error during subscribeChannel: ${
+          err.response ? err.response.data.message : err.message
+        }`
+      );
+    }
+  };
 
   return (
     <main className="h-screen w-screen overflow-y-scroll p-4">
@@ -70,10 +96,13 @@ export default function LongVideoOpen() {
                     {channelData.channelName}
                   </p>
                   <p className="text-slate-400 text-[0.7rem]">
-                    {channelData.subscriberCount} subscribers
+                    {subscribersCount}subscribers
                   </p>
                 </div>
-                <Button className="bg-white h-7 text-zinc-600 text-xs hover:bg-zinc-200 rounded-full">
+                <Button
+                  className="bg-white h-7 text-zinc-600 text-xs hover:bg-zinc-200 rounded-full"
+                  onClick={() => subscribeChannel()}
+                >
                   Subscribe
                 </Button>
               </div>
@@ -111,9 +140,9 @@ export default function LongVideoOpen() {
                 isExpanded ? "" : "line-clamp-4"
               }`}
             >
-              {videoData.description} || || || || || || Lorem ipsum dolor sit amet
-              consectetur, adipisicing elit. Nulla laboriosam sit deserunt quos
-              quas corporis voluptatibus aut quidem recusandae optio rerum
+              {videoData.description} || || || || || || Lorem ipsum dolor sit
+              amet consectetur, adipisicing elit. Nulla laboriosam sit deserunt
+              quos quas corporis voluptatibus aut quidem recusandae optio rerum
               delectus, blanditiis quia a animi fuga odio, amet cupiditate?
               Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem
               ratione suscipit, perspiciatis quos delectus accusamus earum ex
@@ -121,18 +150,18 @@ export default function LongVideoOpen() {
               Dolore ad animi Lorem ipsum dolor sit amet consectetur adipisicing
               elit. Nostrum consequuntur laudantium asperiores eius, voluptatem
               deleniti modi, id ipsa, ea numquam unde vel perspiciatis possimus?
-              Nesciunt, aliquid obcaecati! Incidunt, eum ut!   Lorem ipsum dolor sit amet
-              consectetur, adipisicing elit. Nulla laboriosam sit deserunt quos
-              quas corporis voluptatibus aut quidem recusandae optio rerum
-              delectus, blanditiis quia a animi fuga odio, amet cupiditate?
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ab autem
-              ratione suscipit, perspiciatis quos delectus accusamus earum ex
-              saepe, fugiat aperiam exercitationem cupiditate illo neque quas!
-              Dolore ad animi Lorem ipsum dolor sit amet consectetur adipisicing
-              elit. Nostrum consequuntur laudantium asperiores eius, voluptatem
-              deleniti modi, id ipsa, ea numquam unde vel perspiciatis possimus?
-              Nesciunt, aliquid obcaecati! Incidunt, eum ut!#jiban #coding
-              #region #jiban #coding
+              Nesciunt, aliquid obcaecati! Incidunt, eum ut! Lorem ipsum dolor
+              sit amet consectetur, adipisicing elit. Nulla laboriosam sit
+              deserunt quos quas corporis voluptatibus aut quidem recusandae
+              optio rerum delectus, blanditiis quia a animi fuga odio, amet
+              cupiditate? Lorem ipsum dolor sit amet, consectetur adipisicing
+              elit. Ab autem ratione suscipit, perspiciatis quos delectus
+              accusamus earum ex saepe, fugiat aperiam exercitationem cupiditate
+              illo neque quas! Dolore ad animi Lorem ipsum dolor sit amet
+              consectetur adipisicing elit. Nostrum consequuntur laudantium
+              asperiores eius, voluptatem deleniti modi, id ipsa, ea numquam
+              unde vel perspiciatis possimus? Nesciunt, aliquid obcaecati!
+              Incidunt, eum ut!#jiban #coding #region #jiban #coding
             </p>
           </div>
           <div className="w-full h-fit my-6">

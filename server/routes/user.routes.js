@@ -30,9 +30,8 @@ userRoutes.post(
 userRoutes.get("/view/channel/:id", isAuthenticated, otherChannelView);
 userRoutes.get("/view/Yourchannel", isAuthenticated, ViewOwnChannel);
 userRoutes.get(
-  "/subscribe/&/unsubscribe/:id",
+  "/subscribe-unsubscribe/:channelId",
   isAuthenticated,
   SubscribeORUnsubscribe
 );
-
 export default userRoutes;
