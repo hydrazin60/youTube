@@ -34,4 +34,5 @@ userRoutes.get(
   isAuthenticated,
   SubscribeORUnsubscribe
 );
+
 export default userRoutes;

@@ -616,35 +616,76 @@ export const getAllChannels = async (req, res) => {
   }
 };
 
-// export const  getAllChannels = async (req, res) => {
-//   try {
-//     const channelsData = await Channel.find()
-//       .sort({ createdAt: -1 })
-//       .populate({
-//         path: "authorId",
-//         select: "name",
-//       })
-//       .populate({
-//         path: "LongVideoId",
-//         select: "title description LongVideo likes comments visibility",
-//       })
-//       .populate({
-//         path: "ShortVideoId",
-//         select: "title description ShortVideo likes comments visibility",
-//       });
+export const LikeAndDislikeLongVideo = async (req, res) => {
+  try {
+    const likeAndDislikGarnePostId = req.params.id;
+    const likeAndDislikGarneUserId = req.id;
 
-//     return res.status(200).json({
-//       success: true,
-//       error: false,
-//       channelsData, // Ensure the variable name is consistent
-//       message: "Channels fetched successfully",
-//     });
-//   } catch (error) {
-//     console.log(`Error during getAllChannels: ${error.message}`);
-//     return res.status(500).json({
-//       success: false,
-//       error: true,
-//       message: `Error during getAllChannels: ${error.message}`,
-//     });
-//   }
-// };
+    const longVideoData = await LongVideoModel.findById(
+      likeAndDislikGarnePostId
+    );
+    if (!longVideoData) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "Post not found",
+      });
+    }
+    const userData = await User.findById(likeAndDislikGarneUserId);
+    if (!userData) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "User not found",
+      });
+    }
+
+    if (likeAndDislikGarnePostId === likeAndDislikGarneUserId) {
+      return res.status(400).json({
+        success: false,
+        error: true,
+        message: "unexpected error",
+      });
+    }
+
+    const isLikedLingVideo = longVideoData.likes.includes(
+      likeAndDislikGarneUserId
+    );
+    if (isLikedLingVideo) {
+      await Promise.all([
+        LongVideoModel.findByIdAndUpdate(likeAndDislikGarnePostId, {
+          $pull: { likes: likeAndDislikGarneUserId },
+        }),
+        User.findByIdAndUpdate(likeAndDislikGarneUserId, {
+          $pull: { likedPosts: likeAndDislikGarnePostId },
+        }),
+      ]);
+      return res.status(200).json({
+        success: true,
+        error: false,
+        message: "Post disliked successfully",
+      });
+    }
+
+    if (!isLikedLingVideo) {
+      await Promise.all([
+        LongVideoModel.updateOne(
+          { _id: likeAndDislikGarnePostId },
+          { $push: { likes: likeAndDislikGarneUserId } }
+        ),
+      ]);
+    }
+    return res.status(200).json({
+      success: true,
+      error: false,
+      message: "Post liked successfully",
+    });
+  } catch (error) {
+    console.log(`Error during  LikeAndDislike : ${error.message}`);
+    return res.status(500).json({
+      success: false,
+      error: true,
+      message: `Error during  LikeAndDislike : ${error.message}`,
+    });
+  }
+};

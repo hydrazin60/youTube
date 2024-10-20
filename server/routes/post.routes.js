@@ -8,12 +8,13 @@ import {
   getAllChannels,
   GetAllLongVideoOfChannel,
   getAllShortVideosofChannel,
+  LikeAndDislikeLongVideo,
   UploadLongVideo,
   UploadShortVideo,
 } from "../controller/post.controller.js";
 import {
   uploadVideo,
-   uploadMedia,
+  uploadMedia,
   uploadImage,
 } from "../middlewares/multer.js";
 const postRoutes = express.Router();
@@ -63,5 +64,8 @@ postRoutes.get(
   isAuthenticated,
   getAllShortVideosofChannel
 );
+postRoutes
+  .route("/long_Video/like&dislike/:id")
+  .put(isAuthenticated, LikeAndDislikeLongVideo);
 postRoutes.get("/home", isAuthenticated, getAllChannels);
 export default postRoutes;
