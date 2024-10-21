@@ -5,6 +5,7 @@ import Home from "./page/Home";
 import SignIn from "./page/SignIn";
 import YoutubeStudioPage from "./page/YoutubeStudioPage";
 import LongVideoOpen from "./page/LongVideoOpen";
+import ShortVideoOpen from "./page/ShortVideoOpen";
 
 export default function App() {
   return (
@@ -17,6 +18,7 @@ export default function App() {
             <Route path="/sign-in" element={<SignIn />} />
             <Route path="/youtube-studio/:id" element={<YoutubeStudioPage />} />
             <Route path="/video/watch/:id" element={<LongVideoOpen />} />
+            <Route path="/short_video/watch/:id" element={<ShortVideoOpen />} />
           </Routes>
         </div>
       </BrowserRouter>

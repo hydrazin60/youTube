@@ -227,7 +227,7 @@ export default function Home() {
                           state: { videoData: video, channelData: channel },
                         })
                       }
-                    > 
+                    >
                       <img
                         src={video.thumbnail}
                         className="rounded-lg w-full h-40 object-cover overflow-hidden"
@@ -249,7 +249,7 @@ export default function Home() {
                         )}
 
                         <div>
-                          <p className="text-sm font-bold  line-clamp-2 ">
+                          <p className="text-sm font-bold  line-clamp-2  ">
                             {video.title}
                           </p>
                           <p className="text-[0.8rem] font-semibold text-zinc-400">
@@ -319,14 +319,17 @@ export default function Home() {
                     <div
                       key={`${channelindex}-${video.ShortVideo}-${index}`}
                       className="w-[12rem] p-2 hover:bg-zinc-800 rounded-xl transition duration-500 flex flex-col gap-1 flex-shrink-0"
+                      onClick={() =>
+                        navigate(`/short_video/watch/${video._id}`, {
+                          state: { videoData: video, channelData: channel },
+                        })
+                      }
                     >
                       <div>
-                        <video
+                        <img
                           className="rounded-lg w-full h-80 object-cover -z-10 cursor-pointer"
-                          controls
-                        >
-                          <source src={video.ShortVideo} type="video/mp4" />
-                        </video>
+                          src={video.thumbnail}
+                        ></img>
                       </div>
                       <div className="text-sm font-semibold flex justify-between">
                         <span>

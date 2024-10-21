@@ -38,8 +38,8 @@ export default function LongVideoOpen() {
   }
   const [isExpanded, setIsExpanded] = useState(false);
   const [subscribersCount, setSubscribersCount] = useState(0);
-
   const toggleExpand = () => setIsExpanded(!isExpanded);
+
   const subscribeChannel = async () => {
     try {
       const res = await axios.get(
@@ -62,6 +62,26 @@ export default function LongVideoOpen() {
           err.response ? err.response.data.message : err.message
         }`
       );
+    }
+  };
+
+  const LikeAndDislike = async () => {
+    try {
+      console.log(videoData._id);
+      const res = await axios.put(
+        `http://localhost:4000/youtube_studio/api/v1/post//long_Video/like&dislike/${videoData._id}`,
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      console.error(`Error during LikeAndDislike: ${err}`);
+      toast.error(`Error during LikeAndDislike: ${err}`);
     }
   };
 
@@ -108,7 +128,10 @@ export default function LongVideoOpen() {
               </div>
               <div className="flex gap-3 items-center">
                 <div className="h-7 w-28 rounded-full cursor-pointer flex items-center justify-between">
-                  <span className="h-[100%] w-[75%] text-lg flex items-center border-r border-zinc-400 bg-zinc-800 hover:bg-zinc-700 rounded-l-full pl-3 gap-1 text-zinc-200">
+                  <span
+                    className="h-[100%] w-[75%] text-lg flex items-center border-r border-zinc-400 bg-zinc-800 hover:bg-zinc-700 rounded-l-full pl-3 gap-1 text-zinc-200"
+                    onClick={() => LikeAndDislike()}
+                  >
                     <AiOutlineLike />
                     <p className="text-xs font-semibold">{videoData.likes}l</p>
                   </span>
