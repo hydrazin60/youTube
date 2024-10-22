@@ -194,10 +194,15 @@ export default function Home() {
     return <p>{error}</p>;
   }
 
+  const handleopenvideosettings = () => {
+    console.log("open video settings");
+    
+  } 
+
   return (
     <div className="h-screen mt-20 pb-12">
       <div className="flex flex-row h-full">
-        <div className="w-[16%] h-full">
+      <div className="w-[16%] h-full">
           <LeftSidebar />
         </div>
 
@@ -222,15 +227,15 @@ export default function Home() {
                     <div
                       key={`${channelindex}-${video.LongVideo}-${index}`}
                       className="hover:bg-zinc-800 p-2 rounded-lg overflow-hidden cursor-pointer"
-                      onClick={() =>
-                        navigate(`/video/watch/${video._id}`, {
-                          state: { videoData: video, channelData: channel },
-                        })
-                      }
                     >
                       <img
                         src={video.thumbnail}
                         className="rounded-lg w-full h-40 object-cover overflow-hidden"
+                        onClick={() =>
+                          navigate(`/video/watch/${video._id}`, {
+                            state: { videoData: video, channelData: channel },
+                          })
+                        }
                       ></img>
                       <div className="flex gap-3 p-2">
                         {channel.profilePic &&
@@ -248,16 +253,34 @@ export default function Home() {
                           />
                         )}
 
-                        <div>
-                          <p className="text-sm font-bold  line-clamp-2  ">
-                            {video.title}
-                          </p>
-                          <p className="text-[0.8rem] font-semibold text-zinc-400">
-                            {channel.channelName}
-                          </p>
-                          <p className="text-[0.7rem] text-zinc-400">
-                            634K views • 1 year ago
-                          </p>
+                        <div className="w-full  flex justify-between items-start">
+                          <div>
+                            <p
+                              className="text-sm font-bold  line-clamp-2  "
+                              onClick={() =>
+                                navigate(`/video/watch/${video._id}`, {
+                                  state: {
+                                    videoData: video,
+                                    channelData: channel,
+                                  },
+                                })
+                              }
+                            >
+                              {video.title}
+                            </p>
+                            <p className="text-[0.8rem] font-semibold text-zinc-400">
+                              {channel.channelName}
+                            </p>
+                            <p className="text-[0.7rem] text-zinc-400">
+                              634K views • 1 year ago
+                            </p>
+                          </div>
+                          <div
+                            className="text-xl h-7 w-7 p-2 rounded-full  cursor-pointer flex items-center justify-center"
+                            onClick={() =>handleopenvideosettings() }
+                          >
+                            <BsThreeDotsVertical className="text-[0.8rem]" />
+                          </div>
                         </div>
                       </div>
                     </div>

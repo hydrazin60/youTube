@@ -184,7 +184,7 @@ export default function ShortVideoOpen() {
                     <video
                       className="rounded-xl w-full h-full object-cover overflow-hidden"
                       controls
-                      ref={(el) => (videoRefs.current[index] = el)}  
+                      ref={(el) => (videoRefs.current[index] = el)}
                     >
                       <source src={video.ShortVideo} type="video/mp4" />
                     </video>
@@ -198,7 +198,7 @@ export default function ShortVideoOpen() {
                         <p className="text-xs font-semibold">
                           {channel.channelName}
                         </p>
-                        <Button className="h-6 px-3 flex items-center justify-center gap-2 bg-white text-xs text-black hover:bg-zinc-700 rounded-full">
+                        <Button className="h-6 px-3 flex items-center justify-center gap-2 bg-white text-xs text-black hover:bg-zinc-700 hover:text-white rounded-full">
                           subscribe
                         </Button>
                       </div>

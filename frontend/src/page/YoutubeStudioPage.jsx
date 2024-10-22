@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { IoFilterSharp } from "react-icons/io5";
 import { FaArrowDown } from "react-icons/fa";
 import { MdOutlineLock } from "react-icons/md";
-
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { LuLayoutDashboard } from "react-icons/lu";
 import { MdOutlineVideoLibrary } from "react-icons/md";
 import { MdOutlineAnalytics } from "react-icons/md";
@@ -21,7 +21,11 @@ import axios from "axios";
 import { toast } from "sonner";
 import { MdLockOutline } from "react-icons/md";
 import { BiWorld } from "react-icons/bi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Button } from "@/components/ui/button";
+import { CiEdit } from "react-icons/ci";
+import { MdDeleteOutline } from "react-icons/md";
+import { TbShare3 } from "react-icons/tb";
 
 export default function YoutubeStudioPage() {
   const { user } = useSelector((state) => state.userAuth);
@@ -113,6 +117,8 @@ export default function YoutubeStudioPage() {
   const [error, setError] = React.useState(null);
   const [video, setVideo] = React.useState(true);
   const [ChoseContentList, setChoseContentList] = React.useState(1);
+  const [openVideomenu, setOpenVideomenu] = React.useState(false);
+  const [openVideomenuId, setOpenVideomenuId] = React.useState(null);
   const [ChoseContentListName, setChoseContentListName] =
     React.useState("Videos");
   const HandlechosContentList = (id, name) => {
@@ -146,7 +152,10 @@ export default function YoutubeStudioPage() {
   useEffect(() => {
     const fetchOwnChannelData = async () => {
       try {
+        // Set loading to true while fetching the channel data
         setLoding(true);
+
+        // Get the channel data from the server
         const res = await axios.get(
           "http://localhost:4000/youtube/api/v1/user/view/Yourchannel",
           {
@@ -154,20 +163,50 @@ export default function YoutubeStudioPage() {
           }
         );
 
+        // If the request is successful, update the channel data
         if (res.data.success) {
           setOwnChannelData(res.data.channel);
           console.log(ownChannelData);
         } else {
+          // If the request fails, show an error message
           toast.error(res.data.message);
         }
       } catch (err) {
+        // If there is an error, log it to the console
         console.log("Error fetching channel data:", err.message);
       } finally {
+        // Set loading to false after the request is finished
         setLoding(false);
       }
     };
+
     fetchOwnChannelData();
   }, []);
+
+  const toggleMenu = (id) => {
+    if (openVideomenuId === id) {
+      setOpenVideomenuId(null); // Close the menu if it's already open
+    } else {
+      setOpenVideomenuId(id); // Open the menu for this specific video
+    }
+  };
+  const LongVideoDelete = async (id) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:4000/youtube_studio/api/v1/post/long_video/delete/${id}`,
+        { withCredentials: true }
+      );
+
+      if (res.data.success) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (!ownChannelData) return <p>No channel data available</p>;
@@ -289,6 +328,9 @@ export default function YoutubeStudioPage() {
                     <th className=" text-[0.7rem]   text-zinc-400 font-medium px-4 py-2">
                       Like(vs dislikes)
                     </th>
+                    <th className=" text-[0.7rem]   text-zinc-400 font-medium px-4 py-2">
+                      Actions
+                    </th>
                   </tr>
                 </thead>
                 {ChoseContentList === 1 ? (
@@ -347,7 +389,7 @@ export default function YoutubeStudioPage() {
                                 {video.restrictions}
                               </span>
                             ) : (
-                              <span className="bg-green-600 px-3 rounded-md text-white text-[0.7rem]">
+                              <span className="  px-3 rounded-md text-white text-[0.7rem]">
                                 No Restrictions
                               </span>
                             )}
@@ -372,6 +414,38 @@ export default function YoutubeStudioPage() {
                           <p className="text-zinc-400 text-[0.7rem]">
                             {video.likes} (vs {video.dislikes})
                           </p>
+                        </th>
+                        <th className="px-4 py-2">
+                          <div className="relative">
+                            <button
+                              onClick={() => toggleMenu(video._id)}
+                              className="bg-zinc-600 px-1 py-1 rounded-full text-white text-[0.8rem]"
+                            >
+                              <BsThreeDotsVertical />
+                            </button>
+
+                            {openVideomenuId === video._id && (
+                              <div className="   z-10 border absolute border-zinc-500 py-1 -top-[4.5rem] rounded-xl right-9 shadow-[0.01rem_0rem_0.1rem_0.01rem] shadow-yellow-200 bg-black text-white text-[0.8rem] h-[5rem] w-28">
+                                <ul className="flex gap-2 flex-col   w-full">
+                                  <li className=" px-4 cursor-pointer hover:text-yellow-500 flex gap-4 w-full hover:bg-zinc-800 rounded-md items-center">
+                                    <CiEdit className="text-lg" /> edit
+                                  </li>
+                                  <li
+                                    className=" px-4 hover:text-red-600 flex gap-4 cursor-pointer hover:bg-zinc-800 rounded-md items-center"
+                                    onClick={() => LongVideoDelete(video._id)}
+                                  >
+                                    <>
+                                      <MdDeleteOutline className="text-lg" />
+                                      delete
+                                    </>
+                                  </li>
+                                  <li className=" px-4 cursor-pointer hover:text-red-600 hover:bg-zinc-800 rounded-md flex gap-4 items-center">
+                                    <TbShare3 className="text-lg" /> share
+                                  </li>
+                                </ul>
+                              </div>
+                            )}
+                          </div>
                         </th>
                       </tr>
                     ))}
@@ -701,4 +775,4 @@ export default function YoutubeStudioPage() {
 // //                         </p>
 // //                       </div>
 // //                     </th>
-// //                   </tr>*/
+// //                   </tr> */}

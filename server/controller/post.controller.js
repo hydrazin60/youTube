@@ -14,7 +14,6 @@ export const UploadLongVideo = async (req, res) => {
     const { title, description, visibility } = req.body;
     const LongVideoFile = req.files?.LongVideo?.[0];
     const thumbnailFile = req.files?.thumbnail?.[0];
-    console.log("Received files:", req.files);
 
     if (!LongVideoFile) {
       return res.status(400).json({
@@ -688,5 +687,3 @@ export const LikeAndDislikeLongVideo = async (req, res) => {
     });
   }
 };
-
- 
