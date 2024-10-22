@@ -208,6 +208,23 @@ export default function YoutubeStudioPage() {
     }
   };
 
+  const SHortVideoDelete = async (id) => {
+    try {
+      const res = await axios.delete(
+        `http://localhost:4000/youtube_studio/api/v1/post/short_video/delete/${id}`,
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (err) {
+      console.log(err);
+      toast.error(err.message);
+    }
+  };
+
   if (loading) return <p>Loading...</p>;
   if (!ownChannelData) return <p>No channel data available</p>;
 
@@ -458,11 +475,11 @@ export default function YoutubeStudioPage() {
                         className="border-b border-zinc-600 hover:bg-black hover:border-red-600"
                       >
                         <th className="text-xs text-zinc-400  px-7 py-2  ">
-                          <div className="pl-8 flex flex-row gap-2">
-                            <span>
+                          <div className="pl-8  flex flex-row gap-2">
+                            <span className="flex flex-row gap-2">
                               <video
-                                width="100"
-                                height="100"
+                                height="300"
+                                width="300"
                                 controls
                                 className="rounded-lg object-contain overflow-hidden cursor-pointer"
                               >
@@ -532,6 +549,38 @@ export default function YoutubeStudioPage() {
                             Likes : {video.likes} <br />
                             Dislikes: {video.dislikes}
                           </p>
+                        </th>
+                        <th className="px-4 py-2">
+                          <div className="relative">
+                            <button
+                              onClick={() => toggleMenu(video._id)}
+                              className="bg-zinc-600 px-1 py-1 rounded-full text-white text-[0.8rem]"
+                            >
+                              <BsThreeDotsVertical />
+                            </button>
+
+                            {openVideomenuId === video._id && (
+                              <div className="   z-10 border absolute border-zinc-500 py-1 -top-[4.5rem] rounded-xl right-9 shadow-[0.01rem_0rem_0.1rem_0.01rem] shadow-yellow-200 bg-black text-white text-[0.8rem] h-[5rem] w-28">
+                                <ul className="flex gap-2 flex-col   w-full">
+                                  <li className=" px-4 cursor-pointer hover:text-yellow-500 flex gap-4 w-full hover:bg-zinc-800 rounded-md items-center">
+                                    <CiEdit className="text-lg" /> edit
+                                  </li>
+                                  <li
+                                    className=" px-4 hover:text-red-600 flex gap-4 cursor-pointer hover:bg-zinc-800 rounded-md items-center"
+                                    onClick={() => SHortVideoDelete(video._id)}
+                                  >
+                                    <>
+                                      <MdDeleteOutline className="text-lg" />
+                                      delete
+                                    </>
+                                  </li>
+                                  <li className=" px-4 cursor-pointer hover:text-red-600 hover:bg-zinc-800 rounded-md flex gap-4 items-center">
+                                    <TbShare3 className="text-lg" /> share
+                                  </li>
+                                </ul>
+                              </div>
+                            )}
+                          </div>
                         </th>
                       </tr>
                     ))}
