@@ -64,8 +64,11 @@ postRoutes.get(
   isAuthenticated,
   getAllShortVideosofChannel
 );
-postRoutes
-  .route("/long_Video/like&dislike/:id")
-  .put(isAuthenticated, LikeAndDislikeLongVideo);
+postRoutes.get(
+  "/long_Video/like&dislike/:id",
+  isAuthenticated,
+  LikeAndDislikeLongVideo
+);
+
 postRoutes.get("/home", isAuthenticated, getAllChannels);
 export default postRoutes;

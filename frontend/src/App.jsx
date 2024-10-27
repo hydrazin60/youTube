@@ -6,6 +6,7 @@ import SignIn from "./page/SignIn";
 import YoutubeStudioPage from "./page/YoutubeStudioPage";
 import LongVideoOpen from "./page/LongVideoOpen";
 import ShortVideoOpen from "./page/ShortVideoOpen";
+import EditVideo from "./page/EditVideo";
 
 export default function App() {
   return (
@@ -19,6 +20,7 @@ export default function App() {
             <Route path="/youtube-studio/:id" element={<YoutubeStudioPage />} />
             <Route path="/video/watch/:id" element={<LongVideoOpen />} />
             <Route path="/short_video/watch/:id" element={<ShortVideoOpen />} />
+            <Route path="/youtube-studio/videos/edit/:id" element={<EditVideo />} />
           </Routes>
         </div>
       </BrowserRouter>

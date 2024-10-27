@@ -196,20 +196,17 @@ export default function Home() {
 
   const handleopenvideosettings = () => {
     console.log("open video settings");
-    
-  } 
+  };
 
   return (
     <div className="h-screen mt-20 pb-12">
       <div className="flex flex-row h-full">
-      <div className="w-[16%] h-full">
+        <div className="w-[16%] h-full">
           <LeftSidebar />
         </div>
-
         <div className="h-full overflow-y-scroll pb-20">
           {user ? (
             <main className="w-full">
-              {/* Long Video Section */}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4  p-2">
                 {youtubeVideoListHome.map((channel, channelindex) =>
                   channel.LongVideoId.map((video, index) => (
@@ -277,7 +274,7 @@ export default function Home() {
                           </div>
                           <div
                             className="text-xl h-7 w-7 p-2 rounded-full  cursor-pointer flex items-center justify-center"
-                            onClick={() =>handleopenvideosettings() }
+                            onClick={() => handleopenvideosettings()}
                           >
                             <BsThreeDotsVertical className="text-[0.8rem]" />
                           </div>

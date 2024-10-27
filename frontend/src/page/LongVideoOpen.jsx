@@ -6,14 +6,16 @@ import { RiShareForwardLine } from "react-icons/ri";
 import { RiDownloadLine } from "react-icons/ri";
 import { CiBookmark } from "react-icons/ci";
 import { FaArrowUpWideShort } from "react-icons/fa6";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
 import LongVideoOpenSidbar from "@/components/contentType/LongVideoOpenSidbar";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import axios from "axios";
 import { toast } from "sonner";
+import { setChannelsData } from "@/redux/ChannelsDataSlice";
 
 export default function LongVideoOpen() {
+  const dispatch = useDispatch();
   const { ChannelsData } = useSelector((state) => state.ChannelsData);
   const { user } = useSelector((state) => state.userAuth);
   const { state } = useLocation();
@@ -67,13 +69,11 @@ export default function LongVideoOpen() {
 
   const LikeAndDislike = async () => {
     try {
-      console.log(videoData._id);
-      const res = await axios.put(
-        `http://localhost:4000/youtube_studio/api/v1/post//long_Video/like&dislike/${videoData._id}`,
-        {
-          withCredentials: true,
-        }
+      const res = await axios.get(
+        `http://localhost:4000/youtube_studio/api/v1/post/long_Video/like&dislike/${videoData._id}`, // removed extra slash
+        { withCredentials: true }
       );
+
       if (res.data.success) {
         toast.success(res.data.message);
       } else {
@@ -116,7 +116,7 @@ export default function LongVideoOpen() {
                     {channelData.channelName}
                   </p>
                   <p className="text-slate-400 text-[0.7rem]">
-                    {subscribersCount}subscribers
+                    {channelData.subscribers.length} subscribers
                   </p>
                 </div>
                 <Button
@@ -130,10 +130,12 @@ export default function LongVideoOpen() {
                 <div className="h-7 w-28 rounded-full cursor-pointer flex items-center justify-between">
                   <span
                     className="h-[100%] w-[75%] text-lg flex items-center border-r border-zinc-400 bg-zinc-800 hover:bg-zinc-700 rounded-l-full pl-3 gap-1 text-zinc-200"
-                    onClick={() => LikeAndDislike()}
+                    onClick={LikeAndDislike}
                   >
                     <AiOutlineLike />
-                    <p className="text-xs font-semibold">{videoData.likes}l</p>
+                    <p className="text-xs font-semibold">
+                      {videoData.likes.length} {console.log(videoData.likes)}
+                    </p>
                   </span>
                   <span className="h-[100%] w-[40%] text-lg flex items-center justify-evenly text-zinc-200 hover:bg-zinc-700 bg-zinc-800 rounded-r-full p-2">
                     <AiOutlineDislike />

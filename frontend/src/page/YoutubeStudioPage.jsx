@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input";
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { IoFilterSharp } from "react-icons/io5";
 import { FaArrowDown } from "react-icons/fa";
 import { MdOutlineLock } from "react-icons/md";
@@ -28,6 +28,8 @@ import { MdDeleteOutline } from "react-icons/md";
 import { TbShare3 } from "react-icons/tb";
 
 export default function YoutubeStudioPage() {
+  const { state } = useLocation();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.userAuth);
   const contentList = [
     {
@@ -444,7 +446,19 @@ export default function YoutubeStudioPage() {
                             {openVideomenuId === video._id && (
                               <div className="   z-10 border absolute border-zinc-500 py-1 -top-[4.5rem] rounded-xl right-9 shadow-[0.01rem_0rem_0.1rem_0.01rem] shadow-yellow-200 bg-black text-white text-[0.8rem] h-[5rem] w-28">
                                 <ul className="flex gap-2 flex-col   w-full">
-                                  <li className=" px-4 cursor-pointer hover:text-yellow-500 flex gap-4 w-full hover:bg-zinc-800 rounded-md items-center">
+                                  <li
+                                    className=" px-4 cursor-pointer hover:text-yellow-500 flex gap-4 w-full hover:bg-zinc-800 rounded-md items-center"
+                                    onClick={() =>
+                                      navigate(
+                                        `/youtube-studio/videos/edit/${video._id}`,
+                                        {
+                                          state: {
+                                            videoData: video,
+                                          },
+                                        }
+                                      )
+                                    }
+                                  >
                                     <CiEdit className="text-lg" /> edit
                                   </li>
                                   <li
@@ -560,13 +574,25 @@ export default function YoutubeStudioPage() {
                             </button>
 
                             {openVideomenuId === video._id && (
-                              <div className="   z-10 border absolute border-zinc-500 py-1 -top-[4.5rem] rounded-xl right-9 shadow-[0.01rem_0rem_0.1rem_0.01rem] shadow-yellow-200 bg-black text-white text-[0.8rem] h-[5rem] w-28">
-                                <ul className="flex gap-2 flex-col   w-full">
-                                  <li className=" px-4 cursor-pointer hover:text-yellow-500 flex gap-4 w-full hover:bg-zinc-800 rounded-md items-center">
+                              <div className="   z-10 border absolute border-zinc-500 py-1 -top-[6.5rem] rounded-xl right-9 shadow-[0.01rem_0rem_0.1rem_0.01rem] shadow-yellow-200 bg-black text-white text-[0.9rem] h-[7rem] w-28">
+                                <ul className="flex gap-2  flex-col h-full  w-full">
+                                  <li
+                                    className=" px-4 cursor-pointer hover:text-yellow-500 flex gap-4 rounded-sm p-1 w-full hover:bg-zinc-800 items-center"
+                                    onClick={() =>
+                                      navigate(
+                                        `/youtube-studio/videos/edit/${video._id}`,
+                                        {
+                                          state: {
+                                            videoData: video,
+                                          },
+                                        }
+                                      )
+                                    }
+                                  >
                                     <CiEdit className="text-lg" /> edit
                                   </li>
                                   <li
-                                    className=" px-4 hover:text-red-600 flex gap-4 cursor-pointer hover:bg-zinc-800 rounded-md items-center"
+                                    className=" px-4 hover:text-red-600 flex gap-4 cursor-pointer hover:bg-zinc-800 rounded-sm p-1 items-center"
                                     onClick={() => SHortVideoDelete(video._id)}
                                   >
                                     <>
@@ -574,7 +600,7 @@ export default function YoutubeStudioPage() {
                                       delete
                                     </>
                                   </li>
-                                  <li className=" px-4 cursor-pointer hover:text-red-600 hover:bg-zinc-800 rounded-md flex gap-4 items-center">
+                                  <li className=" px-4 cursor-pointer hover:text-red-600 hover:bg-zinc-800   rounded-sm p-1  flex gap-4 items-center">
                                     <TbShare3 className="text-lg" /> share
                                   </li>
                                 </ul>
