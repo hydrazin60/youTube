@@ -43,7 +43,7 @@ export default function Navbar() {
   const [OpenProfileDialog, setOpenProfileDialog] = React.useState(false);
   const [OpenCreateChannel, setOpenCreateChannel] = React.useState(false);
   const isYoutubeStudioPage = location.pathname === "/";
-  const createChannelRef = useRef(null); // Reference for the CreateChannel
+  const createChannelRef = useRef(null);
 
   useEffect(() => {
     function handleClickOutside(event) {
@@ -120,6 +120,7 @@ export default function Navbar() {
                     <div
                       onClick={() => setOpenProfileDialog(!OpenProfileDialog)}
                     >
+                      {console.log(user.channelId.profilePic)}
                       <img
                         src={user.channelId.profilePic}
                         alt="profile"
@@ -152,7 +153,7 @@ export default function Navbar() {
                           </p>
                         </div>
                       )}
-                    </>
+                    </>**
                   )}
                   <span className="z-10 absolute -right-4">
                     <ProfileOpen

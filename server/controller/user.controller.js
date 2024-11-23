@@ -100,7 +100,6 @@ export const RegisterUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Await the creation of the user
     const user = await User.create({
       name,
       email,
@@ -164,14 +163,14 @@ export const loginUser = async (req, res) => {
     delete userData.password;
 
     const Token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "360d",
+      expiresIn: "1h",
     });
     return res
       .cookie("Token", Token, {
         httpOnly: true,
         samesite: "none",
         secure: true,
-        maxAge: 1000 * 60 * 60 * 24 * 360,
+        maxAge: 1000 * 60 * 60,
       })
       .json({
         success: true,

@@ -165,7 +165,7 @@ export default function LongVideoOpen() {
                 isExpanded ? "" : "line-clamp-4"
               }`}
             >
-              {videoData.description} || || || || || || Lorem ipsum dolor sit
+              {videoData.description}   || || || || || || Lorem ipsum dolor sit
               amet consectetur, adipisicing elit. Nulla laboriosam sit deserunt
               quos quas corporis voluptatibus aut quidem recusandae optio rerum
               delectus, blanditiis quia a animi fuga odio, amet cupiditate?
