@@ -5,6 +5,7 @@ import Channel from "../models/channel.models.js";
 import { getDataUri } from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 import e from "express";
+
 // export const RegisterUser = async (req, res) => {
 //   try {
 //     const { name, email, password } = req.body;
@@ -68,7 +69,6 @@ import e from "express";
 export const RegisterUser = async (req, res) => {
   try {
     const { name, email, password } = req.body;
-
     if (!name) {
       return res.status(400).json({
         success: false,
@@ -107,7 +107,7 @@ export const RegisterUser = async (req, res) => {
     });
 
     const userData = user.toObject();
-    delete userData.password; // Remove password from userData
+    delete userData.password;
 
     return res.status(201).json({
       success: true,

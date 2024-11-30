@@ -153,7 +153,7 @@ export default function Navbar() {
                           </p>
                         </div>
                       )}
-                    </>**
+                    </>
                   )}
                   <span className="z-10 absolute -right-4">
                     <ProfileOpen

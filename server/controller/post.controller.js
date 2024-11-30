@@ -46,7 +46,7 @@ export const UploadLongVideo = async (req, res) => {
     }
 
     const fileUri = getDataUri(LongVideoFile);
-
+console.log(fileUri)
     const cloudResponse = await cloudinary.uploader.upload(fileUri.content, {
       resource_type: "video",
       folder: "long_videos",

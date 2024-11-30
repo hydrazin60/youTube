@@ -101,7 +101,6 @@ export default function SignIn() {
         setIsLogin(true);
         dispatch(setAuthUser(res.data.userData));
         console.log(res.data.userData);
-
         toast.success(res.data.message || "Login successful!", {
           position: "top-right",
           autoClose: 3000,
