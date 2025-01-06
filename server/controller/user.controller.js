@@ -68,6 +68,7 @@ import e from "express";
 
 export const RegisterUser = async (req, res) => {
   try {
+    const jbn  = "jahjfhgj";
     const { name, email, password } = req.body;
     if (!name) {
       return res.status(400).json({
@@ -94,7 +95,7 @@ export const RegisterUser = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({
         success: false,
-        message: `Account already exists with ${email}, please login!`,
+        message: `Account  already exists with ${email}, please login!`,
       });
     }
 
@@ -125,6 +126,7 @@ export const RegisterUser = async (req, res) => {
   }
 };
 
+ 
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -152,6 +154,7 @@ export const loginUser = async (req, res) => {
       });
     }
     const isPasswordMatch = await bcrypt.compare(password, user.password);
+    
     if (!isPasswordMatch) {
       return res.status(400).json({
         success: false,
@@ -162,7 +165,7 @@ export const loginUser = async (req, res) => {
     const userData = user.toObject();
     delete userData.password;
 
-    const Token = await jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const Token = await jwt.sign({ userId: user._id },  process.env.JWT_SECRET, {
       expiresIn: "1h",
     });
     return res
@@ -222,6 +225,7 @@ export const createYoutubeChannel = async (req, res) => {
         success: false,
         message: "User not found. Please register first.",
       });
+      
     }
 
     if (user.channelId) {
@@ -476,7 +480,6 @@ export const SubscribeORUnsubscribe = async (req, res) => {
   try {
     const userId = req.id;
     const channelId = req.params.channelId;
-
     if (
       !userId ||
       !channelId ||
@@ -488,7 +491,6 @@ export const SubscribeORUnsubscribe = async (req, res) => {
         message: "Invalid credentials",
       });
     }
-
     const user = await User.findById(userId);
     const channel = await Channel.findById(channelId);
 

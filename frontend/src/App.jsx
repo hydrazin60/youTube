@@ -20,7 +20,10 @@ export default function App() {
             <Route path="/youtube-studio/:id" element={<YoutubeStudioPage />} />
             <Route path="/video/watch/:id" element={<LongVideoOpen />} />
             <Route path="/short_video/watch/:id" element={<ShortVideoOpen />} />
-            <Route path="/youtube-studio/videos/edit/:id" element={<EditVideo />} />
+            <Route
+              path="/youtube-studio/videos/edit/:id"
+              element={<EditVideo />}
+            />
           </Routes>
         </div>
       </BrowserRouter>
